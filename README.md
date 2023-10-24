@@ -1,6 +1,9 @@
 ## Introduction
-
-
+An application designed to localize your music library from streaming services. 
+It shall do this by downloading data of what music you listen to (from for example last.fm or spotify),
+and using this, downloading music from a music downloading service. Using data from last.fm or similar, 
+we can also get music recommendations of new things to download not currently in the library (to replace
+streaming services recommendation algorithms). 
 
 
 ## Data sources:
