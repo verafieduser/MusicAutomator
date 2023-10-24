@@ -7,16 +7,16 @@ streaming services recommendation algorithms).
 
 
 ## Data sources:
-: Last.fm:
+- Last.fm:
     - .csv third party: https://benjaminbenben.com/lastfm-to-csv/
     - last.fm official API
-: Spotify:
+- Spotify:
     - Spotify API?
     - spotify .csv third party?
-: Tidal 
+- Tidal 
     - Tidal API?
     - Tidal .csv?
-: Manual Library additions (artist, album?)
+- Manual Library additions (artist, album?)
 
 ## Conceptual problems: 
 - Two artists share name
