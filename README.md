@@ -1,5 +1,27 @@
 ## Introduction
 
+
+
+
+## Data sources:
+: Last.fm:
+    - .csv third party: https://benjaminbenben.com/lastfm-to-csv/
+    - last.fm official API
+: Spotify:
+    - Spotify API?
+    - spotify .csv third party?
+: Tidal 
+    - Tidal API?
+    - Tidal .csv?
+: Manual Library additions (artist, album?)
+
+## Conceptual problems: 
+- Two artists share name
+- Two versions of the same album (remastered version normal. Extended versions, and so on)
+- Several versions of the same song (on different albums, as a single vs on album)
+
+## Development plan for usage:
+
 Download library:
 1. Collect data on music from last.fm (LibraryCollector) (either last.fm .csv or API)
 2. Create a .csv of the data (LibrarySaver)
@@ -17,6 +39,7 @@ Download recommendations:
 5. Update library of what is missing (LibrarySaver)
 
 Other features:
+- Links to bandcamp downloads?
 - Set the location of music library, is saved in settings file 1
 - Blacklisted artists, is saved in settings file 2 
 - Delete things from library (keeps them in it but in row deleted, fill in Yes)
