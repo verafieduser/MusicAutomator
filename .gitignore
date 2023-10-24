@@ -2,6 +2,7 @@
 ###########
 bin
 MusicLib\lib
+.vscode
 
 # Compiled source #
 ###################
