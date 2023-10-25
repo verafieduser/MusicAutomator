@@ -18,6 +18,8 @@ streaming services recommendation algorithms).
     - Tidal .csv?
 - Manual Library additions (artist, album?)
 
+- Internal database is currently a .csv with Artist,Album,Songtitle,MISSING=true/false,DELETED=true/false
+
 ## Conceptual problems: 
 - Two artists share name
 - Two versions of the same album (remastered version normal. Extended versions, and so on)
