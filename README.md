@@ -5,6 +5,9 @@ and using this, downloading music from a music downloading service. Using data f
 we can also get music recommendations of new things to download not currently in the library (to replace
 streaming services recommendation algorithms). 
 
+Project Proposal:
+https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/edit?usp=sharing
+
 
 ## Data sources:
 - Last.fm:
