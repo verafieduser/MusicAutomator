@@ -12,12 +12,14 @@ public class LibraryLoader {
 
     private final LibraryCollector collector;
     private final LibrarySaver saver; 
+    private String defaultPath; 
     boolean demo;
 
     public LibraryLoader(boolean demo) {
-        saver = new LibrarySaver();
+        saver = new LibrarySaver(demo);
         collector = new LibraryCollector(this, saver, demo);
         this.demo = demo;
+        defaultPath = getCSV("db.csv");
     }
 
     public String getCSV(String name) {
@@ -38,5 +40,9 @@ public class LibraryLoader {
             }
         } 
         return records;
+    }
+
+    public List<List<String>> openCSV() throws IOException {
+        return openCSV(defaultPath);
     }
 }

@@ -45,7 +45,7 @@ Other features:
 - Links to bandcamp downloads?
 - Set the location of music library, is saved in settings file 1
 - Blacklisted artists, is saved in settings file 2 
-- Delete things from library (keeps them in it but in row deleted, fill in Yes)
+- Delete things from library (keeps them in it but in row deleted, fill in Yes) (deletes local file when garbage bin emptied?)
 - Get back things that were deleted (go into "garbage bin" of all music with deleted=Yes)
 - Blacklisted tags/genres? saved in settings file 2
 - How large do you want your library to get? settings file 1

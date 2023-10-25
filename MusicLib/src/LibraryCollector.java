@@ -14,8 +14,8 @@ public class LibraryCollector {
     public enum DataSource { 
                 BENBEN, //Artist,Album,Song,Date
                 LASTFM }
-    private static final String MISSING = "missing=yes";
-    private static final String DELETED = "deleted=no";
+    private static final String MISSING = "MISSING=true";
+    private static final String DELETED = "DELETED=false";
 
     public LibraryCollector(LibraryLoader loader, LibrarySaver saver, boolean demo){
         this.loader = loader;

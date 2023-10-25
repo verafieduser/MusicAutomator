@@ -8,6 +8,19 @@ import java.util.List;
  */
 public class LibrarySaver {
 
+    private String defaultPath; 
+    private boolean demo;
+
+    public LibrarySaver(boolean demo){
+        this.demo = demo;
+        defaultPath = "Library\\";
+        if(demo){
+            defaultPath += "Demo\\";
+        }
+        defaultPath += "db.csv";
+    }
+
+
     public void writeToCSV(String pathName, List<List<String>> records, int columns) throws FileNotFoundException {
         File csvOutputFile = new File(pathName);
         try (PrintWriter pw = new PrintWriter(csvOutputFile)){
@@ -23,5 +36,9 @@ public class LibrarySaver {
     
     public void writeToCSV(String pathName, List<List<String>> records) throws FileNotFoundException{
         writeToCSV(pathName, records, records.get(0).size());
+    }
+
+    public void writeToCSV(List<List<String>> records) throws FileNotFoundException{
+        writeToCSV(defaultPath, records, records.get(0).size());
     }
 }
