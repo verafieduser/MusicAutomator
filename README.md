@@ -21,6 +21,7 @@ streaming services recommendation algorithms).
 - Internal database is currently a .csv with Artist,Album,Songtitle,MISSING=true/false,DELETED=true/false
 
 ## Conceptual problems: 
+- What quality should music be? What file type?
 - Two artists share name
 - Two versions of the same album (remastered version normal. Extended versions, and so on)
 - Several versions of the same song (on different albums, as a single vs on album)
