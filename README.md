@@ -8,7 +8,6 @@ streaming services recommendation algorithms).
 Project Proposal:
 https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/edit?usp=sharing
 
-
 ## Data sources:
 - Last.fm:
     - .csv third party: https://benjaminbenben.com/lastfm-to-csv/
@@ -22,6 +21,7 @@ https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/
 - Manual Library additions (artist, album?)
 
 - Internal database is currently a .csv with Artist,Album,Songtitle,MISSING=true/false,DELETED=true/false
+- CONVERT to: https://protobuf.dev/ 
 
 ## Conceptual problems: 
 - What quality should music be? What file type?
