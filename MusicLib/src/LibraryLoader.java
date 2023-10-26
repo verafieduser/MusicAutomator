@@ -3,7 +3,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Loads a CSV of what the users music library "should" be
@@ -30,6 +32,7 @@ public class LibraryLoader {
         return path+name;
     }
 
+    //TODO: should return a set of Songs, but this method can remain for unprocessed data!
     public List<List<String>> openCSV(String path) throws IOException {
         List<List<String>> records = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -44,5 +47,21 @@ public class LibraryLoader {
 
     public List<List<String>> openCSV() throws IOException {
         return openCSV(defaultPath);
+    }
+
+    public Set<Song> loadLibrary(String path) throws IOException{
+        List<List<String>> entries = openCSV(path);
+        HashSet<Song> library = new HashSet<Song>();
+        for (List<String> entry : entries){
+            Song song = new Song(
+                entry.get(0), 
+                entry.get(1),
+                entry.get(2),
+                entry.get(3),
+                entry.get(4));
+            library.add(song);
+        }
+
+        return null;
     }
 }

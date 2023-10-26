@@ -12,10 +12,8 @@ public class LibraryCollector {
     private LibrarySaver saver;
     private boolean demo;
     public enum DataSource { 
-                BENBEN, //Artist,Album,Song,Date
+                BENBEN, //.csv consisting of Artist,Album,Song,Date
                 LASTFM }
-    private static final String MISSING = "MISSING=true";
-    private static final String DELETED = "DELETED=false";
 
     public LibraryCollector(LibraryLoader loader, LibrarySaver saver, boolean demo){
         this.loader = loader;
@@ -33,9 +31,8 @@ public class LibraryCollector {
 
         switch (source) {
             case BENBEN:
-                String[] columns = {MISSING, DELETED};
-                removeColumn(entries, 3);
-                addColumns(entries, columns);        
+            //TODO: remove duplicate songs 
+                removeDuplicates(entries);
                 break;
             case LASTFM:
                 break;
@@ -45,21 +42,8 @@ public class LibraryCollector {
         saver.writeToCSV(path, entries);
     }
 
-    /**
-     * 
-     * @param entries
-     * @param column 0-indexed
-     * @return
-     */
-    private void removeColumn(List<List<String>> entries, int column){
-        for(List<String> entry : entries){
-            entry.remove(column);
-        }
-    }
 
-    private void addColumns(List<List<String>> entries, String[] defaultValues){
-        for(List<String> entry : entries){
-            entry.addAll(Arrays.asList(defaultValues));
-        }
+    private void removeDuplicates(List<List<String>> entries){
+
     }
 }
