@@ -21,24 +21,20 @@ public class LibrarySaver {
     }
 
 
-    public void writeToCSV(String pathName, List<List<String>> records, int columns) throws FileNotFoundException {
+    public void writeToCSV(String pathName, Library library) throws FileNotFoundException {
         File csvOutputFile = new File(pathName);
         try (PrintWriter pw = new PrintWriter(csvOutputFile)){
-            for (List<String> record : records){
-                StringBuilder line = new StringBuilder(record.get(0));
-                for (int i = 1; i < columns; i++){
-                    line.append("," + record.get(i));
+            for(Artist artist : library.getArtists()){
+                for(Album album : artist.getAlbums()){
+                    for(Song song : album.getSongs()){
+                        pw.println(song.toCSV());
+                    }
                 }
-                pw.println(line.toString());
             }
         } 
     }
-    
-    public void writeToCSV(String pathName, List<List<String>> records) throws FileNotFoundException{
-        writeToCSV(pathName, records, records.get(0).size());
-    }
 
-    public void writeToCSV(List<List<String>> records) throws FileNotFoundException{
-        writeToCSV(defaultPath, records, records.get(0).size());
+    public void writeToCSV(Library library) throws FileNotFoundException{
+        writeToCSV(defaultPath, library);
     }
 }

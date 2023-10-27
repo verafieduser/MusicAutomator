@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.List;
 
 /**
  * Compares local music with library .csv. For each song that is local but not in library, add to library
@@ -21,24 +20,26 @@ public class MissingMusic {
      * @param entries
      * @throws FileNotFoundException
      */
-    public void findMissing(List<List<String>> entries) throws FileNotFoundException{
-        for(List<String> entry : entries){
-            if(entry.get(4).equals("DELETED=true")){
+    public void findMissing(Library library) throws FileNotFoundException{
+        for(Song song : library.getSongs()){
+            if(song.getDeleted()){
                 continue;
             }
+
+
             StringBuilder sb = new StringBuilder(localMusicLibraryPath);
-            sb.append("\\"+entry.get(0)); //artist folder
-            sb.append("\\"+entry.get(1)); //album folder
+            sb.append("\\"+song.getArtist()); //artist folder
+            sb.append("\\"+song.getAlbum()); //album folder
             File dir = new File(sb.toString().toLowerCase());
-            String[] songs = dir.list();
+            String[] localSongs = dir.list();
             boolean fileFound = false;
-            for(String song : songs){
-                if(song.equalsIgnoreCase(entry.get(2))){
+            for(String localName : localSongs){
+                if(localName.equalsIgnoreCase(song.getTitle())){
                     fileFound = true;
                 }
             }
-            entry.set(3, "MISSING="+fileFound);
+            song.setMissing(!fileFound);
         }
-        saver.writeToCSV(entries);
+        saver.writeToCSV(library);
     }
 }

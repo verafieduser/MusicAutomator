@@ -49,19 +49,19 @@ public class LibraryLoader {
         return openCSV(defaultPath);
     }
 
-    public Set<Song> loadLibrary(String path) throws IOException{
+    public Library loadLibrary(String path) throws IOException{
         List<List<String>> entries = openCSV(path);
-        HashSet<Song> library = new HashSet<Song>();
+        Library library = new Library();
         for (List<String> entry : entries){
-            Song song = new Song(
-                entry.get(0), 
+            Artist artist = new Artist(entry.get(0), 
                 entry.get(1),
-                entry.get(2),
-                entry.get(3),
-                entry.get(4));
-            library.add(song);
+                entry.get(2), 
+                Boolean.valueOf(entry.get(3)), 
+                Boolean.valueOf(entry.get(4))); // name, albums
+            library.addArtist(artist);
         }
+        library.initialize();
 
-        return null;
+        return library;
     }
 }

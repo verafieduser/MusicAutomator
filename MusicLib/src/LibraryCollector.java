@@ -29,21 +29,19 @@ public class LibraryCollector {
         String unprocessedPath="Unprocessed\\" + name;
         List<List<String>> entries = loader.openCSV(unprocessedPath);
 
+        Library library = new Library(); //switch determines how it is written
         switch (source) {
-            case BENBEN:
-            //TODO: remove duplicate songs 
-                removeDuplicates(entries);
+            case BENBEN: //Artist, album, song, date
+            for(List<String> entry : entries){
+                Artist artist = new Artist(entry.get(0), entry.get(1), entry.get(2));
+                library.addArtist(artist);
+            }        
                 break;
             case LASTFM:
                 break;
             default:
                 break;
         }
-        saver.writeToCSV(path, entries);
-    }
-
-
-    private void removeDuplicates(List<List<String>> entries){
-
+        saver.writeToCSV(path, library);
     }
 }
