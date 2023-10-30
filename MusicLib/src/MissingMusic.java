@@ -45,7 +45,7 @@ public class MissingMusic {
             StringBuilder sb = new StringBuilder(localMusicLibraryPath);
             sb.append("\\"+song.getArtist()); //artist folder
             sb.append("\\"+song.getAlbum()); //album folder
-            File dir = new File(sb.toString().toLowerCase());
+            File dir = new File(sb.toString().toLowerCase()); 
             String[] localSongs = dir.list();
             for(String localName : localSongs){
                 String localNameNoExtension = localName.substring(0, localName.lastIndexOf("."));

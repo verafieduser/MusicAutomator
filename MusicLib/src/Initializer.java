@@ -5,21 +5,27 @@ public class Initializer {
     LibraryLoader loader;
     LibraryCollector collector;
     Library library;
+    SettingsHandler settings;
+    MissingMusic missingMusic;
 
     public Initializer() {
         this(false);
     }
 
     public Initializer(boolean demo) {
+        settings = new SettingsHandler();
         loader = new LibraryLoader(demo);
         collector = new LibraryCollector(loader, loader.getSaver(), demo);
         library = openLibrary(loader, collector);
         if (library == null) {
             library = processAndOpenLibrary(loader, collector);
         }
+
+        missingMusic = new MissingMusic(loader.getSaver(), settings.getLocalMusicLibraryPath());
+        
     }
 
-    private Library openLibrary(LibraryLoader loader, LibraryCollector collector) {
+    private Library openLibrary(LibraryLoader loader) {
         try {
             return loader.loadLibrary();
         } catch (IOException e) {
