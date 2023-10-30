@@ -8,7 +8,7 @@ public class Album {
     private Artist artist;
     private Set<Song> songs = new HashSet<>();
 
-    public Album(String name, Artist artist, String song, File path, boolean deleted){
+    public Album(String name, Artist artist, String song, String path, boolean deleted){
         this.name = name;
         this.artist = artist;
         songs.add(new Song(artist, this, song, path, deleted));

@@ -56,10 +56,11 @@ public class LibraryLoader {
         List<List<String>> entries = openCSV(path);
         Library library = new Library();
         for (List<String> entry : entries){
+
             Artist artist = new Artist(entry.get(0), 
                 entry.get(1),
                 entry.get(2), 
-                new File(entry.get(3)),
+                entry.get(3),
                 Boolean.valueOf(entry.get(4))); // name, albums
             library.addArtist(artist);
         }

@@ -12,14 +12,18 @@ public class Song {
     //TODO: factory pattern
 
     public Song(Artist artist, Album album, String title){
-        this(artist, album, title, null, false);
+        this(artist, album, title, "", false);
     }
 
-    public Song(Artist artist, Album album, String title, File path, boolean deleted){
+    public Song(Artist artist, Album album, String title, String path, boolean deleted){
+        if(path.isEmpty()){
+            this.path=null;
+        } else {
+            this.path=new File(path);
+        }
         this.artist = artist;
         this.album = album;
         this.title = title; 
-        this.path = path;
         this.deleted = deleted;
     }
 
@@ -82,6 +86,10 @@ public class Song {
         this.path = new File(path);
     }
 
+    public File getPath(){
+        return path;
+    }
+
     @Override
     public boolean equals(Object other){
         if(other == null || this.getClass() != other.getClass()){
@@ -99,23 +107,27 @@ public class Song {
         return title.hashCode() * album.hashCode();
     }
 
-
-    @Override
-    public String toString() {
+    private String pathGetter(){
         String pathStr = "";
         if(path!=null){
             pathStr = path.getAbsolutePath();
         }
+        return pathStr;
+    }
+
+
+    @Override
+    public String toString() {
         return "{" +
             " title='" + getTitle() + "'" +
-            ", path='" + pathStr + "'" +
+            ", path='" + pathGetter() + "'" +
             ", deleted='" + isDeleted() + "'" +
             "}";
     }
 
     public String toCSV() {
         return getArtist().toCSV() + "," + getAlbum().toCSV() +
-            "," + getTitle() + "," + path.getAbsolutePath() + "," + isDeleted();
+            "," + getTitle() + "," + pathGetter() + "," + isDeleted();
     }
 
 }
