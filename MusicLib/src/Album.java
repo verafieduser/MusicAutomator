@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,15 +8,26 @@ public class Album {
     private Artist artist;
     private Set<Song> songs = new HashSet<>();
 
-    public Album(String name, Artist artist, String song, boolean missing, boolean deleted){
+    public Album(String name, Artist artist, String song, File path, boolean deleted){
         this.name = name;
         this.artist = artist;
-        songs.add(new Song(artist, this, song, missing, deleted));
+        songs.add(new Song(artist, this, song, path, deleted));
     }
 
     public Album(String name, Artist artist, String song){
         this.name = name;
         this.artist = artist;
+        songs.add(new Song(artist, this, song));
+    }
+
+    public void merge(Album other){
+        if(!name.equals(other.getName())){
+            throw new IllegalArgumentException();
+        }
+        songs.addAll(other.getSongs());
+    }
+
+    public void addSong(String song){
         songs.add(new Song(artist, this, song));
     }
 
@@ -54,6 +66,24 @@ public class Album {
     @Override 
     public int hashCode(){
         return name.hashCode() * artist.hashCode();
+    }
+
+    public String toCSV() {
+        return name;
+    }
+
+    public String printSongs() {
+        StringBuilder sb = new StringBuilder();
+        songs.forEach(x -> sb.append("\n\t\t" + x));
+        return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " name='" + getName() + "'" +
+            ", songs='" + printSongs() + "'" +
+            "}";
     }
 
     

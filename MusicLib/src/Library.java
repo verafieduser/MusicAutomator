@@ -1,16 +1,20 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * Class that helps perform changes to the library
  */
 public class Library {
     
-    private Set<Song> songs; 
-    private Set<Album> albums;
-    private Set<Artist> artists;
+    private Set<Song> songs = new HashSet<>();
+    private Set<Album> albums = new HashSet<>();
+    private TreeMap<String, Artist> artists = new TreeMap<>();
     private String localMusicLibraryPath;
+    private boolean initialized = false;
 
     public Library(){
         localMusicLibraryPath = "Library\\db.csv";
@@ -20,16 +24,22 @@ public class Library {
         this.localMusicLibraryPath = localMusicLibraryPath;
     }
 
+    /**
+     * Add artist to the library. If already present - merge contents of incoming and previous artists.
+     * @param artist
+     */
     public void addArtist(Artist artist){
         Set<Album> artistAlbums = artist.getAlbums();
         if(artistAlbums.isEmpty()){
             throw new IllegalArgumentException("Artists much have atleast one instance of albums with (a) song(s)");
         }
-        artists.add(artist);
-        artistAlbums.addAll(artist.getAlbums());
-        for(Album album : artistAlbums){
-            songs.addAll(album.getSongs());
+        Artist value = artists.putIfAbsent(artist.getName(), artist); 
+        if (value != null){ // If artist is already present, add new instance albums to old instance
+            value.merge(artist);
         }
+        Set<Album> newArtistAlbums = artists.get(artist.getName()).getAlbums();
+        albums.addAll(newArtistAlbums);
+        newArtistAlbums.forEach(x -> songs.addAll(x.getSongs()));
     }
 
     public void addArtists(Set<Artist> artists){
@@ -38,71 +48,84 @@ public class Library {
         }
     }
 
+    /**
+     * Adds all albums and songs of all artists into the library
+     */
     public void initialize(){
-        for(Artist artist : artists){
-            for(Album album : artist.getAlbums()){
+        for(Map.Entry<String, Artist> artist : artists.entrySet()){
+            for(Album album : artist.getValue().getAlbums()){
                 albums.add(album);
                 for(Song song : album.getSongs()){
                     songs.add(song);
                 }
             }
         }
+        initialized = true;
     }
 
     public Set<Song> getSongs(){
+        if(!initialized){
+            throw new IllegalStateException("Library is uninitialized");
+        }
         return songs;
     }
     
-    public boolean deleteDeleted(){
+    /**
+     * Deletes all songs with deleted=true from local disk.
+     * Removes all album and artist directories that end up empty.
+     * @return
+     * @throws IOException
+     */
+    public boolean deleteDeleted() throws IOException{
+        if(!initialized){
+            throw new IllegalStateException("Library is uninitialized");
+        }
         for(Song song : songs){
             if(song.isDeleted()){
-                String dir = localMusicLibraryPath+"\\"+song.getArtist()+"\\"+song.getAlbum();
-                deleteSong(dir, song);
+                song.delete();
             }
         }
         return false;
     }
 
-    public boolean deleteArtist(String dir, Artist artist){
+    /**
+     * Marks all songs by artist with deleted=true. Use deleteDeleted() to process deletions.
+     * @param artist
+     */
+    public void deleteArtist(Artist artist){
         for(Album album : artist.getAlbums()){
-            deleteAlbum(dir+"\\"+artist.getName(), album);
+            deleteAlbum(album);
         }
-        return false;
     }
 
-    public boolean deleteAlbum(String dir, Album album){
+    /**
+     * Marks all songs in album with deleted=true. Use deleteDeleted() to process deletions.
+     * @param album
+     */
+    public void deleteAlbum(Album album){
         for(Song song : album.getSongs()){
-            deleteSong(dir+"\\"+album.getName(), song);
+            deleteSong(song);
         }
-        return false;
     }
 
-    //TODO: figure out what to do with file extensions?
-    public boolean deleteSong(String dir, Song song){
-
-        //delete Dir
-        //if album ends up empty, delete, if artist ends up empty, delete
-        return false;
+    /**
+     * Marks a song with deleted=true. Use deleteDeleted() to process deletions.
+     * @param song
+     */
+    public void deleteSong(Song song){
+        song.setDeleted(true);
     } 
 
-    public void setSongs(Set<Song> songs) {
-        this.songs = songs;
-    }
-
     public Set<Album> getAlbums() {
+        if(!initialized){
+            throw new IllegalStateException("Library is uninitialized");
+        }
         return this.albums;
     }
 
-    public void setAlbums(Set<Album> albums) {
-        this.albums = albums;
-    }
 
-    public Set<Artist> getArtists() {
+    public Map<String, Artist> getArtists() {
         return this.artists;
-    }
-
-    public void setArtists(Set<Artist> artists) {
-        this.artists = artists;
     }
 
     public String getLocalMusicLibraryPath() {
@@ -113,5 +136,12 @@ public class Library {
         this.localMusicLibraryPath = localMusicLibraryPath;
     }
 
+    /**
+     * If library is not initialized, albums or songs lists wont work as they should.
+     * @return
+     */
+    public boolean isInitialized(){
+        return initialized;
+    }
 
 }

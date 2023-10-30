@@ -1,22 +1,45 @@
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 public class Song {
     private String title;
     private Album album;
     private Artist artist;
-    private boolean missing;
+    private File path;
     private boolean deleted;
 
     //TODO: factory pattern
 
     public Song(Artist artist, Album album, String title){
-        this(artist, album, title, true, false);
+        this(artist, album, title, null, false);
     }
 
-    public Song(Artist artist, Album album, String title, boolean missing, boolean deleted){
+    public Song(Artist artist, Album album, String title, File path, boolean deleted){
         this.artist = artist;
         this.album = album;
         this.title = title; 
-        this.missing = missing;
+        this.path = path;
         this.deleted = deleted;
+    }
+
+    public boolean delete() throws IOException{
+        if(path==null){
+            return false;
+        }
+        Files.delete(path.toPath());
+        File album = path.getParentFile();
+        File[] remainingSongs = album.listFiles();
+        if(remainingSongs.length==0){
+            Files.delete(album.toPath());
+            File artistFile = album.getParentFile();
+            File[] remainingAlbums = artistFile.listFiles();
+            if(remainingAlbums.length==0){
+                Files.delete(artistFile.toPath());
+            }
+        }
+
+        return true;
     }
 
     public String getTitle() {
@@ -43,18 +66,6 @@ public class Song {
         this.artist = artist;
     }
 
-    public boolean isMissing() {
-        return this.missing;
-    }
-
-    public boolean getMissing() {
-        return this.missing;
-    }
-
-    public void setMissing(boolean missing) {
-        this.missing = missing;
-    }
-
     public boolean isDeleted() {
         return this.deleted;
     }
@@ -65,6 +76,10 @@ public class Song {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public void setPath(String path){
+        this.path = new File(path);
     }
 
     @Override
@@ -87,18 +102,20 @@ public class Song {
 
     @Override
     public String toString() {
+        String pathStr = "";
+        if(path!=null){
+            pathStr = path.getAbsolutePath();
+        }
         return "{" +
             " title='" + getTitle() + "'" +
-            ", album='" + getAlbum() + "'" +
-            ", artist='" + getArtist() + "'" +
-            ", missing='" + isMissing() + "'" +
+            ", path='" + pathStr + "'" +
             ", deleted='" + isDeleted() + "'" +
             "}";
     }
 
     public String toCSV() {
-        return getTitle() + "," + getAlbum() +
-            "," + getArtist() + "," + isMissing() + "," + isDeleted();
+        return getArtist().toCSV() + "," + getAlbum().toCSV() +
+            "," + getTitle() + "," + path.getAbsolutePath() + "," + isDeleted();
     }
 
 }

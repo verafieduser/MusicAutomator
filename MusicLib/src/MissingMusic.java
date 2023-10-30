@@ -32,13 +32,11 @@ public class MissingMusic {
             sb.append("\\"+song.getAlbum()); //album folder
             File dir = new File(sb.toString().toLowerCase());
             String[] localSongs = dir.list();
-            boolean fileFound = false;
             for(String localName : localSongs){
                 if(localName.equalsIgnoreCase(song.getTitle())){
-                    fileFound = true;
+                    song.setPath(dir.getAbsolutePath()+"\\"+localName);
                 }
             }
-            song.setMissing(!fileFound);
         }
         saver.writeToCSV(library);
     }

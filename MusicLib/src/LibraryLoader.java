@@ -1,11 +1,10 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Loads a CSV of what the users music library "should" be
@@ -49,6 +48,10 @@ public class LibraryLoader {
         return openCSV(defaultPath);
     }
 
+    public Library loadLibrary() throws IOException{
+        return loadLibrary(defaultPath);
+    }
+
     public Library loadLibrary(String path) throws IOException{
         List<List<String>> entries = openCSV(path);
         Library library = new Library();
@@ -56,12 +59,16 @@ public class LibraryLoader {
             Artist artist = new Artist(entry.get(0), 
                 entry.get(1),
                 entry.get(2), 
-                Boolean.valueOf(entry.get(3)), 
+                new File(entry.get(3)),
                 Boolean.valueOf(entry.get(4))); // name, albums
             library.addArtist(artist);
         }
         library.initialize();
-
         return library;
+    }
+
+
+    public LibrarySaver getSaver(){
+        return saver;
     }
 }

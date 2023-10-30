@@ -22,9 +22,9 @@ public class LibrarySaver {
 
 
     public void writeToCSV(String pathName, Library library) throws FileNotFoundException {
-        File csvOutputFile = new File(pathName);
+        File csvOutputFile = new File(pathName + "\\db.csv");
         try (PrintWriter pw = new PrintWriter(csvOutputFile)){
-            for(Artist artist : library.getArtists()){
+            for(Artist artist : library.getArtists().values()){
                 for(Album album : artist.getAlbums()){
                     for(Song song : album.getSongs()){
                         pw.println(song.toCSV());
