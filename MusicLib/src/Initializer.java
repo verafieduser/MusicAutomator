@@ -8,21 +8,20 @@ public class Initializer {
     SettingsHandler settings;
     MissingMusic missingMusic;
 
-    public Initializer() {
+    public Initializer() throws IOException {
         this(false);
     }
 
-    public Initializer(boolean demo) {
+    public Initializer(boolean demo) throws IOException {
         settings = new SettingsHandler();
         loader = new LibraryLoader(demo);
         collector = new LibraryCollector(loader, loader.getSaver(), demo);
-        library = openLibrary(loader, collector);
+        library = openLibrary(loader);
         if (library == null) {
             library = processAndOpenLibrary(loader, collector);
         }
 
-        missingMusic = new MissingMusic(loader.getSaver(), settings.getLocalMusicLibraryPath());
-        
+        missingMusic = new MissingMusic(loader.getSaver(), settings.get("localMusicLibraryPath"));
     }
 
     private Library openLibrary(LibraryLoader loader) {
