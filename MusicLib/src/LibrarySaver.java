@@ -9,10 +9,8 @@ import java.util.List;
 public class LibrarySaver {
 
     private String defaultPath; 
-    private boolean demo;
 
-    public LibrarySaver(boolean demo){
-        this.demo = demo;
+    public LibrarySaver( boolean demo){
         defaultPath = "Library\\";
         if(demo){
             defaultPath += "Demo\\";
@@ -22,7 +20,7 @@ public class LibrarySaver {
 
 
     public void writeToCSV(String pathName, Library library) throws FileNotFoundException {
-        File csvOutputFile = new File(pathName + "\\db.csv");
+        File csvOutputFile = new File(SettingsHandler.APPLICATION_PATH+pathName + "\\db.csv");
         try (PrintWriter pw = new PrintWriter(csvOutputFile)){
             for(Artist artist : library.getArtists().values()){
                 for(Album album : artist.getAlbums()){

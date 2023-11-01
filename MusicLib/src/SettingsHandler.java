@@ -8,12 +8,14 @@ public class SettingsHandler {
 
     private Properties settings;
     private String settingsPath;
+    public static String APPLICATION_PATH = "";
 
     public SettingsHandler() throws IOException {
         initialize();
+        APPLICATION_PATH = settings.getProperty("user.app.path");
     }
 
-    public void initialize() throws IOException {
+    private void initialize() throws IOException {
         String userHome = System.getProperty("user.home");
         if (userHome == null) {
             throw new IllegalStateException("user.home==null");
@@ -36,12 +38,16 @@ public class SettingsHandler {
         }
 
         if(noSettings){
-            setUp(settings);
+            setUp(settings, home);
+            save();
         }
+
+
     }
 
-    private void setUp(Properties settingsFile) {
-        settingsFile.setProperty("localMusicLibraryPath", "");
+    private void setUp(Properties settingsFile, File home) {
+        settingsFile.setProperty("local.musiclibrary.path", "");
+        settingsFile.setProperty("user.app.path", home.getAbsolutePath());
     }
 
     public String get(String key){

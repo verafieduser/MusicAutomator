@@ -20,7 +20,7 @@ public class LibraryCollector {
     }
 
     public void processCSV(String name, DataSource source) throws IOException{
-        String path = "Library\\";
+        String path = "\\Library\\";
         if(demo){
             path+="Demo\\";
         }

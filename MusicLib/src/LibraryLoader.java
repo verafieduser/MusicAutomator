@@ -24,7 +24,7 @@ public class LibraryLoader {
     }
 
     public String getCSV(String name) {
-        String path = "Library\\";
+        String path = "\\Library\\";
         if(demo){
             path+="Demo\\";
         } 
@@ -34,7 +34,7 @@ public class LibraryLoader {
     //TODO: should return a set of Songs, but this method can remain for unprocessed data!
     public List<List<String>> openCSV(String path) throws IOException {
         List<List<String>> records = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(SettingsHandler.APPLICATION_PATH+path))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
