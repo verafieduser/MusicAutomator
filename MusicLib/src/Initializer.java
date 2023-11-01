@@ -11,10 +11,19 @@ public class Initializer {
     SettingsHandler settings;
     MissingMusic missingMusic;
 
+    /**
+     * Initializes the program and links instances together.
+     * @throws IOException if file structure or settings cannot be accessed nor created, this exception is thrown
+     */
     public Initializer() throws IOException {
         this(false);
     }
 
+    /**
+     * Initializes the program and links instances together.
+     * @param demo Determines whether demo-folder will be used for library or not.
+     * @throws IOException if file structure or settings cannot be accessed nor created, this exception is thrown
+     */
     public Initializer(boolean demo) throws IOException {
         settings = new SettingsHandler();
         createDirectoryStructure();
@@ -24,7 +33,6 @@ public class Initializer {
         missingMusic = new MissingMusic(loader.getSaver(), settings.get("local.musiclibrary.path"));
 
         if (library == null) {
-            // TODO: Ask user what file to import
             try (InputStreamReader isr = new InputStreamReader(System.in);
                 BufferedReader reader = new BufferedReader(isr)) {
                 library = processAndOpenLibrary(loader, collector, getFileName(reader), getDataType(reader));    
@@ -69,7 +77,6 @@ public class Initializer {
     }
 
     private String promptUserInput(BufferedReader reader, String prompt) throws IOException {
-        String result = null;
         System.out.print(prompt);
         return reader.readLine();
     }
@@ -109,32 +116,20 @@ public class Initializer {
     }
 
     public void test() {
-        // Artist artist = library.getArtists().get("Oklou");
-        // System.out.println(artist);
+        //Artist artist = library.getArtists().get("Oklou");
+        //System.out.println(artist);
     }
 
     public LibraryLoader getLoader() {
         return this.loader;
     }
 
-    public void setLoader(LibraryLoader loader) {
-        this.loader = loader;
-    }
-
     public LibraryCollector getCollector() {
         return this.collector;
     }
 
-    public void setCollector(LibraryCollector collector) {
-        this.collector = collector;
-    }
 
     public Library getLibrary() {
         return this.library;
     }
-
-    public void setLibrary(Library library) {
-        this.library = library;
-    }
-
 }

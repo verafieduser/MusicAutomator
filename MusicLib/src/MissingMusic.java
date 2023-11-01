@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Compares local music with library .csv. For each song that is local but not in library, add to library
- * Each song that is in library but not local, add "missing = 1" to .csv for that track (together with librarysaver?)
+ * Compares local music with library .csv. For each song that is local but not in library, add to library.
+ * For each song in the library not available locally, collect for download. 
  */
 public class MissingMusic {
     private String localMusicLibraryPath;
@@ -14,6 +14,13 @@ public class MissingMusic {
     public MissingMusic(LibrarySaver saver, String localMusicLibraryPath){
         this.saver = saver;
         this.localMusicLibraryPath = localMusicLibraryPath;
+    }
+    
+    /**
+     * Search through local music folder and add all songs that are present that aren't in the library 
+     */
+    public void findLocalSongs(){
+        //TODO: figure out how to deal with faulty data in user library
     }
 
     /**
@@ -33,7 +40,8 @@ public class MissingMusic {
 
     /**
      * Connects songs that arent connected with a local file with a local file if available
-     * @param library
+     * @param library the library containing all music in the database that the local files should be
+     * compared to.
      * @throws FileNotFoundException
      */
     public void connectMissing(Library library) throws FileNotFoundException{
@@ -55,9 +63,5 @@ public class MissingMusic {
             }
         }
         saver.writeToCSV(library);
-    }
-
-    public void setLocalMusicLibraryPath(String localMusicLibraryPath){
-        this.localMusicLibraryPath = localMusicLibraryPath;
     }
 }

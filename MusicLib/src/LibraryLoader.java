@@ -11,14 +11,12 @@ import java.util.List;
  */
 public class LibraryLoader {
 
-    private final LibraryCollector collector;
     private final LibrarySaver saver; 
     private String defaultPath; 
     boolean demo;
 
     public LibraryLoader(boolean demo) {
         saver = new LibrarySaver(demo);
-        collector = new LibraryCollector(this, saver, demo);
         this.demo = demo;
         defaultPath = getCSV("db.csv");
     }
@@ -31,7 +29,12 @@ public class LibraryLoader {
         return path+name;
     }
 
-    //TODO: should return a set of Songs, but this method can remain for unprocessed data!
+    /**
+     * Opens a .csv and creates a list(vertical) of lists(horizontal) of the data contained within
+     * @param path relative to the application folder in the user folder.
+     * @return The first list is all the rows, the lists within are the columns.
+     * @throws IOException if reading the .csv fails
+     */
     public List<List<String>> openCSV(String path) throws IOException {
         List<List<String>> records = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(SettingsHandler.APPLICATION_PATH+path))) {
@@ -44,14 +47,30 @@ public class LibraryLoader {
         return records;
     }
 
+    /**
+     * Opens a .csv and creates a list(vertical) of lists(horizontal) of the data contained within
+     * @return The first list is all the rows, the lists within are the columns.
+     * @throws IOException if reading the .csv fails
+     */
     public List<List<String>> openCSV() throws IOException {
         return openCSV(defaultPath);
     }
 
+    /**
+     * Loads a .csv of a previously stored library, and creates a Library containing all the data
+     * @return A library containing all the data that was contained in the .csv
+     * @throws IOException if reading the .csv fails
+     */
     public Library loadLibrary() throws IOException{
         return loadLibrary(defaultPath);
     }
 
+    /**
+     * Loads a .csv of a previously stored library, and creates a Library containing all the data
+     * @param path relative to the application folder in the user folder.
+     * @return A library containing all the data that was contained in the .csv
+     * @throws IOException if reading the .csv fails
+     */
     public Library loadLibrary(String path) throws IOException{
         List<List<String>> entries = openCSV(path);
         Library library = new Library();
@@ -67,7 +86,6 @@ public class LibraryLoader {
         library.initialize();
         return library;
     }
-
 
     public LibrarySaver getSaver(){
         return saver;

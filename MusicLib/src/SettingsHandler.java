@@ -10,6 +10,10 @@ public class SettingsHandler {
     private String settingsPath;
     public static String APPLICATION_PATH = "";
 
+    /**
+     * Initializes the settings by either importing or creating the settings file.
+     * @throws IOException if there are issues with creating or finding the settings file, this error is thrown
+     */
     public SettingsHandler() throws IOException {
         initialize();
         APPLICATION_PATH = settings.getProperty("user.app.path");
@@ -41,8 +45,6 @@ public class SettingsHandler {
             setUp(settings, home);
             save();
         }
-
-
     }
 
     private void setUp(Properties settingsFile, File home) {
@@ -50,14 +52,29 @@ public class SettingsHandler {
         settingsFile.setProperty("user.app.path", home.getAbsolutePath());
     }
 
+    /**
+     * local.musiclibrary.path is the path of the users local music folder
+     * user.app.path is the path of the application in the user folder.
+     * @param key containing the key of a property in the settings file
+     * @return containing the value of the key. null if no property is found.
+     */
     public String get(String key){
         return settings.getProperty(key);
     }
 
+    /**
+     * Sets or adds a property into the settings.
+     * @param key key to be placed into the list
+     * @param value value corresponding to the key
+     * @return the previous value the key held, null if none.
+     */
     public String set(String key, String value){
         return (String) settings.setProperty(key, value);
     }
 
+    /**
+     * Saves the settings into the application folder in the user folder.
+     */
     public void save(){
         try (FileOutputStream fos = new FileOutputStream(settingsPath)) {
             settings.store(fos,null);            
