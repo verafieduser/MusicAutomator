@@ -8,9 +8,25 @@ streaming services recommendation algorithms).
 Project Proposal:
 https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/edit?usp=sharing
 
+## Current TODO:
+- Compare to local music library to find missing
+- Create a local directory structure? Or should this wait until download?
+- Solve downloading 
+- User settings:
+    - blacklisting artists, albums, songs, genres(?)
+    - preferred music quality, file type
+    - maximum storage size 
+- Data input APIs 
+- How to solve data updates to library
+- Metadata?
+- Last.Fm Recommendations
+- GUI
+- Bandcamp connectivity
+
 ## Data sources:
 - Last.fm:
     - .csv third party: https://benjaminbenben.com/lastfm-to-csv/
+    - TODO: find more .csv providers!
     - last.fm official API
 - Spotify:
     - Spotify API?
@@ -20,14 +36,15 @@ https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/
     - Tidal .csv?
 - Manual Library additions (artist, album?)
 
-- Internal database is currently a .csv with Artist,Album,Songtitle,MISSING=true/false,DELETED=true/false
-- CONVERT to: https://protobuf.dev/ 
+- Internal database is currently a .csv with Artist,Album,Songtitle,FilePath,Deleted=true/false
+- TODO: CONVERT to: https://protobuf.dev/ !!
 
 ## Conceptual problems: 
-- What quality should music be? What file type?
 - Two artists share name
 - Two versions of the same album (remastered version normal. Extended versions, and so on)
 - Several versions of the same song (on different albums, as a single vs on album)
+- Local library imported into database library not having accurate data 
+- Data from last.fm or similar not being accurate
 
 ## Development plan for usage:
 
@@ -48,12 +65,5 @@ Download recommendations:
 5. Update library of what is missing (LibrarySaver)
 
 Other features:
-- Links to bandcamp downloads?
-- Set the location of music library, is saved in settings file 1
-- Blacklisted artists, is saved in settings file 2 
 - Delete things from library (keeps them in it but in row deleted, fill in Yes) (deletes local file when garbage bin emptied?)
 - Get back things that were deleted (go into "garbage bin" of all music with deleted=Yes)
-- Blacklisted tags/genres? saved in settings file 2
-- How large do you want your library to get? settings file 1
-- How often do you want your listening data to be downloaded and compared to local library. settings file 1
-- How often do you want recommendations to be downloaded? settings file 1
