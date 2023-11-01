@@ -55,8 +55,10 @@ public class Initializer {
     }
 
     private DataSource getDataType(BufferedReader reader) throws IOException {
-        Predicate<String> p = x -> (Character.isDigit(x.toCharArray()[0]));
+        Predicate<String> p = x -> (x.matches("\\d+") && Integer.valueOf(x) > 0
+                && Integer.valueOf(x) < DataSource.values().length + 1);
         InputHandler ih = new InputHandler();
+
         String typeStr = ih.loopingPromptUserInput(reader,
                 "Where did  you get the file from? Enter a number for below options\n1.BENBEN\nPlease enter: ",
                 "Please try again: ", p);

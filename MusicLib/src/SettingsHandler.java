@@ -1,8 +1,11 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Properties;
+import java.util.function.Predicate;
 
 public class SettingsHandler {
 
@@ -44,12 +47,28 @@ public class SettingsHandler {
         if(noSettings){
             setUp(settings, home);
             save();
-        }
+        } 
     }
 
     private void setUp(Properties settingsFile, File home) {
-        settingsFile.setProperty("local.musiclibrary.path", "");
+        settingsFile.setProperty("local.musiclibrary.path", getLocalMusicPath());
         settingsFile.setProperty("user.app.path", home.getAbsolutePath());
+    }
+
+    private String getLocalMusicPath(){
+        String musicLibraryPath;
+        try (
+            InputStreamReader isr = new InputStreamReader(System.in);
+            BufferedReader reader = new BufferedReader(isr);) 
+        {
+            InputHandler ih = new InputHandler();
+            Predicate<String> p = x -> (new File(x).exists());
+            musicLibraryPath = ih.loopingPromptUserInput(reader, "What is the directory of your music folder?: ", "Please retry: ", p);
+        } catch (IOException e) {
+            e.printStackTrace();
+            musicLibraryPath = "";
+        }
+        return musicLibraryPath;
     }
 
     /**
