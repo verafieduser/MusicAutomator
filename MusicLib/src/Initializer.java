@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.function.Predicate;
 
 public class Initializer {
 
@@ -13,7 +14,9 @@ public class Initializer {
 
     /**
      * Initializes the program and links instances together.
-     * @throws IOException if file structure or settings cannot be accessed nor created, this exception is thrown
+     * 
+     * @throws IOException if file structure or settings cannot be accessed nor
+     *                     created, this exception is thrown
      */
     public Initializer() throws IOException {
         this(false);
@@ -21,8 +24,10 @@ public class Initializer {
 
     /**
      * Initializes the program and links instances together.
+     * 
      * @param demo Determines whether demo-folder will be used for library or not.
-     * @throws IOException if file structure or settings cannot be accessed nor created, this exception is thrown
+     * @throws IOException if file structure or settings cannot be accessed nor
+     *                     created, this exception is thrown
      */
     public Initializer(boolean demo) throws IOException {
         settings = new SettingsHandler();
@@ -34,34 +39,33 @@ public class Initializer {
 
         if (library == null) {
             try (InputStreamReader isr = new InputStreamReader(System.in);
-                BufferedReader reader = new BufferedReader(isr)) {
-                library = processAndOpenLibrary(loader, collector, getFileName(reader), getDataType(reader));    
+                    BufferedReader reader = new BufferedReader(isr)) {
+                library = processAndOpenLibrary(loader, collector, getFileName(reader), getDataType(reader));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
+
         }
     }
 
     private String getFileName(BufferedReader reader) throws IOException {
-        String fileName = promptUserInput(reader, "Please enter name of file to process: ");
-        while(!new File(SettingsHandler.APPLICATION_PATH+"/Library/Unprocessed/"+fileName).exists()){
-            fileName = promptUserInput(reader, "Please try again!: ");
-        }
-        return fileName;
+        Predicate<String> p = x -> (new File(SettingsHandler.APPLICATION_PATH + "/Library/Unprocessed/" + x).exists());
+        InputHandler ih = new InputHandler();
+        return ih.loopingPromptUserInput(reader, "Please enter name of file to process:", "Please try again: ", p);
     }
 
     private DataSource getDataType(BufferedReader reader) throws IOException {
-        String typeStr = promptUserInput(reader, 
-                "Where did you get the file from? Enter a number for below options\n1.BENBEN\nPlease enter:");
+        Predicate<String> p = x -> (Character.isDigit(x.toCharArray()[0]));
+        InputHandler ih = new InputHandler();
+        String typeStr = ih.loopingPromptUserInput(reader,
+                "Where did  you get the file from? Enter a number for below options\n1.BENBEN\nPlease enter: ",
+                "Please try again: ", p);
         int result;
-        while (true) {
-            try {
-                result = Integer.valueOf(typeStr);
-                break;
-            } catch (NumberFormatException e) {
-                typeStr = promptUserInput(reader, "Please try again: ");
-            }
+        try {
+            result = Integer.valueOf(typeStr);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            result = 1;
         }
         DataSource type;
         switch (result) {
@@ -116,8 +120,8 @@ public class Initializer {
     }
 
     public void test() {
-        //Artist artist = library.getArtists().get("Oklou");
-        //System.out.println(artist);
+        // Artist artist = library.getArtists().get("Oklou");
+        // System.out.println(artist);
     }
 
     public LibraryLoader getLoader() {
@@ -127,7 +131,6 @@ public class Initializer {
     public LibraryCollector getCollector() {
         return this.collector;
     }
-
 
     public Library getLibrary() {
         return this.library;
