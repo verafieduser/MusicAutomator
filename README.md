@@ -15,24 +15,26 @@ https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/
     2.1. Find a metadata reader for each file-extension to be supported. 
     2.2. For data that does not follow structure, what do?
 3. Make sure library can be updated instead of just imported
-4. Solve downloading 
-    4.1. API for soulseek
-    4.2. Create file directory for each download. 
-    4.3. Ensure metadata is correct.
-    4.4. What to do about other files that will be present, such as images?
-5. User settings:
-    5.1. blacklisting artists, albums, songs, genres(?)
-    5.2. preferred music quality, file type
-    5.3. maximum storage size  
-6. Data input APIs 
-    6.1. Last.fm
-    6.2. Spotify
-    6.3. Tidal
-7. Last.Fm Recommendations (optional, based on last.fm API success)
-8. GUI
-9. Bandcamp connectivity   
+     3.1. Solve better importing where you select songs to import and program create directory
+     structure for you. Will require good metadata structure!
+4. Bandcamp connectivity   
     Note: this could be easy, as bandcamp links are usually:
         "[bandname].bandcamp.com/album/[albumname with "-" as replacement for space and dots. rest is removed?]"
+5. Solve downloading 
+    5.1. API for soulseek
+    5.2. Create file directory for each download. 
+    5.3. Ensure metadata is correct.
+    5.4. What to do about other files that will be present, such as images?
+6. User settings:
+    6.1. blacklisting artists, albums, songs, genres(?)
+    6.2. preferred music quality, file type
+    6.3. maximum storage size  
+7. Data input APIs 
+    7.1. Last.fm
+    7.2. Spotify
+    7.3. Tidal
+8. Last.Fm Recommendations (optional, based on last.fm API success)
+9. GUI
 
 ## Data sources:
 - Last.fm:
