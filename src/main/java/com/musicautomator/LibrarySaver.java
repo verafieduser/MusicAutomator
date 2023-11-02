@@ -12,11 +12,10 @@ public class LibrarySaver {
     private String defaultPath; 
 
     public LibrarySaver( boolean demo){
-        defaultPath = "Library\\";
+        defaultPath = "\\Library\\";
         if(demo){
             defaultPath += "Demo\\";
         }
-        defaultPath += "db.csv";
     }
 
     /**

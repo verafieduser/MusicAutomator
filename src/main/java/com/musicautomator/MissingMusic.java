@@ -32,7 +32,7 @@ public class MissingMusic {
      * @param library library that missing songs are to be added into.
      */
     public void findLocalSongs(Library library) {
-        File path = new File(localMusicLibraryPath);
+        File path = new File(localMusicLibraryPath);;
         for (File artist : path.listFiles()) {
             for (File album : path.listFiles()) {
                 for (File song : album.listFiles()) {

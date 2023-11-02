@@ -45,6 +45,9 @@ public class SettingsHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if(!noSettings && !settings.containsKey("user.app.path")){
+            noSettings=true;
+        }
 
         if(noSettings){
             setUp(settings, home);
@@ -64,7 +67,7 @@ public class SettingsHandler {
             BufferedReader reader = new BufferedReader(isr);) 
         {
             InputHandler ih = new InputHandler();
-            Predicate<String> p = x -> (new File(x).exists());
+            Predicate<String> p = x -> (new File(x).exists()); //TODO: this doesnt work??
             musicLibraryPath = ih.loopingPromptUserInput(reader, "What is the directory of your music folder?: ", "Please retry: ", p);
         } catch (IOException e) {
             e.printStackTrace();

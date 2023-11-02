@@ -48,6 +48,9 @@ public class Initializer {
             }
 
         }
+
+        missingMusic.findLocalSongs(library);
+        loader.getSaver().writeToCSV(library);
     }
 
     private String getFileName(BufferedReader reader) throws IOException {

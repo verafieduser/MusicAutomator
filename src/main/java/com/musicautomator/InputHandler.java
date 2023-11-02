@@ -12,6 +12,7 @@ public class InputHandler {
     public String loopingPromptUserInput(BufferedReader reader, String prompt, String rePrompt, Predicate<String> f) throws IOException {
         String input = promptUserInput(reader, prompt);
         while(f.test(input)){
+            System.out.println(input);
             input = promptUserInput(reader, rePrompt);
         }
         return input;
