@@ -9,19 +9,30 @@ Project Proposal:
 https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/edit?usp=sharing
 
 ## Current TODO:
-- Compare to local music library to find missing
-- Create a local directory structure? Or should this wait until download?
-- Solve downloading 
-- User settings:
-    - blacklisting artists, albums, songs, genres(?)
-    - preferred music quality, file type
-    - maximum storage size 
-- Data input APIs 
-- How to solve data updates to library
-- Metadata?
-- Last.Fm Recommendations
-- GUI
-- Bandcamp connectivity
+1. Convert project into Maven project to be able to handle dependencies better.
+2. Compare library to local music library to connect them and find missing songs to add
+    Note: add local songs into library, and add library songs not in local to to-download
+    2.1. Find a metadata reader for each file-extension to be supported. 
+    2.2. For data that does not follow structure, what do?
+3. Make sure library can be updated instead of just imported
+4. Solve downloading 
+    4.1. API for soulseek
+    4.2. Create file directory for each download. 
+    4.3. Ensure metadata is correct.
+    4.4. What to do about other files that will be present, such as images?
+5. User settings:
+    5.1. blacklisting artists, albums, songs, genres(?)
+    5.2. preferred music quality, file type
+    5.3. maximum storage size  
+6. Data input APIs 
+    6.1. Last.fm
+    6.2. Spotify
+    6.3. Tidal
+7. Last.Fm Recommendations (optional, based on last.fm API success)
+8. GUI
+9. Bandcamp connectivity   
+    Note: this could be easy, as bandcamp links are usually:
+        "[bandname].bandcamp.com/album/[albumname with "-" as replacement for space and dots. rest is removed?]"
 
 ## Data sources:
 - Last.fm:
