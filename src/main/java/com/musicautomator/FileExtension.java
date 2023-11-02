@@ -1,3 +1,5 @@
+package com.musicautomator;
+
 /**
  * Music file extension the program knows how to handle
  */

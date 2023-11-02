@@ -1,3 +1,5 @@
+package com.musicautomator;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.function.Function;

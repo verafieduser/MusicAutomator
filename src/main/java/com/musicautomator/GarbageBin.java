@@ -1,3 +1,5 @@
+package com.musicautomator;
+
 import java.util.List;
 
 /**

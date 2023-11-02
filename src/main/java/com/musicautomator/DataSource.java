@@ -1,3 +1,5 @@
+package com.musicautomator;
+
 /**
  * Options:
  * BENBEN : .csv consisting of each occasion of listening to songs, 

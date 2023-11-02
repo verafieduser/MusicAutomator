@@ -1,8 +1,8 @@
 # Folders #
 ###########
 bin
-MusicLib\lib
 .vscode
+target
 
 # Compiled source #
 ###################

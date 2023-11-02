@@ -1,3 +1,5 @@
+package com.musicautomator;
+
 public class Metadata {
     String tag;
     String songname;
