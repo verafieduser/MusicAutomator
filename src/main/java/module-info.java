@@ -1,5 +1,5 @@
 module com.musicautomator {
     requires javafx.controls;
-    requires com.mpatric.mp3agic;
+    requires mp3agic;
     exports com.musicautomator;
 }
