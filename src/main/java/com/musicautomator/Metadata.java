@@ -1,17 +1,14 @@
 package com.musicautomator;
 
-public class Metadata {
-    String tag;
-    String songname;
-    String artist;
-    String album;
-    short year;
-    String comment;
-    String genre;
 
-    public Metadata(String songPath, FileExtension type){
-        //depending on which type, open it differently
-    }
+public abstract class Metadata {
+
+    protected String tag;
+    protected String songname;
+    protected String artist;
+    protected String album;
+    protected short year;
+    protected String comment;
 
     public String getTag() {
         return this.tag;
@@ -61,12 +58,5 @@ public class Metadata {
         this.comment = comment;
     }
 
-    public String getGenre() {
-        return this.genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
 
 }

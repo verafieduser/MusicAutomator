@@ -26,6 +26,18 @@ public class Album {
         if(!name.equals(other.getName())){
             throw new IllegalArgumentException();
         }
+
+        //Ensuring that path is transferred over if other has a path
+        for(Song song : other.getSongs()){
+            if(song.getPath()==null){
+                continue;
+            }
+            for (Song currentSong : songs){
+                if (song.equals(currentSong)){
+                    currentSong.setPath(song.getPath().getAbsolutePath());
+                } 
+            }
+        }        
         songs.addAll(other.getSongs());
     }
 
