@@ -49,7 +49,8 @@ public class Initializer {
 
         }
 
-        missingMusic.findLocalSongs(library);
+        //missingMusic.findLocalSongs(library);
+        missingMusic.connectMissing(library);
         loader.getSaver().writeToCSV(library);
     }
 

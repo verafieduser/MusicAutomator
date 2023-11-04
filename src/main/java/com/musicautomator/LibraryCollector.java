@@ -40,8 +40,15 @@ public class LibraryCollector {
         switch (source) {
             case BENBEN: // Artist, album, song, date (ONLY ONE ARTIST PER ALBUM)
                 for (List<String> entry : entries) {
-                    Artist artist = new Artist(entry.get(0), entry.get(1), entry.get(2));
-                    library.addArtist(artist);
+
+                    String artist = entry.get(0);
+                    String album = entry.get(1);
+                    String song = entry.get(2);
+                    if (!songIsValid(artist, album, song)) {
+                        continue;
+                    }
+                    Artist toBeAdded = new Artist(entry.get(0), entry.get(1), entry.get(2));
+                    library.addArtist(toBeAdded);
                 }
                 break;
             case LASTFM:
@@ -54,5 +61,13 @@ public class LibraryCollector {
                 break;
         }
         saver.writeToCSV(path, library);
+    }
+
+    private boolean songIsValid(String artist, String album, String song) {
+        boolean result = true;
+        if (artist.isBlank() || album.isBlank() || song.isBlank()) {
+            result = false;
+        }
+        return result;
     }
 }

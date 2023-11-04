@@ -35,9 +35,9 @@ public class Library {
         if(artistAlbums.isEmpty()){
             throw new IllegalArgumentException("Artists much have atleast one instance of albums with (a) song(s)");
         }
-        Artist value = artists.putIfAbsent(artist.getName(), artist); 
-        if (value != null){ // If artist is already present, add new instance albums to old instance
-            value.merge(artist);
+        Artist oldArtist = artists.putIfAbsent(artist.getName(), artist); 
+        if (oldArtist != null){ // If artist is already present, add new instance albums to old instance
+            oldArtist.merge(artist);
         }
         Set<Album> newArtistAlbums = artists.get(artist.getName()).getAlbums();
         albums.addAll(newArtistAlbums);

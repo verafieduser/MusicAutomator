@@ -6,13 +6,17 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.function.Predicate;
 
 public class SettingsHandler {
 
     private Properties settings;
-    private String settingsPath;
+    private Path settingsPath;
     public static String APPLICATION_PATH = "";
 
     /**
@@ -29,18 +33,29 @@ public class SettingsHandler {
         if (userHome == null) {
             throw new IllegalStateException("user.home==null");
         }
-        File home = new File(userHome + "/MusicAutomator");
-        if (!home.exists() && !home.mkdir()) {
-            throw new IllegalStateException(home.toString());
+        
+
+        //File home = new File(userHome + "/MusicAutomator");
+
+        Path homePath = Paths.get(userHome + "/MusicAutomator");
+        try {
+            Files.createDirectory(homePath);    
+        } catch (FileAlreadyExistsException e) {
+            
         }
 
-        settingsPath = home.getAbsolutePath() + "/settings.properties";
-        File settingsFile = new File(settingsPath);
-        boolean noSettings = settingsFile.createNewFile();
-
+        boolean noSettings;
+        try {
+            settingsPath = Files.createFile(homePath.resolve("settings.properties")); 
+            noSettings = true;   
+        } catch (FileAlreadyExistsException e) {
+            settingsPath = homePath.resolve("settings.properties");
+            noSettings = false;
+        }
+        
         settings = new Properties();
 
-        try (FileReader fr = new FileReader(settingsFile.getAbsolutePath())) {
+        try (FileReader fr = new FileReader(settingsPath.toAbsolutePath().toString())) {
             settings.load(fr);
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,14 +65,14 @@ public class SettingsHandler {
         }
 
         if(noSettings){
-            setUp(settings, home);
+            setUp(settings, homePath);
             save();
         } 
     }
 
-    private void setUp(Properties settingsFile, File home) {
+    private void setUp(Properties settingsFile, Path home) {
         settingsFile.setProperty("local.musiclibrary.path", getLocalMusicPath());
-        settingsFile.setProperty("user.app.path", home.getAbsolutePath());
+        settingsFile.setProperty("user.app.path", home.toAbsolutePath().toString());
     }
 
     private String getLocalMusicPath(){
@@ -66,8 +81,9 @@ public class SettingsHandler {
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader reader = new BufferedReader(isr);) 
         {
+
             InputHandler ih = new InputHandler();
-            Predicate<String> p = x -> (new File(x).exists()); //TODO: this doesnt work??
+            Predicate<String> p = x -> (Files.isDirectory(Paths.get(x).toAbsolutePath())); 
             musicLibraryPath = ih.loopingPromptUserInput(reader, "What is the directory of your music folder?: ", "Please retry: ", p);
         } catch (IOException e) {
             e.printStackTrace();
@@ -100,7 +116,7 @@ public class SettingsHandler {
      * Saves the settings into the application folder in the user folder.
      */
     public void save(){
-        try (FileOutputStream fos = new FileOutputStream(settingsPath)) {
+        try (FileOutputStream fos = new FileOutputStream(settingsPath.toString())) {
             settings.store(fos,null);            
         } catch (Exception e) {
             e.printStackTrace();
