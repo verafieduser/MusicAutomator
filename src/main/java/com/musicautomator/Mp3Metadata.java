@@ -17,8 +17,7 @@ public class Mp3Metadata extends Metadata {
         ID3v1 v1 = mp3.getId3v1Tag();
         ID3v2 v2 = mp3.getId3v2Tag();
         ID3Wrapper tag = new ID3Wrapper(v1, v2);
-        
-        artist = tag.getArtist();
+        artist = tag.getAlbumArtist();
         songname = tag.getTitle();
         album = tag.getAlbum();
         year = Short.valueOf(tag.getYear());

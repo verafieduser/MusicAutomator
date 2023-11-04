@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -186,11 +187,14 @@ public class MissingMusic {
         if(album.isEmpty()){
             album="Other";
         }
-
-        albumPath = albumPath.resolve(artist);
-        albumPath = albumPath.resolve(album);
-
-        System.out.println(albumPath);
+        try {
+            albumPath = albumPath.resolve(artist);
+            albumPath = albumPath.resolve(album);
+        } catch (InvalidPathException e) {
+            e.printStackTrace();
+            System.err.println(albumPath);
+        }
+    
         return albumPath;
     }
 }
