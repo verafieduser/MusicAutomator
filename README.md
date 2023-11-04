@@ -10,14 +10,14 @@ streaming services recommendation algorithms).
 https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/edit?usp=sharing
 
 ## Current TODO:
-~~1. Convert project into Maven project to be able to handle dependencies better.~~
+1. ~~Convert project into Maven project to be able to handle dependencies better.~~
 2. Compare library to local music library to connect them and find missing songs to add
     Note: add local songs into library, and add library songs not in local to to-download
-    ~~- 2.1. Find a metadata reader for each file-extension to be supported. ~~
-        ~~- https://github.com/mpatric/mp3agic~~
-    ~~- 2.2. For data that does not follow structure, make sure they are ignored.~~
-    ~~- 2.3. Move over to Path and Files instead of File~~
-    ####- 2.4. CURRENT ISSUE: Library mismatch with local due to "feat." and similar. How to make more forgiving?
+    - ~~2.1. Find a metadata reader for each file-extension to be supported. ~~
+        - ~~https://github.com/mpatric/mp3agic~~
+    - ~~2.2. For data that does not follow structure, make sure they are ignored.~~
+    - ~~2.3. Move over to Path and Files instead of File~~
+    ##### - 2.4. CURRENT ISSUE: Library mismatch with local due to "feat." and similar. How to make more forgiving?
 3. Make sure library can be updated instead of just imported
      - 3.1. Solve better importing where you select songs to import and program create directory
      structure for you. Will require good metadata structure!
