@@ -18,9 +18,12 @@ Difficulty levels 1(easy)-5(hard)
         - ~~https://github.com/mpatric/mp3agic~~
     - ~~2.2. For data that does not follow structure, make sure they are ignored.~~
     - ~~2.3. Move over to Path and Files instead of File~~
-    ##### - 2.4. CURRENT ISSUE: Library mismatch with local due to "feat." and similar. How to make more forgiving?
-        - ~~2.4.1. Feat solved by using album artist, hopefully~~
-        - 2.4.2. Songs like Tambourine -N- Thyme / Tambourine - N - Thyme / Tambourine-n-Thyme / Tambourine - N: Thyme (3)
+    ##### - 2.4. CURRENT ISSUE: Library mismatch with local due to data mismatch. How to make more forgiving?
+                
+            2.4.1. Songs like Tambourine -N- Thyme / Tambourine - N - Thyme / Tambourine-n-Thyme / Tambourine - N: Thyme (3)
+                Note: Compare % similarity of string if everything else matches up and file is supported song, and there arent many songs on the album that matches?
+                However, multiples of very similar songs in the library are more complicated. How to know if they can be combined? 
+                Proposal: If the difference is in letters or numbers, dont combine. If difference is in whitespace or symbols, combine? Which one should be the primary name to choose?
     - 2.5. Implement more filetypes than .mp3
 3. Make sure library can be updated instead of just imported (1)
      - 3.1. Solve better importing where you select songs to import and program create directory 
