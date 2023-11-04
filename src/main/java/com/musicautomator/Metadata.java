@@ -1,21 +1,59 @@
 package com.musicautomator;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 
-public abstract class Metadata {
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.Tag;
+import org.jaudiotagger.tag.TagException;
 
-    protected String tag;
+public class Metadata {
+
     protected String songname;
     protected String artist;
     protected String album;
     protected short year;
     protected String comment;
 
-    public String getTag() {
-        return this.tag;
+    public Metadata(Path path) throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException{
+        if(!isSupportedSong(path)){
+            throw new IllegalArgumentException();
+        }
+        AudioFile song = AudioFileIO.read(path.toFile());
+        Tag tag = song.getTag();
+        songname = tag.getFirst(FieldKey.TITLE);
+        album = tag.getFirst(FieldKey.ALBUM);
+        year = Short.valueOf(tag.getFirst(FieldKey.YEAR));
+        comment = tag.getFirst(FieldKey.COMMENT);
+        artist = tag.getFirst(FieldKey.ALBUM_ARTIST);
+        if(artist == null || artist.isBlank()){
+            artist = tag.getFirst(FieldKey.ARTIST);
+        }
+
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    private String getFileExtension(Path path) {
+        String fileName = path.toString();
+        int extensionIndex = fileName.lastIndexOf(".");
+        return fileName.substring(extensionIndex + 1);
+    }
+
+    private boolean isSupportedSong(Path path) {
+        String fileExtension = getFileExtension(path);
+        boolean result;
+        try {
+            Enum.valueOf(FileExtension.class, fileExtension.toUpperCase());
+            result = true;
+        } catch (Exception e) {
+            result = false;
+        }
+        return result;
     }
 
     public String getSongname() {

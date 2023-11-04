@@ -13,6 +13,11 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.tag.TagException;
+
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 
@@ -53,8 +58,7 @@ public class MissingMusic {
                     Metadata metadata;
                     try {
                         metadata = getMetadata(Paths.get(song.getPath()));
-                    } catch (IOException | UnsupportedTagException | InvalidDataException
-                            | IllegalArgumentException e) {
+                    } catch (Exception e) {
                         continue;
                     }
                     addSong(library, metadata, artist, album, song);
@@ -77,38 +81,9 @@ public class MissingMusic {
         }
     }
 
-    private String getFileExtension(Path path) {
-        String fileName = path.toString();
-        int extensionIndex = fileName.lastIndexOf(".");
-        return fileName.substring(extensionIndex + 1);
-    }
 
-    private boolean isSupportedSong(Path path) {
-        String fileExtension = getFileExtension(path);
-        boolean result;
-        try {
-            Enum.valueOf(FileExtension.class, fileExtension.toUpperCase());
-            result = true;
-        } catch (Exception e) {
-            result = false;
-        }
-        return result;
-
-    }
-
-    private Metadata getMetadata(Path songPath) throws IOException, UnsupportedTagException, InvalidDataException {
-        String songExtension = getFileExtension(songPath);
-        FileExtension type = Enum.valueOf(FileExtension.class, songExtension.toUpperCase());
-        Metadata data;
-        switch (type) {
-            case MP3:
-                data = new Mp3Metadata(songPath);
-                break;
-
-            default:
-                throw new IOException("File did not have supported file extension");
-        }
-        return data;
+    private Metadata getMetadata(Path songPath) throws Exception {
+        return new Metadata(songPath);
     }
 
     /**
@@ -163,7 +138,7 @@ public class MissingMusic {
                 Metadata metadata;
                 try {
                     metadata = getMetadata(candidateMatch.toPath());
-                } catch (UnsupportedTagException | InvalidDataException | IOException | IllegalArgumentException e) {
+                } catch (Exception e) {
                     continue;
                 }
                 if (songsMatch(metadata, song)) {
