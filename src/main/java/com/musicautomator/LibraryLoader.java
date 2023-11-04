@@ -14,7 +14,7 @@ public class LibraryLoader {
 
     private final LibrarySaver saver; 
     private String defaultPath; 
-    boolean demo;
+    private boolean demo;
 
     public LibraryLoader(boolean demo) {
         saver = new LibrarySaver(demo);
@@ -84,7 +84,7 @@ public class LibraryLoader {
                 Boolean.valueOf(entry.get(4))); // name, albums
             library.addArtist(artist);
         }
-        library.initialize();
+        library.initialize(); //not necessary but makes burden of computation more predictable?
         return library;
     }
 
