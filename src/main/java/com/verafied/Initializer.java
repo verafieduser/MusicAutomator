@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.System.Logger;
 import java.util.function.Predicate;
 
 public class Initializer {
@@ -135,6 +134,6 @@ public class Initializer {
     }
 
     public MissingMusic getMissingMusic(){
-        return this.getMissingMusic();
+        return this.missingMusic;
     }
 }

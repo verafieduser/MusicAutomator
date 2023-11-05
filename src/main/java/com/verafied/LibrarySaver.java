@@ -31,7 +31,7 @@ public class LibrarySaver {
             for(Artist artist : library.getArtists().values()){
                 for(Album album : artist.getAlbums()){
                     for(Song song : album.getSongs()){
-                        pw.println(song.toCSV());
+                        pw.println(song.toCSV()); //TODO: encode utf-8. find a library?
                     }
                 }
             }
