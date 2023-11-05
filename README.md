@@ -25,8 +25,8 @@ Difficulty levels 1(easy)-5(hard)
                 However, multiples of very similar songs in the library are more complicated. How to know if they can be combined? 
                 Proposal: If the difference is in letters or numbers, dont combine. If difference is in whitespace or symbols, combine? Which one should be the primary name to choose? The one youve listened to the most - in that case will only work for last.fm data!
                 In the end, which one is chosen maybe doesn't matter that much, because as long as it is compared to local files or soulseek files with the same algorithm it hopefully will lead to it realizing theyre the same. 
-    - 2.5. Implement more filetypes than .mp3 (3)
-        NOTE: do this by going over to JAudiotagger (http://www.jthink.net/jaudiotagger/) instead of mp3agic?
+    - ~~2.5. Implement more filetypes than .mp3 (3)~~
+        ~~NOTE: do this by going over to JAudiotagger (http://www.jthink.net/jaudiotagger/) instead of mp3agic?~~
 3. Make sure library can be updated instead of just imported (1) 
      - 3.1. Solve better importing where you select songs to import and program create directory 
      structure for you. Will require good metadata structure! (3-4)
@@ -49,6 +49,7 @@ Difficulty levels 1(easy)-5(hard)
     - 8.3. Tidal
 9. Last.Fm Recommendations (optional, based on last.fm API success)
 10. GUI
+11. Figure out project structure to make it into a jar
 
 ## Data sources:
 - Last.fm:
