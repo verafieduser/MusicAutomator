@@ -1,4 +1,4 @@
-package com.musicautomator;
+package com.verafied;
 
 /**
  * Options:

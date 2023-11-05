@@ -1,10 +1,8 @@
-package com.musicautomator;
+package com.verafied;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
 
 public class InputHandler {
 

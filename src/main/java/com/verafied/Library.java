@@ -1,4 +1,4 @@
-package com.musicautomator;
+package com.verafied;
 
 import java.io.IOException;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package com.musicautomator;
+package com.verafied;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

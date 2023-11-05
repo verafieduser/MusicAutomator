@@ -1,4 +1,4 @@
-package com.musicautomator;
+package com.verafied;
 
 /**
  * Music file extension the program knows how to handle
