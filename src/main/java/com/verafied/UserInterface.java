@@ -103,7 +103,6 @@ public class UserInterface {
 
             default:
                 throw new UnsupportedOperationException("\noption\n");
-                break;
         }
     }
 }
