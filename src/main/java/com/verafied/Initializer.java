@@ -50,8 +50,6 @@ public class Initializer {
             }
 
         }
-
-        //missingMusic.findLocalSongs(library);
         missingMusic.connectMissing(library);
         loader.getSaver().writeToCSV(library);
     }
@@ -90,11 +88,6 @@ public class Initializer {
         return type;
     }
 
-    private String promptUserInput(BufferedReader reader, String prompt) throws IOException {
-        System.out.print(prompt);
-        return reader.readLine();
-    }
-
     private void createDirectoryStructure() {
         String[] newDirs = { "Library", "Library/Demo", "Library/Demo/Unprocessed", "Library/Unprocessed" };
         createDirs(SettingsHandler.APPLICATION_PATH, newDirs);
@@ -129,11 +122,6 @@ public class Initializer {
         return null;
     }
 
-    public void test() {
-        // Artist artist = library.getArtists().get("Oklou");
-        // System.out.println(artist);
-    }
-
     public LibraryLoader getLoader() {
         return this.loader;
     }
@@ -144,5 +132,9 @@ public class Initializer {
 
     public Library getLibrary() {
         return this.library;
+    }
+
+    public MissingMusic getMissingMusic(){
+        return this.getMissingMusic();
     }
 }

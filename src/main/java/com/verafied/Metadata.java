@@ -38,13 +38,13 @@ public class Metadata {
 
     }
 
-    private String getFileExtension(Path path) {
+    public static String getFileExtension(Path path) {
         String fileName = path.toString();
         int extensionIndex = fileName.lastIndexOf(".");
         return fileName.substring(extensionIndex + 1);
     }
 
-    private boolean isSupportedSong(Path path) {
+    public static boolean isSupportedSong(Path path) {
         String fileExtension = getFileExtension(path);
         boolean result;
         try {

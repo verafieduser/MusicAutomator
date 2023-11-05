@@ -90,6 +90,38 @@ public class Library {
         return songs;
     }
 
+    public Artist getArtist(String name){
+        return artists.get(name);
+    }
+
+    public Album getAlbum(String name){
+        Set<Album> albumCandidates = new HashSet<>();
+        for(Album album : albums){
+            if(album.getName().equalsIgnoreCase(name)){
+                albumCandidates.add(album);
+            }
+        }
+        if(albumCandidates.size()>1){
+            //ask what artist made it
+        }
+    
+        return (Album) albumCandidates.toArray()[0]; //TODO: temporary solution
+
+    }
+
+    public Song getSong(String name){
+        Set<Song> songCandidates = new HashSet<>();
+        for(Song song : songs){
+            if(song.getTitle().equalsIgnoreCase(name)){
+                songCandidates.add(song);
+            }
+        }
+        if(songCandidates.size()>1){
+            //ask what album, what artist?
+        }
+        return (Song) songCandidates.toArray()[0];
+    }
+
 
 
     /**

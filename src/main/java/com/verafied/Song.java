@@ -3,6 +3,8 @@ package com.verafied;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
 
 public class Song {
     private String title;
@@ -33,10 +35,18 @@ public class Song {
         if (path == null) {
             return false;
         }
+        deleted = true;
         Files.delete(path.toPath());
         File album = path.getParentFile();
-        File[] remainingSongs = album.listFiles();
-        if (remainingSongs.length == 0) {
+        File[] contents = album.listFiles(x -> Metadata.isSupportedSong(x.toPath()));
+        if (contents.length == 0) {
+            Arrays.asList(contents).forEach(x -> {
+                try {
+                    Files.delete(x.toPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
             Files.delete(album.toPath());
             File artistFile = album.getParentFile();
             File[] remainingAlbums = artistFile.listFiles();

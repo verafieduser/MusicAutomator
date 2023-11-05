@@ -1,5 +1,5 @@
 module com.musicautomator {
-    requires javafx.controls;
+    requires transitive javafx.controls;
     requires jaudiotagger;
     exports com.verafied;
 }

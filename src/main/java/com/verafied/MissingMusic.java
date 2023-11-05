@@ -50,7 +50,6 @@ public class MissingMusic {
                         continue;
                     }
                     addSong(library, metadata, artist, album, song);
-
                 }
             }
         }
@@ -68,7 +67,6 @@ public class MissingMusic {
                             false));
         }
     }
-
 
     private Metadata getMetadata(Path songPath) throws Exception {
         return new Metadata(songPath);
