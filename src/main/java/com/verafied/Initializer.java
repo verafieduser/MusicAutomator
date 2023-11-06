@@ -33,6 +33,7 @@ public class Initializer {
      */
     public Initializer(boolean demo) throws IOException {
     
+        InputHandler ih = new InputHandler(demo);
         settings = new SettingsHandler();
         createDirectoryStructure();
         loader = new LibraryLoader(demo);
@@ -41,30 +42,22 @@ public class Initializer {
         missingMusic = new MissingMusic(loader.getSaver(), settings.get("local.musiclibrary.path"));
 
         if (library == null) {
-            try (InputStreamReader isr = new InputStreamReader(System.in);
-                    BufferedReader reader = new BufferedReader(isr)) {
-                library = processAndOpenLibrary(loader, collector, getFileName(reader), getDataType(reader));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            library = processAndOpenLibrary(loader, collector, getFileName(ih), getDataType(ih));
         }
         missingMusic.connectMissing(library);
         loader.getSaver().writeToCSV(library);
     }
 
-    private String getFileName(BufferedReader reader) throws IOException {
+    private String getFileName(InputHandler ih) throws IOException {
         Predicate<String> p = x -> (new File(SettingsHandler.APPLICATION_PATH + "/Library/Unprocessed/" + x).exists());
-        InputHandler ih = new InputHandler();
-        return ih.loopingPromptUserInput(reader, "Please enter name of file to process:", "Please try again: ", p);
+        return ih.loopingPromptUserInput("Please enter name of file to process:", "Please try again: ", p);
     }
 
-    private DataSource getDataType(BufferedReader reader) throws IOException {
+    private DataSource getDataType(InputHandler ih) throws IOException {
         Predicate<String> p = x -> (x.matches("\\d+") && Integer.valueOf(x) > 0
                 && Integer.valueOf(x) < DataSource.values().length + 1);
-        InputHandler ih = new InputHandler();
 
-        String typeStr = ih.loopingPromptUserInput(reader,
+        String typeStr = ih.loopingPromptUserInput(
                 "Where did  you get the file from? Enter a number for below options\n1.BENBEN\nPlease enter: ",
                 "Please try again: ", p);
         int result;
@@ -135,5 +128,9 @@ public class Initializer {
 
     public MissingMusic getMissingMusic(){
         return this.missingMusic;
+    }
+
+    public SettingsHandler getSettings(){
+        return this.settings;
     }
 }

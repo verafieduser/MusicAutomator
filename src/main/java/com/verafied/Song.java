@@ -130,6 +130,8 @@ public class Song {
     public String toString() {
         return "{" +
                 " title='" + getTitle() + "'" +
+                ", artist='" + artist.getName() + "'" +
+                ", album='" + album.getName() + "'" +
                 ", path='" + pathGetter() + "'" +
                 ", deleted='" + isDeleted() + "'" +
                 "}";

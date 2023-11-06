@@ -23,7 +23,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         Initializer init = new Initializer(DEMO);
         UserInterface ui = new UserInterface(init);
-        ui.inputLoop();
+        ui.inputLoop(new InputHandler(DEMO));
         //StackPane root = new StackPane();
         //primaryStage.setTitle("Hello World");
         //primaryStage.setScene(new Scene(root, 800, 600));

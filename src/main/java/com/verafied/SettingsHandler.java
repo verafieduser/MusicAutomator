@@ -77,14 +77,12 @@ public class SettingsHandler {
 
     private String getLocalMusicPath(){
         String musicLibraryPath;
-        try (
-            InputStreamReader isr = new InputStreamReader(System.in);
-            BufferedReader reader = new BufferedReader(isr);) 
+        try 
         {
 
             InputHandler ih = new InputHandler();
             Predicate<String> p = x -> (Files.isDirectory(Paths.get(x).toAbsolutePath())); 
-            musicLibraryPath = ih.loopingPromptUserInput(reader, "What is the directory of your music folder?: ", "Please retry: ", p);
+            musicLibraryPath = ih.loopingPromptUserInput("What is the directory of your music folder?: ", "Please retry: ", p);
         } catch (IOException e) {
             e.printStackTrace();
             musicLibraryPath = "";

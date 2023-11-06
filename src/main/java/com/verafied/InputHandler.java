@@ -2,10 +2,22 @@ package com.verafied;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class InputHandler {
 
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+    private boolean demo; 
+
+    public InputHandler(){
+        demo = false;
+    }
+    public InputHandler(boolean demo){
+        this.demo = demo;
+    }
 
     /**
      * 
@@ -16,13 +28,44 @@ public class InputHandler {
      * @return
      * @throws IOException
      */
-    public String loopingPromptUserInput(BufferedReader reader, String prompt, String rePrompt, Predicate<String> f) throws IOException {
+    public String loopingPromptUserInput(String prompt, String rePrompt, Predicate<String> f) throws IOException {
         String input = promptUserInput(reader, prompt);
         while(!f.test(input)){
-            System.out.println(input);
+            if(demo){
+                System.out.println(input + "\nPredicate resulted in: ");
+                System.out.print(f.test(input) + "\n");
+            }
             input = promptUserInput(reader, rePrompt);
         }
         return input;
+    }
+
+    /**
+     * This method takes a function instead of a predicate,
+     * while object returned by function is null, retry (not found)
+     * @param reader
+     * @param prompt
+     * @param rePrompt
+     * @param f
+     * @return
+     * @throws IOException
+     */
+    public Object loopingPromptUserInput(String prompt, String rePrompt, Function<String, Object> f) throws IOException{
+        String input = promptUserInput(reader, prompt);
+        Object result = f.apply(input);
+        while(result==null){
+            if(demo){
+                System.out.println(input);
+                System.out.println(input + "\nFunction resulted in null: ");
+                System.out.print(result==null+"\n");
+            }
+            input = promptUserInput(reader, rePrompt);
+            if(input.equalsIgnoreCase("0")){
+                break;
+            }
+            result = f.apply(input);
+        }
+        return result;   
     }
 
 

@@ -153,6 +153,9 @@ public class Library {
         if (!initialized) {
             initialize();
         }
+        if(artist==null){
+            return;
+        }
         for (Album album : artist.getAlbums()) {
             deleteAlbum(album);
         }
@@ -168,6 +171,9 @@ public class Library {
         if (!initialized) {
             initialize();
         }
+        if(album==null){
+            return;
+        }
         for (Song song : album.getSongs()) {
             deleteSong(song);
         }
@@ -181,6 +187,9 @@ public class Library {
     public void deleteSong(Song song) {
         if (!initialized) {
             initialize();
+        }
+        if(song==null){
+            return;
         }
         song.setDeleted(true);
     }
