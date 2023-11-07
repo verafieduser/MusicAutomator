@@ -1,6 +1,7 @@
 package com.verafied;
 
-import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,12 +9,18 @@ public class Album {
     
     private String name;
     private Artist artist;
+    private String bandcampLink;
     private Set<Song> songs = new HashSet<>();
 
     public Album(String name, Artist artist, String song, String path, boolean deleted){
         this.name = name;
         this.artist = artist;
+        bandcampLink = "https://" + toUrl(artist.getName()) + ".bandcamp.com/album/" + toUrl(name.replaceAll("[\\s]", "-"));
         songs.add(new Song(artist, this, song, path, deleted));
+    }
+
+    private String toUrl(String comp){
+        return comp.replaceAll("[^\\w-]", "").toLowerCase();
     }
 
     public Album(String name, Artist artist, String song){
@@ -96,6 +103,7 @@ public class Album {
     public String toString() {
         return "{" +
             " name='" + getName() + "'" +
+            " bandcamp='" + bandcampLink + "'" +
             ", songs='" + printSongs() + "'" +
             "}";
     }
