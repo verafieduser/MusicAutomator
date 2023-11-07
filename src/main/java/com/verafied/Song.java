@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Song {
-    private String title;
+    private SongTitle title;
     private Album album;
     private Artist artist;
     private File path;
@@ -27,7 +27,7 @@ public class Song {
         }
         this.artist = artist;
         this.album = album;
-        this.title = title;
+        this.title = new SongTitle(title);
         this.deleted = deleted;
     }
 
@@ -67,11 +67,11 @@ public class Song {
     }
 
     public String getTitle() {
-        return this.title;
+        return this.title.getTitle();
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = new SongTitle(title);
     }
 
     public Album getAlbum() {

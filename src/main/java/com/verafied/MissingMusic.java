@@ -93,7 +93,7 @@ public class MissingMusic {
         boolean result;
         if (song.getArtist().getName().equalsIgnoreCase(candidate.getArtist()) &&
                 song.getAlbum().getName().equalsIgnoreCase(candidate.getAlbum()) &&
-                song.getTitle().equalsIgnoreCase(candidate.getSongname())) {
+                new SongTitle(song.getTitle()).equals(new SongTitle(candidate.getSongname()))) {
             result = true;
         } else {
             result = false;
@@ -120,13 +120,20 @@ public class MissingMusic {
                 continue;
             }
 
+            
             for (File candidateMatch : albumPath.toFile().listFiles()) {
-                Metadata metadata;
-                try {
-                    metadata = getMetadata(candidateMatch.toPath());
-                } catch (Exception e) {
+                if(!Metadata.isSupportedSong(candidateMatch.toPath())){
                     continue;
                 }
+                Metadata metadata;
+                try {
+                    
+                    metadata = getMetadata(candidateMatch.toPath());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    continue;
+                }
+                
                 if (songsMatch(metadata, song)) {
                     song.setPath(candidateMatch.getAbsolutePath());
                 }

@@ -20,7 +20,7 @@ public class Artist {
     }
 
     public void merge(Artist other) {
-        if (!name.equals(other.getName())) {
+        if (!name.equalsIgnoreCase(other.getName())) {
             throw new IllegalArgumentException();
         }
         for (Album otherAlbum : other.getAlbums()) {

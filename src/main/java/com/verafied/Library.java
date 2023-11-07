@@ -36,11 +36,11 @@ public class Library {
         if (artistAlbums.isEmpty()) {
             throw new IllegalArgumentException("Artists much have atleast one instance of albums with (a) song(s)");
         }
-        Artist oldArtist = artists.putIfAbsent(artist.getName(), artist);
+        Artist oldArtist = artists.putIfAbsent(artist.getName().toLowerCase(), artist);
         if (oldArtist != null) { // If artist is already present, add new instance albums to old instance
             oldArtist.merge(artist);
         }
-        Set<Album> newArtistAlbums = artists.get(artist.getName()).getAlbums();
+        Set<Album> newArtistAlbums = artists.get(artist.getName().toLowerCase()).getAlbums();
         albums.addAll(newArtistAlbums);
         newArtistAlbums.forEach(x -> songs.addAll(x.getSongs()));
         initialized = false;
@@ -91,7 +91,7 @@ public class Library {
     }
 
     public Artist getArtist(String name){
-        return artists.get(name);
+        return artists.get(name.toLowerCase());
     }
 
     public Album getAlbum(String name){

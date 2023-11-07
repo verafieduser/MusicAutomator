@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 public class Initializer {
 
     LibraryLoader loader;
+    LibrarySaver saver;
     LibraryCollector collector;
     Library library;
     SettingsHandler settings;
@@ -37,6 +38,7 @@ public class Initializer {
         settings = new SettingsHandler();
         createDirectoryStructure();
         loader = new LibraryLoader(demo);
+        saver = loader.getSaver();
         collector = new LibraryCollector(loader, loader.getSaver(), demo);
         library = openLibrary(loader);
         missingMusic = new MissingMusic(loader.getSaver(), settings.get("local.musiclibrary.path"));
@@ -44,7 +46,6 @@ public class Initializer {
         if (library == null) {
             library = processAndOpenLibrary(loader, collector, getFileName(ih), getDataType(ih));
         }
-        missingMusic.connectMissing(library);
         loader.getSaver().writeToCSV(library);
     }
 
@@ -132,5 +133,9 @@ public class Initializer {
 
     public SettingsHandler getSettings(){
         return this.settings;
+    }
+
+    public LibrarySaver getSaver(){
+        return this.saver;
     }
 }

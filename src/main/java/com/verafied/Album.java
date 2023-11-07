@@ -23,18 +23,18 @@ public class Album {
     }
 
     public void merge(Album other){
-        if(!name.equals(other.getName())){
+        if(!name.equalsIgnoreCase(other.getName())){
             throw new IllegalArgumentException();
         }
 
         //Ensuring that path is transferred over if other has a path
-        for(Song song : other.getSongs()){
-            if(song.getPath()==null){
+        for(Song otherSong : other.getSongs()){
+            if(otherSong.getPath()==null){
                 continue;
             }
             for (Song currentSong : songs){
-                if (song.equals(currentSong)){
-                    currentSong.setPath(song.getPath().getAbsolutePath());
+                if (otherSong.equals(currentSong)){
+                    currentSong.setPath(otherSong.getPath().getAbsolutePath());
                 } 
             }
         }        
@@ -73,7 +73,7 @@ public class Album {
         Album otherAlbum = (Album) other;
         
         return 
-            name.equals(otherAlbum.name) &&
+            name.equalsIgnoreCase(otherAlbum.name) &&
             artist.equals(otherAlbum.artist);
     }
 

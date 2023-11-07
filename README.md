@@ -30,12 +30,12 @@ Difficulty levels 1(easy)-5(hard)
                 In the end, which one is chosen maybe doesn't matter that much, because as long as it is compared to local files or soulseek files with the same algorithm it hopefully will lead to it realizing theyre the same. 
 
                 Similarity metric based on strings without symbols or numbers.
-            2.4.2. Go over from .CSV to ...? TODO: sqllite! wrapper for java...
+            2.4.2. Go over from .CSV to ...? TODO: sqllite! wrapper for java... (3)
     - ~~2.5. Implement more filetypes than .mp3 (3)~~
         ~~NOTE: do this by going over to JAudiotagger (http://www.jthink.net/jaudiotagger/) instead of mp3agic?~~
 3. Make sure library can be updated instead of just imported (1) 
      - 3.1. Solve better importing where you select songs to import and program create directory. 
-     - 3.2. Import album from another local directory
+     - 3.2. Import album from another local directory (2)
      structure for you. Will require good metadata structure! (3-4)
 4. ~~Deletions that last (2)~~
 5. Bandcamp connectivity (2) 
@@ -54,9 +54,10 @@ Difficulty levels 1(easy)-5(hard)
     - 8.1. Last.fm
     - 8.2. Spotify
     - 8.3. Tidal
-9. Last.Fm Recommendations (optional, based on last.fm API success)
-10. GUI
-11. Figure out project structure to make it into a jar
+10. Fix server for data backups, recommendations, API connections (for safety of keys etc), manual adding from database of albums etc?
+11. Last.Fm Recommendations (optional, based on last.fm API success)
+12. GUI
+13. Figure out project structure to make it into a jar
 
 ## Data sources:
 - Last.fm:

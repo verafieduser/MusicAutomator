@@ -1,9 +1,7 @@
 package com.verafied;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -12,18 +10,21 @@ public class UserInterface {
     Library library;
     MissingMusic missingMusic;
     LibraryCollector collector;
+    LibrarySaver saver;
     SettingsHandler settings;
+    
 
     public UserInterface(Initializer init) {
         library = init.getLibrary();
         missingMusic = init.getMissingMusic();
         collector = init.getCollector();
         settings = init.getSettings();
+        saver = init.getSaver();
     }
 
     public void inputLoop(InputHandler ih) {
         Predicate<String> p = x -> (x.matches("\\d+") && Integer.valueOf(x) >= 0
-                && Integer.valueOf(x) < 17);
+                && Integer.valueOf(x) <= 17);
         int result = 0;
         String prompt = "0: Exit\n1: Connect database entries with local songs\n";
         prompt += "2: Import local songs into database\n";
@@ -41,6 +42,7 @@ public class UserInterface {
         prompt += "14. Empty song garbage bin (UNIMPLEMENTED)\n";
         prompt += "15. Get bandcamp link of album (UNIMPLEMENTED)\n";
         prompt += "16. Download album (UNIMPLEMENTED)\n";
+        prompt += "17. Save Library\n";
         prompt += "Enter option: ";
 
         try {
@@ -104,6 +106,10 @@ public class UserInterface {
                 // import database from file
                 collector.processCSV(null, null);
                 break;
+            case 17:
+                saver.writeToCSV(library);
+                break;
+
 
             default:
                 throw new UnsupportedOperationException("\noption\n");
@@ -115,52 +121,44 @@ public class UserInterface {
 
     private Song getSong(InputHandler ih) {
         Function<String, Object> p = x -> library.getSong(x);
-        Song song;
-        try {
-            song = (Song) ih.loopingPromptUserInput("Enter song name: ", "Faulty format, try again: ", p);
-        } catch (IOException e) {
-            song = null;
-            e.printStackTrace();
-        }
-
-        return song;
+        return (Song) getResponse(ih, p, "Enter song name: ");
     }
 
     private Album getAlbum(InputHandler ih) {
         Function<String, Object> p = x -> library.getAlbum(x);
-        Album album;
-        try  {
-            album = (Album) ih.loopingPromptUserInput("Enter album name: ", "Faulty format, try again: ", p);
-        } catch (IOException e ){
-            album = null;
-            e.printStackTrace();
-        }
-        return album;
+        return (Album) getResponse(ih, p, "Enter album name: ");
     }
 
     private Artist getArtist(InputHandler ih) {
         Function<String, Object> getArtist = x -> library.getArtist(x);
-        Artist artist;
-        try  {
-            artist = (Artist) ih.loopingPromptUserInput("Enter artist name: ",
-                    "Faulty format, try again: ", getArtist);
-        } catch (IOException e) {
-            e.printStackTrace();
-            artist=null;
-        }
-        return artist;
+        return (Artist) getResponse(ih, getArtist, "Enter artist name: ");
     }
 
+    //TODO: make sure dir is empty?
     private String getPath(InputHandler ih){
         Predicate<String> isDirectory = x -> new File(x).exists();
-        String result;
+        return (String) getResponse(ih, isDirectory, "Enter new path: ");
+    }
+
+    private Object getResponse(InputHandler ih, Function<String, Object> f, String prompt) {
+        Object object;
         try {
-            result = ih.loopingPromptUserInput("Enter path name: ",
-                    "Faulty format, try again: ", isDirectory);
+            object = ih.loopingPromptUserInput(prompt, "Faulty format, try again: ", f);
         } catch (IOException e) {
+            object = null;
             e.printStackTrace();
-            result=null;
         }
-        return result;
+        return object;
+    }
+
+    private Object getResponse(InputHandler ih, Predicate<String> f, String prompt) {
+        String object;
+        try {
+            object = ih.loopingPromptUserInput(prompt, "Faulty format, try again: ", f);
+        } catch (IOException e) {
+            object = null;
+            e.printStackTrace();
+        }
+        return object;
     }
 }

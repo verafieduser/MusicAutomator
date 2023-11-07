@@ -18,7 +18,6 @@ public class Metadata {
     protected String songname;
     protected String artist;
     protected String album;
-    protected short year;
     protected String comment;
 
     public Metadata(Path path) throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException{
@@ -29,7 +28,6 @@ public class Metadata {
         Tag tag = song.getTag();
         songname = tag.getFirst(FieldKey.TITLE);
         album = tag.getFirst(FieldKey.ALBUM);
-        year = Short.valueOf(tag.getFirst(FieldKey.YEAR));
         comment = tag.getFirst(FieldKey.COMMENT);
         artist = tag.getFirst(FieldKey.ALBUM_ARTIST);
         if(artist == null || artist.isBlank()){
@@ -80,13 +78,6 @@ public class Metadata {
         this.album = album;
     }
 
-    public short getYear() {
-        return this.year;
-    }
-
-    public void setYear(short year) {
-        this.year = year;
-    }
 
     public String getComment() {
         return this.comment;
