@@ -3,6 +3,7 @@
 bin
 .vscode
 target
+library
 
 # Compiled source #
 ###################
