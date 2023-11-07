@@ -1,10 +1,5 @@
 package com.verafied;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.Buffer;
-import java.util.function.Predicate;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;

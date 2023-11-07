@@ -88,7 +88,7 @@ public class Album {
 
     public String printSongs() {
         StringBuilder sb = new StringBuilder();
-        songs.forEach(x -> sb.append("\n\t\t" + x));
+        songs.forEach(x -> sb.append("\n\t\t" + x.getTitle()));
         return sb.toString();
     }
 

@@ -16,6 +16,9 @@ public class SongTitle {
         }
         SongTitle otherTitle = (SongTitle) other;
         String otherStr = otherTitle.getTitle();
+        if(otherStr.equalsIgnoreCase(title)){
+            return true; //If they are identical already, no need to do compute
+        }
         String thisTitle = title.replaceAll(regex, "");
         otherStr = otherStr.replaceAll(regex, "");
         return thisTitle.equalsIgnoreCase(otherStr);
