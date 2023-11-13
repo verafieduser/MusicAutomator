@@ -16,21 +16,21 @@ Difficulty levels 1(easy)-5(hard)
     
     2.1. HALF SOLVED ISSUE: Library mismatch with local due to data mismatch. How to make more forgiving?
         
-        2.1.1. Songs like Tambourine -N- Thyme / Tambourine - N - Thyme / Tambourine-n-Thyme / Tambourine - N: Thyme (3)
+    - 2.1.1. Songs like Tambourine -N- Thyme / Tambourine - N - Thyme / Tambourine-n-Thyme / Tambourine - N: Thyme (3)
     
-                Current solution: Compare lowercase titles without any symbols that arent alphanumerical.
+        - Current solution: Compare lowercase titles without any symbols that arent alphanumerical.
             
-                Issues with this solution: Differences with (.feat), (for x), (by x) are still understood as different.
+        - Issues with this solution: Differences with (.feat), (for x), (by x) are still understood as different.
                 
-        2.1.2. SQLite through JBDC 
+    - 2.1.2. SQLite through JBDC 
             
-                2.4.2.1. Improve schema 
+        - 2.4.2.1. Improve schema 
             
-                2.4.2.2. Should everything be loaded into java or should things be collected as it goes? 
+        - 2.4.2.2. Should everything be loaded into java or should things be collected as it goes? 
             
-                2.4.2.3. How to ensure forgiving equals in SQL? Removes a lot of benefit of the system?
+        - 2.4.2.3. How to ensure forgiving equals in SQL? Removes a lot of benefit of the system?
                 
-                - Suggested way to solve this: For a new song, get all songs from the same album from database, and compare with those
+            -  Suggested way to solve this: For a new song, get all songs from the same album from database, and compare with those
                 before adding? Requires asking a query every time you need to insert something! Inefficient...
 3. Make sure library can be updated instead of just imported (1) 
     
