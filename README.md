@@ -13,39 +13,67 @@ https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/
 Difficulty levels 1(easy)-5(hard)
 1. ~~Convert project into Maven project to be able to handle dependencies better.~~
 2. Compare library to local music library to connect them and find missing songs to add
-    - 2.1. HALF SOLVED ISSUE: Library mismatch with local due to data mismatch. How to make more forgiving?
+    
+    2.1. HALF SOLVED ISSUE: Library mismatch with local due to data mismatch. How to make more forgiving?
+        
         2.1.1. Songs like Tambourine -N- Thyme / Tambourine - N - Thyme / Tambourine-n-Thyme / Tambourine - N: Thyme (3)
-            Current solution: Compare lowercase titles without any symbols that arent alphanumerical.
-            Issues with this solution: Differences with (.feat), (for x), (by x) are still understood as different.
-    - 2.1.2. SQLite through JBDC 
-            2.4.2.1. Improve schema 
-            2.4.2.2. Should everything be loaded into java or should things be collected as it goes? 
-            2.4.2.3. How to ensure forgiving equals in SQL? Removes a lot of benefit of the system?
+    
+                Current solution: Compare lowercase titles without any symbols that arent alphanumerical.
+            
+                Issues with this solution: Differences with (.feat), (for x), (by x) are still understood as different.
+                
+        2.1.2. SQLite through JBDC 
+            
+                2.4.2.1. Improve schema 
+            
+                2.4.2.2. Should everything be loaded into java or should things be collected as it goes? 
+            
+                2.4.2.3. How to ensure forgiving equals in SQL? Removes a lot of benefit of the system?
+                
                 - Suggested way to solve this: For a new song, get all songs from the same album from database, and compare with those
                 before adding? Requires asking a query every time you need to insert something! Inefficient...
 3. Make sure library can be updated instead of just imported (1) 
-     - 3.1. Solve better importing where you select songs to import and program create directory. 
-     - 3.2. Import album from another local directory (2)
+    
+    3.1. Solve better importing where you select songs to import and program create directory. 
+    
+    3.2. Import album from another local directory (2)
      structure for you. Will require good metadata structure! (3-4)
+
 4. ~~Deletions that last (2)~~
-    - 4.1. Make sure deletions and getting from library works better (guaranteed result, ask for specifications if wrong?)
-    - 4.2. get a list of what has been deleted, and functionality to restore deleted based on that.
+    
+    4.1. Make sure deletions and getting from library works better (guaranteed result, ask for specifications if wrong?)
+    
+    4.2. get a list of what has been deleted, and functionality to restore deleted based on that.
+
 5. Bandcamp connectivity (2) 
     Note: this could be easy, as bandcamp links are usually:
         "[bandname].bandcamp.com/album/[albumname with "-" as replacement for space and dots. rest is removed?]"
 6. Solve downloading (5)
-    - 6.1. API for soulseek
-    - 6.2. Create file directory for each download. 
-    - 6.3. Ensure metadata is correct.
-    - 6.4. What to do about other files that will be present, such as images?
+    
+    6.1. API for soulseek
+
+    6.2. Create file directory for each download. 
+
+    6.3. Ensure metadata is correct.
+
+    6.4. What to do about other files that will be present, such as images?
+
 7. User settings: (4)
-    - 7.1. blacklisting artists, albums, songs, genres(?) (2)
-    - 7.2. preferred music quality, file type (2)
-    - 7.3. maximum storage size (2)
+    
+    7.1. blacklisting artists, albums, songs, genres(?) (2)
+    
+    7.2. preferred music quality, file type (2)
+    
+    7.3. maximum storage size (2)
+
 8. Data input APIs 
-    - 8.1. Last.fm
-    - 8.2. Spotify
-    - 8.3. Tidal
+    
+    8.1. Last.fm
+    
+    8.2. Spotify
+    
+    8.3. Tidal
+
 10. Fix server for data backups, recommendations, API connections (for safety of keys etc), manual adding from database of albums etc?
 11. Last.Fm Recommendations (optional, based on last.fm API success)
 12. GUI
