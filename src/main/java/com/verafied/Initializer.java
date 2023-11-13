@@ -14,6 +14,7 @@ public class Initializer {
     Library library;
     SettingsHandler settings;
     MissingMusic missingMusic;
+    SqlDatabaseHandler db;
 
     /**
      * Initializes the program and links instances together.
@@ -37,10 +38,12 @@ public class Initializer {
         InputHandler ih = new InputHandler(demo);
         settings = new SettingsHandler();
         createDirectoryStructure();
-        loader = new LibraryLoader(demo);
+        db = new SqlDatabaseHandler(settings.get("user.app.path"));
+        loader = new LibraryLoader(demo, db);
         saver = loader.getSaver();
         collector = new LibraryCollector(loader, loader.getSaver(), demo);
         library = openLibrary(loader);
+        
         missingMusic = new MissingMusic(loader.getSaver(), settings.get("local.musiclibrary.path"));
 
         if (library == null) {

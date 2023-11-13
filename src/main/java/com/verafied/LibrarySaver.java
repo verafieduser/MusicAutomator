@@ -9,9 +9,11 @@ import java.io.PrintWriter;
  */
 public class LibrarySaver {
 
-    private String defaultPath; 
+    private String defaultPath;
+    private SqlDatabaseHandler db; 
 
-    public LibrarySaver( boolean demo){
+    public LibrarySaver( boolean demo, SqlDatabaseHandler sqlDb){
+        db = sqlDb;
         defaultPath = "\\Library\\";
         if(demo){
             defaultPath += "Demo\\";

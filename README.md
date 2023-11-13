@@ -13,18 +13,16 @@ https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/
 Difficulty levels 1(easy)-5(hard)
 1. ~~Convert project into Maven project to be able to handle dependencies better.~~
 2. Compare library to local music library to connect them and find missing songs to add
-    Note: add local songs into library, and add library songs not in local to to-download
-    - ~~2.1. Find a metadata reader for each file-extension to be supported. ~~
-        - ~~https://github.com/mpatric/mp3agic~~
-    - ~~2.2. For data that does not follow structure, make sure they are ignored.~~
-    - ~~2.3. Move over to Path and Files instead of File~~
-    - 2.4. HALF SOLVED ISSUE: Library mismatch with local due to data mismatch. How to make more forgiving?
-            2.4.1. Songs like Tambourine -N- Thyme / Tambourine - N - Thyme / Tambourine-n-Thyme / Tambourine - N: Thyme (3)
-                Current solution: Compare lowercase titles without any symbols that arent alphanumerical.
-                Issues with this solution: Differences with (.feat), (for x), (by x) are still understood as different.
-            2.4.2. Go over from .CSV to ...? TODO: sqllite! wrapper for java... (3)
-    - ~~2.5. Implement more filetypes than .mp3 (3)~~
-        ~~NOTE: do this by going over to JAudiotagger (http://www.jthink.net/jaudiotagger/) instead of mp3agic?~~
+    - 2.1. HALF SOLVED ISSUE: Library mismatch with local due to data mismatch. How to make more forgiving?
+        2.1.1. Songs like Tambourine -N- Thyme / Tambourine - N - Thyme / Tambourine-n-Thyme / Tambourine - N: Thyme (3)
+            Current solution: Compare lowercase titles without any symbols that arent alphanumerical.
+            Issues with this solution: Differences with (.feat), (for x), (by x) are still understood as different.
+    - 2.1.2. SQLite through JBDC 
+            2.4.2.1. Improve schema 
+            2.4.2.2. Should everything be loaded into java or should things be collected as it goes? 
+            2.4.2.3. How to ensure forgiving equals in SQL? Removes a lot of benefit of the system?
+                - Suggested way to solve this: For a new song, get all songs from the same album from database, and compare with those
+                before adding? Requires asking a query every time you need to insert something! Inefficient...
 3. Make sure library can be updated instead of just imported (1) 
      - 3.1. Solve better importing where you select songs to import and program create directory. 
      - 3.2. Import album from another local directory (2)

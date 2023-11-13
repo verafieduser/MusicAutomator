@@ -14,10 +14,12 @@ public class LibraryLoader {
 
     private final LibrarySaver saver; 
     private String defaultPath; 
+    private SqlDatabaseHandler db;
     private boolean demo;
 
-    public LibraryLoader(boolean demo) {
-        saver = new LibrarySaver(demo);
+    public LibraryLoader(boolean demo, SqlDatabaseHandler sqlDb) {
+        db= sqlDb;
+        saver = new LibrarySaver(demo, sqlDb);
         this.demo = demo;
         defaultPath = getCSV("db.csv");
     }
