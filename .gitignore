@@ -2,6 +2,7 @@
 ###########
 bin
 .vscode
+src/sql/queries
 target
 library
 
