@@ -24,7 +24,7 @@ public class UserInterface {
 
     public void inputLoop(InputHandler ih) {
         Predicate<String> p = x -> (x.matches("\\d+") && Integer.valueOf(x) >= 0
-                && Integer.valueOf(x) <= 18);
+                && Integer.valueOf(x) <= 19);
         int result = 0;
         String prompt = "0: Exit\n1: Connect database entries with local songs\n";
         prompt += "2: Import local songs into database\n";
@@ -44,6 +44,7 @@ public class UserInterface {
         prompt += "16. Download album (UNIMPLEMENTED)\n";
         prompt += "17. Save Library\n";
         prompt += "18. Remove local files that were removed in library\n";
+        prompt += "19. Reset/Empty database\n";
         prompt += "Enter option: ";
 
         try {
@@ -113,7 +114,8 @@ public class UserInterface {
             case 18:
                 library.deleteDeleted();
                 break;
-
+            case 19: 
+                library.reset();
             default:
                 throw new UnsupportedOperationException("\noption\n");
         }

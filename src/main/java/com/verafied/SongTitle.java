@@ -2,11 +2,17 @@ package com.verafied;
 
 public class SongTitle {
     private String title;
+    private String id; 
     private String regex = "[^\\p{Alnum}]";
 
 
     public SongTitle(String title){
         this.title = title;
+        this.id = createID(title);
+    }
+
+    private String createID(String str){
+        return str.toLowerCase().replaceAll(regex, "");
     }
 
     @Override 
@@ -15,13 +21,8 @@ public class SongTitle {
             return false;
         }
         SongTitle otherTitle = (SongTitle) other;
-        String otherStr = otherTitle.getTitle();
-        if(otherStr.equalsIgnoreCase(title)){
-            return true; //If they are identical already, no need to do compute
-        }
-        String thisTitle = title.replaceAll(regex, "");
-        otherStr = otherStr.replaceAll(regex, "");
-        return thisTitle.equalsIgnoreCase(otherStr);
+        String otherId = otherTitle.getID();
+        return id.equalsIgnoreCase(otherId);
     }
 
     @Override
@@ -31,6 +32,10 @@ public class SongTitle {
 
     public String getTitle(){
         return this.title;
+    }
+
+    public String getID(){
+        return this.id;
     }
 
     @Override

@@ -11,6 +11,7 @@ public class Album {
     private Artist artist;
     private String bandcampLink;
     private Set<Song> songs = new HashSet<>();
+    private boolean deleted;
 
     public Album(String name, Artist artist, String song, String path, boolean deleted){
         this.name = name;
@@ -71,6 +72,30 @@ public class Album {
     public void setSongs(Set<Song> songs) {
         this.songs = songs;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBandcampLink() {
+        return this.bandcampLink;
+    }
+
+    public void setBandcampLink(String bandcampLink) {
+        this.bandcampLink = bandcampLink;
+    }
+
+    public boolean isDeleted() {
+        return this.deleted;
+    }
+
+    public boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
 
     @Override 
     public boolean equals(Object other){
@@ -99,14 +124,18 @@ public class Album {
         return sb.toString();
     }
 
+
     @Override
     public String toString() {
         return "{" +
             " name='" + getName() + "'" +
-            " bandcamp='" + bandcampLink + "'" +
-            ", songs='" + printSongs() + "'" +
+            ", artist='" + getArtist() + "'" +
+            ", bandcampLink='" + getBandcampLink() + "'" +
+            ", songs='" + getSongs() + "'" +
+            ", deleted='" + isDeleted() + "'" +
             "}";
     }
+
 
     
 }

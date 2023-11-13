@@ -73,6 +73,7 @@ public class SettingsHandler {
     private void setUp(Properties settingsFile, Path home) {
         settingsFile.setProperty("local.musiclibrary.path", getLocalMusicPath());
         settingsFile.setProperty("user.app.path", home.toAbsolutePath().toString());
+        settingsFile.setProperty("database.initialized", "false");
     }
 
     private String getLocalMusicPath(){

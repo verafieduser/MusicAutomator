@@ -1,5 +1,6 @@
-CREATE TABLE "artist" 
+CREATE TABLE artist 
 (   
-    "name" TEXT NOT NULL,
+    name TEXT NOT NULL,
+    deleted TEXT NOT NULL, 
     PRIMARY KEY (name) ON CONFLICT REPLACE
 )

@@ -8,6 +8,7 @@ public class Artist {
 
     private String name;
     private Set<Album> albums = new HashSet<>();
+    private boolean deleted;
 
     public Artist(String name, String album, String song, String path, boolean deleted) {
         this.name = name;
@@ -67,6 +68,20 @@ public class Artist {
         this.albums = albums;
     }
 
+
+    public boolean isDeleted() {
+        return this.deleted;
+    }
+
+    public boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+
     @Override
     public boolean equals(Object other) {
         if (other == null || this.getClass() != other.getClass()) {
@@ -92,12 +107,16 @@ public class Artist {
         return sb.toString();
     }
 
+
+
     @Override
     public String toString() {
         return "{" +
-                " name='" + getName() + "'" +
-                ", albums='\n\t" + printAlbums() + "'" +
-                "}";
+            " name='" + getName() + "'" +
+            ", albums='" + getAlbums() + "'" +
+            ", deleted='" + isDeleted() + "'" +
+            "}";
     }
+
 
 }

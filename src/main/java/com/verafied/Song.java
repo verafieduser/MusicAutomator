@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.List;
 
 public class Song {
     private SongTitle title;
@@ -129,6 +128,7 @@ public class Song {
     @Override
     public String toString() {
         return "{" +
+                " id='" + title.getID() + "'" +
                 " title='" + getTitle() + "'" +
                 ", artist='" + artist.getName() + "'" +
                 ", album='" + album.getName() + "'" +

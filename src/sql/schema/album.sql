@@ -1,7 +1,8 @@
-CREATE TABLE "album"
+CREATE TABLE album
 (
-    "name" TEXT NOT NULL,
-    "artist" TEXT NOT NULL,
+    name TEXT NOT NULL,
+    artist TEXT NOT NULL,
+    deleted TEXT NOT NULL,
     PRIMARY KEY (name, artist) ON CONFLICT REPLACE, 
     FOREIGN KEY (artist) REFERENCES artist(name) 
 )

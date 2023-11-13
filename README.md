@@ -22,16 +22,19 @@ Difficulty levels 1(easy)-5(hard)
             
         - Issues with this solution: Differences with (.feat), (for x), (by x) are still understood as different.
                 
-    - 2.1.2. SQLite through JBDC 
+    - 2.1.2. SQLite through JBDC through ORM? 
             
-        - 2.4.2.1. Improve schema 
+        - 2.4.2.1. Improve schema - ID based on songtitle (cleaned version)
             
         - 2.4.2.2. Should everything be loaded into java or should things be collected as it goes? 
+            - Write a note on my thinking on this and the different factors that went into it.
+            - Import what is needed at the time. GUI might start with a view of all artists, doesnt mean it is necessary to have Everything from the database loaded. Caching might help out too.
             
         - 2.4.2.3. How to ensure forgiving equals in SQL? Removes a lot of benefit of the system?
                 
             -  Suggested way to solve this: For a new song, get all songs from the same album from database, and compare with those
                 before adding? Requires asking a query every time you need to insert something! Inefficient...
+
 3. Make sure library can be updated instead of just imported (1) 
     
     3.1. Solve better importing where you select songs to import and program create directory. 
@@ -77,6 +80,7 @@ Difficulty levels 1(easy)-5(hard)
 10. Fix server for data backups, recommendations, API connections (for safety of keys etc), manual adding from database of albums etc?
 11. Last.Fm Recommendations (optional, based on last.fm API success)
 12. GUI
+    12.1. Async check of song paths not broken after database has been loaded
 13. Figure out project structure to make it into a jar
 
 ## Data sources:

@@ -38,7 +38,7 @@ public class Initializer {
         InputHandler ih = new InputHandler(demo);
         settings = new SettingsHandler();
         createDirectoryStructure();
-        db = new SqlDatabaseHandler(settings.get("user.app.path"));
+        db = new SqlDatabaseHandler(settings);
         loader = new LibraryLoader(demo, db);
         saver = loader.getSaver();
         collector = new LibraryCollector(loader, loader.getSaver(), demo);
@@ -91,7 +91,7 @@ public class Initializer {
 
     private void createDirs(String dir, String[] subDirs) {
         for (String subDir : subDirs) {
-            File newFile = new File(dir + "/" + subDir);
+            File newFile = new File(dir, subDir);
             if (!newFile.exists() && !newFile.mkdir()) {
                 throw new IllegalStateException(newFile.getAbsolutePath());
             }
