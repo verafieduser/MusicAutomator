@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.function.Predicate;
 
+import org.hibernate.boot.registry.BootstrapServiceRegistry;
+import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.jaudiotagger.tag.datatype.BooleanString;
+
 public class Initializer {
 
     LibraryLoader loader;
@@ -14,7 +19,7 @@ public class Initializer {
     Library library;
     SettingsHandler settings;
     MissingMusic missingMusic;
-    SqlDatabaseHandler db;
+    SqlDatabaseHandler db =null;
 
     /**
      * Initializes the program and links instances together.
@@ -35,21 +40,28 @@ public class Initializer {
      */
     public Initializer(boolean demo) throws IOException {
     
+        ormSetUp();
         InputHandler ih = new InputHandler(demo);
         settings = new SettingsHandler();
         createDirectoryStructure();
-        db = new SqlDatabaseHandler(settings);
+        //db = new SqlDatabaseHandler(settings);
         loader = new LibraryLoader(demo, db);
         saver = loader.getSaver();
-        collector = new LibraryCollector(loader, loader.getSaver(), demo);
+        collector = new LibraryCollector(loader, loader.getSaver(), db, demo);
         library = openLibrary(loader);
         
         missingMusic = new MissingMusic(loader.getSaver(), settings.get("local.musiclibrary.path"));
 
-        if (library == null) {
-            library = processAndOpenLibrary(loader, collector, getFileName(ih), getDataType(ih));
-        }
-        loader.getSaver().writeToCSV(library);
+        // if (library == null) {
+        //     library = processAndOpenLibrary(loader, collector, getFileName(ih), getDataType(ih));
+        // }
+        //loader.getSaver().writeToCSV(library);
+    }
+
+    private void ormSetUp(){
+        StandardServiceRegistryBuilder ssrb = new StandardServiceRegistryBuilder();
+        BootstrapServiceRegistry bsr = new BootstrapServiceRegistryBuilder().build();
+        StandardServiceRegistryBuilder srb = new StandardServiceRegistryBuilder(bsr);
     }
 
     private String getFileName(InputHandler ih) throws IOException {

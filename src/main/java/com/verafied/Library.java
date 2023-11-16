@@ -116,7 +116,6 @@ public class Library {
         }
     
         return (Album) albumCandidates.toArray()[0]; //TODO: temporary solution
-
     }
 
     public Song getSong(String name){
@@ -131,6 +130,7 @@ public class Library {
         }
         return (Song) songCandidates.toArray()[0];
     }
+
 
 
 

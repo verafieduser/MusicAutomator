@@ -81,7 +81,7 @@ public class MissingMusic {
     public Set<Song> findMissing(Library library) {
         Set<Song> missingSongs = new HashSet<>();
         for (Song song : library.getSongs()) {
-            if (song.getDeleted() || song.getPath() != null) {
+            if (song.isDeleted() || song.getPath() != null) {
                 continue;
             }
             missingSongs.add(song);
@@ -116,7 +116,7 @@ public class MissingMusic {
     public void connectMissing(Library library) throws FileNotFoundException {
         for (Song song : library.getSongs()) {
             Path albumPath = getAlbumPath(song);
-            if (albumPath == null || song.getDeleted() || song.getPath() != null || !Files.exists(albumPath)) {
+            if (albumPath == null || song.isDeleted() || song.getPath() != null || !Files.exists(albumPath)) {
                 continue;
             }
 

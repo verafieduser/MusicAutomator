@@ -1,13 +1,20 @@
 package com.verafied;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
-
+import jakarta.persistence.*;
+@Entity 
+@Table(name = "Artist")
 public class Artist {
 
+    @Id 
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @OneToMany(mappedBy="artist")
     private Set<Album> albums = new HashSet<>();
+
+    @Column(name = "deleted", nullable = false)
     private boolean deleted;
 
     public Artist(String name, String album, String song, String path, boolean deleted) {
@@ -18,6 +25,11 @@ public class Artist {
     public Artist(String name, String album, String song) {
         this.name = name;
         albums.add(new Album(album, this, song));
+    }
+
+    public Artist(String name, boolean deleted){
+        this.name = name;
+        this.deleted = deleted;
     }
 
     public void merge(Artist other) {

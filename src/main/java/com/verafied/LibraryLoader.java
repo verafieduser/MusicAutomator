@@ -76,7 +76,7 @@ public class LibraryLoader {
      */
     public Library loadLibrary(String path) throws IOException{
         List<List<String>> entries = openCSV(path);
-        Library library = new Library();
+        Library library = new Library(db);
         for (List<String> entry : entries){
 
             Artist artist = new Artist(entry.get(0), 

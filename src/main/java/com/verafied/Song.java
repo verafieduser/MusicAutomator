@@ -4,15 +4,35 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
+import jakarta.persistence.*;
 
+
+@Entity
+@Table(name = "Song")
 public class Song {
-    private SongTitle title;
-    private Album album;
-    private Artist artist;
-    private File path;
-    private boolean deleted;
+    @Id @GeneratedValue 
+    @Column(name = "ID")
+    private String id;
 
-    // TODO: factory pattern
+    @Column(name = "TITLE")
+    private String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+        @JoinColumn(name="SONG_ALBUM", referencedColumnName="NAME"),
+        @JoinColumn(name="SONG_ARTIST", referencedColumnName="ALBUM_ARTIST")
+    })
+    private Album album;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SONG_ARTIST", referencedColumnName="NAME")
+    private Artist artist;
+
+    @Column(name = "path")
+    private File path;
+
+    @Column(name = "deleted")
+    private boolean deleted;
 
     public Song(Artist artist, Album album, String title) {
         this(artist, album, title, "", false);
@@ -26,7 +46,8 @@ public class Song {
         }
         this.artist = artist;
         this.album = album;
-        this.title = new SongTitle(title);
+        this.id = new SongTitle(title).getID();
+        this.title = title;
         this.deleted = deleted;
     }
 
@@ -66,11 +87,11 @@ public class Song {
     }
 
     public String getTitle() {
-        return this.title.getTitle();
+        return this.title;
     }
 
     public void setTitle(String title) {
-        this.title = new SongTitle(title);
+        this.title = new SongTitle(title).toString();
     }
 
     public Album getAlbum() {
@@ -93,10 +114,6 @@ public class Song {
         return this.deleted;
     }
 
-    public boolean getDeleted() {
-        return this.deleted;
-    }
-
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
@@ -116,7 +133,7 @@ public class Song {
         }
         Song otherSong = (Song) other;
 
-        return title.equals(otherSong.title) &&
+        return id.equals(otherSong.id) &&
                 album.equals(otherSong.album);
     }
 
@@ -128,7 +145,7 @@ public class Song {
     @Override
     public String toString() {
         return "{" +
-                " id='" + title.getID() + "'" +
+                " id='" + id + "'" +
                 " title='" + getTitle() + "'" +
                 ", artist='" + artist.getName() + "'" +
                 ", album='" + album.getName() + "'" +

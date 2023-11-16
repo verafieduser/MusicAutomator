@@ -13,10 +13,12 @@ public class LibraryCollector {
     private LibraryLoader loader;
     private LibrarySaver saver;
     private boolean demo;
+    private SqlDatabaseHandler db;
 
-    public LibraryCollector(LibraryLoader loader, LibrarySaver saver, boolean demo) {
+    public LibraryCollector(LibraryLoader loader, LibrarySaver saver, SqlDatabaseHandler db, boolean demo) {
         this.loader = loader;
         this.saver = saver;
+        this.db = db;
         this.demo = demo;
     }
 
@@ -40,7 +42,6 @@ public class LibraryCollector {
         switch (source) {
             case BENBEN: // Artist, album, song, date (ONLY ONE ARTIST PER ALBUM)
                 for (List<String> entry : entries) {
-
                     String artist = entry.get(0);
                     String album = entry.get(1);
                     String song = entry.get(2);
@@ -50,6 +51,7 @@ public class LibraryCollector {
                     Artist toBeAdded = new Artist(entry.get(0), entry.get(1), entry.get(2));
                     library.addArtist(toBeAdded);
                 }
+                //fillDatabase(entries);
                 break;
             case LASTFM:
                 break;
@@ -61,6 +63,19 @@ public class LibraryCollector {
                 break;
         }
         saver.writeToCSV(path, library);
+    }
+
+    private void fillDatabase(List<List<String>> entries) {
+        for (List<String> entry : entries) {
+            String artist = entry.get(0);
+            String album = entry.get(1);
+            String song = entry.get(2);
+            if (!songIsValid(artist, album, song)) {
+                continue;
+            }
+            db.add(artist, album, song, "NULL");
+        }
+
     }
 
     private boolean songIsValid(String artist, String album, String song) {

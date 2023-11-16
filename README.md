@@ -22,7 +22,8 @@ Difficulty levels 1(easy)-5(hard)
             
         - Issues with this solution: Differences with (.feat), (for x), (by x) are still understood as different.
                 
-    - 2.1.2. SQLite through JBDC through ORM? 
+    - 2.1.2. SQLite through JBDC through ORM?  
+    - https://docs.jboss.org/hibernate/stable/orm/userguide/html_single/Hibernate_User_Guide.html
             
         - 2.4.2.1. Improve schema - ID based on songtitle (cleaned version)
             

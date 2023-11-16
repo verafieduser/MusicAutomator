@@ -106,7 +106,7 @@ public class UserInterface {
                 break;
             case 10:
                 // import database from file
-                collector.processCSV(null, null);
+                collector.processCSV("verafiedmusic.csv", DataSource.BENBEN);
                 break;
             case 17:
                 saver.writeToCSV(library);
@@ -116,6 +116,7 @@ public class UserInterface {
                 break;
             case 19: 
                 library.reset();
+                break;
             default:
                 throw new UnsupportedOperationException("\noption\n");
         }

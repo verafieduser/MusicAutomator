@@ -1,18 +1,38 @@
 package com.verafied;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "Album")
 public class Album {
     
+    @Id 
+    @Column(name = "NAME")
     private String name;
+
+    @Id 
+    @ManyToOne
+    @JoinColumn(name="ALBUM_ARTIST", referencedColumnName="ARTIST")
     private Artist artist;
+
+    @Column(name = "BANDCAMP_LINK")
     private String bandcampLink;
+
+    @OneToMany(mappedBy="album")
     private Set<Song> songs = new HashSet<>();
+
+    @Column(name = "DELETED")
     private boolean deleted;
 
+
+    public Album(String name, Artist artist, boolean deleted){
+        this.name = name;
+        this.artist = artist;
+        this.deleted = deleted;
+    }
     public Album(String name, Artist artist, String song, String path, boolean deleted){
         this.name = name;
         this.artist = artist;

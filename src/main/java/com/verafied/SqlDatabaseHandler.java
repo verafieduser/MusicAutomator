@@ -44,7 +44,7 @@ public class SqlDatabaseHandler {
       // if the error message is "out of memory",
       // it probably means no database file is found
       e.printStackTrace();
-    } finally {
+    } /* finally {
       try {
         if (connection != null)
           connection.close();
@@ -52,7 +52,7 @@ public class SqlDatabaseHandler {
         // connection close failed.
         e.printStackTrace();
       }
-    }
+    } */
   }
 
   public boolean initialize() {
@@ -91,6 +91,29 @@ public class SqlDatabaseHandler {
       e.printStackTrace();
       return null;
     }
+  }
+
+  public void add(String artist, String album, String song, String path){
+    StringBuilder sb = new StringBuilder();
+    sb.append("INSERT INTO artist VALUES (");
+    sb.append("\"" + artist + "\", \"FALSE\")");
+    String artistInsert = sb.toString();
+    sb = new StringBuilder();
+    sb.append("INSERT INTO album VALUES (");
+    sb.append("\"" + album + "\", " + "\"" + artist + "\", \"FALSE\")");
+    String albumInsert = sb.toString();
+    sb = new StringBuilder();
+    sb.append("INSERT INTO song VALUES (");
+    sb.append("\"" + new SongTitle(song).getID() + "\", " + "\"" + song + "\", ");
+    sb.append("\"" + artist + "\", " + "\"" + album + "\", " + "\"" + path + "\", \"FALSE\")");
+    String songInsert = sb.toString();
+    update(artistInsert);
+    update(albumInsert);
+    update(songInsert);
+  }
+
+  public void add(Song song){
+    add(song.getArtist().getName(), song.getAlbum().getName(), song.getTitle(), song.getPath()==null ? "NULL" : song.getPath().toString());
   }
 
   public void update(String sql){
