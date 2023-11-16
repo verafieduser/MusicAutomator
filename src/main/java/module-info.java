@@ -4,5 +4,7 @@ module com.musicautomator {
     requires java.logging;
     requires transitive java.sql;
     requires org.xerial.sqlitejdbc;
+    requires org.hibernate.orm.core;
+    requires jakarta.persistence;
     exports com.verafied;
 }
