@@ -9,6 +9,10 @@ streaming services recommendation algorithms).
 ### Project Proposal:
 https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/edit?usp=sharing
 
+
+## SITUATION
+Currently stuck between .csv, SQL and ORM solutions of database. ORM is the plan currently, so need to make that work and then remove the SQL and .csv stuff.
+
 ## Current TODO:
 Difficulty levels 1(easy)-5(hard)
 1. ~~Convert project into Maven project to be able to handle dependencies better.~~
