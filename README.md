@@ -12,6 +12,7 @@ https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/
 
 ## SITUATION
 Currently stuck between .csv, SQL and ORM solutions of database. ORM is the plan currently, so need to make that work and then remove the SQL and .csv stuff.
+GO OVER TO H2 instead of mysql!!!
 
 ## Current TODO:
 Difficulty levels 1(easy)-5(hard)

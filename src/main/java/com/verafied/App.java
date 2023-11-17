@@ -23,6 +23,7 @@ public class App extends Application {
         //primaryStage.setTitle("Hello World");
         //primaryStage.setScene(new Scene(root, 800, 600));
         //primaryStage.show();
+        HibernateUtil.getSessionJavaConfigFactory().close();
         Platform.exit();
     }
 

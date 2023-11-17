@@ -15,7 +15,6 @@ public class Library {
     private Set<Album> albums = new HashSet<>();
     private TreeMap<String, Artist> artists = new TreeMap<>();
     private String libraryDatabasePath;
-    private SqlDatabaseHandler db;
     private boolean initialized = false;
 
     public Library() {
@@ -24,11 +23,6 @@ public class Library {
 
     public Library(String libraryDatabasePath) {
         this.libraryDatabasePath = libraryDatabasePath;
-    }
-
-    public Library(SqlDatabaseHandler db){
-        this();
-        this.db = db;
     }
 
     /**
@@ -79,10 +73,6 @@ public class Library {
             }
         }
         initialized = true;
-    }
-
-    public void reset(){
-        db.initialize();
     }
 
     /**

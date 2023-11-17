@@ -10,10 +10,8 @@ import java.io.PrintWriter;
 public class LibrarySaver {
 
     private String defaultPath;
-    private SqlDatabaseHandler db; 
 
-    public LibrarySaver( boolean demo, SqlDatabaseHandler sqlDb){
-        db = sqlDb;
+    public LibrarySaver( boolean demo){
         defaultPath = "\\Library\\";
         if(demo){
             defaultPath += "Demo\\";

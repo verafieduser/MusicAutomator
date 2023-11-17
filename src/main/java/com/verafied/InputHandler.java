@@ -30,10 +30,10 @@ public class InputHandler {
      */
     public String loopingPromptUserInput(String prompt, String rePrompt, Predicate<String> f) throws IOException {
         String input = promptUserInput(reader, prompt);
-        while(!f.test(input)){
+        while(!f.test(input) && input.equals("Q")){
             if(demo){
-                System.out.println(input + "\nPredicate resulted in: ");
-                System.out.print(f.test(input) + "\n");
+                System.out.println(input + "\nPredicate resulted in: " + f.test(input) + "\n");
+                System.out.print("Please try again, or enter \"Q\" to exit: ");
             }
             input = promptUserInput(reader, rePrompt);
         }

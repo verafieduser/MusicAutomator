@@ -115,14 +115,47 @@ public class UserInterface {
                 library.deleteDeleted();
                 break;
             case 19: 
-                library.reset();
-                break;
+
+                throw new UnsupportedOperationException();
             default:
                 throw new UnsupportedOperationException("\noption\n");
         }
         if(option!=0){
             inputLoop(ih);
         }
+    }
+
+    //TODO: connect this and below method to process file!
+    private String getFileName(InputHandler ih) throws IOException {
+        Predicate<String> p = x -> (new File(SettingsHandler.APPLICATION_PATH + "/Library/Unprocessed/" + x).exists());
+        return ih.loopingPromptUserInput("Please enter name of file to process:", "Please try again: ", p);
+    }
+
+    private DataSource getDataType(InputHandler ih) throws IOException {
+        Predicate<String> p = x -> (x.matches("\\d+") && Integer.valueOf(x) > 0
+                && Integer.valueOf(x) < DataSource.values().length + 1);
+
+        String typeStr = ih.loopingPromptUserInput(
+                "Where did  you get the file from? Enter a number for below options\n1.BENBEN\nPlease enter: ",
+                "Please try again: ", p);
+        int result;
+        try {
+            result = Integer.valueOf(typeStr);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            result = 1;
+        }
+        DataSource type;
+        switch (result) {
+            case 1:
+                type = DataSource.BENBEN;
+                break;
+            default:
+                type = DataSource.LASTFM;
+                System.out.println("No number was selected!");
+                break;
+        }
+        return type;
     }
 
     private Song getSong(InputHandler ih) {

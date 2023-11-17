@@ -8,30 +8,30 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "Song")
+@Table(name = "SONG")
 public class Song {
     @Id @GeneratedValue 
-    @Column(name = "ID")
+    @Column(name = "id")
     private String id;
 
-    @Column(name = "TITLE")
+    @Column(name = "title")
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumns({
-        @JoinColumn(name="SONG_ALBUM", referencedColumnName="NAME"),
-        @JoinColumn(name="SONG_ARTIST", referencedColumnName="ALBUM_ARTIST")
+        @JoinColumn(name="song_album", referencedColumnName="name"),
+        @JoinColumn(name="song_artist", referencedColumnName="album_artist")
     })
     private Album album;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SONG_ARTIST", referencedColumnName="NAME")
+    @JoinColumn(insertable=false, updatable=false)
     private Artist artist;
 
-    @Column(name = "path")
+    @Column(name = "PATH")
     private File path;
 
-    @Column(name = "deleted")
+    @Column(name = "DELETED")
     private boolean deleted;
 
     public Song(Artist artist, Album album, String title) {
@@ -86,6 +86,14 @@ public class Song {
         return pathStr;
     }
 
+    public String getId(){
+        return this.id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
     public String getTitle() {
         return this.title;
     }
@@ -124,6 +132,11 @@ public class Song {
 
     public File getPath() {
         return path;
+    }
+
+
+    public boolean getDeleted() {
+        return this.deleted;
     }
 
     @Override

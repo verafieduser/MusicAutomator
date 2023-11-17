@@ -103,6 +103,8 @@ public class SettingsHandler {
 
     /**
      * Sets or adds a property into the settings.
+     * local.musiclibrary.path is the path of the users local music folder
+     * user.app.path is the path of the application in the user folder.
      * @param key key to be placed into the list
      * @param value value corresponding to the key
      * @return the previous value the key held, null if none.

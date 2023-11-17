@@ -6,25 +6,25 @@ import java.util.Set;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Album")
+@Table(name = "ALBUM")
 public class Album {
     
     @Id 
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
 
     @Id 
     @ManyToOne
-    @JoinColumn(name="ALBUM_ARTIST", referencedColumnName="ARTIST")
+    @JoinColumn(name="album_artist", referencedColumnName="name")
     private Artist artist;
 
-    @Column(name = "BANDCAMP_LINK")
+    @Column(name = "bandcamp_link")
     private String bandcampLink;
 
     @OneToMany(mappedBy="album")
     private Set<Song> songs = new HashSet<>();
 
-    @Column(name = "DELETED")
+    @Column(name = "deleted")
     private boolean deleted;
 
 
@@ -117,6 +117,7 @@ public class Album {
     }
 
 
+    
     @Override 
     public boolean equals(Object other){
         if(other == null || this.getClass() != other.getClass()){

@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.*;
 @Entity 
-@Table(name = "Artist")
+@Table(name = "ARTIST")
 public class Artist {
 
     @Id 
@@ -92,6 +92,8 @@ public class Artist {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
+
+    
 
 
     @Override

@@ -14,12 +14,10 @@ public class LibraryLoader {
 
     private final LibrarySaver saver; 
     private String defaultPath; 
-    private SqlDatabaseHandler db;
     private boolean demo;
 
-    public LibraryLoader(boolean demo, SqlDatabaseHandler sqlDb) {
-        db= sqlDb;
-        saver = new LibrarySaver(demo, sqlDb);
+    public LibraryLoader(boolean demo) {
+        saver = new LibrarySaver(demo);
         this.demo = demo;
         defaultPath = getCSV("db.csv");
     }
@@ -76,7 +74,7 @@ public class LibraryLoader {
      */
     public Library loadLibrary(String path) throws IOException{
         List<List<String>> entries = openCSV(path);
-        Library library = new Library(db);
+        Library library = new Library();
         for (List<String> entry : entries){
 
             Artist artist = new Artist(entry.get(0), 
