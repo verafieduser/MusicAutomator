@@ -10,13 +10,8 @@ import jakarta.persistence.*;
 @Table(name = "ALBUM")
 public class Album {
     
-    @Id
-    @Column
-    private String name;
-
-    @Id
-    @ManyToOne(cascade=CascadeType.ALL)
-    private Artist artist;
+    @Id 
+    private AlbumId id; 
 
     @OneToMany(mappedBy = "album_name", cascade=CascadeType.ALL)
     private Set<Song> songs = new HashSet<>();
@@ -32,13 +27,15 @@ public class Album {
     }
 
     public Album(String name, Artist artist, boolean deleted){
-        this.name = name;
-        this.artist = artist;
+        id = new AlbumId();
+        id.setName(name);
+        id.setArtist(artist);
         this.deleted = deleted;
     }
     public Album(String name, Artist artist, String song, String path, boolean deleted){
-        this.name = name;
-        this.artist = artist;
+        id = new AlbumId();
+        id.setArtist(artist);
+        id.setName(name);
         bandcampLink = "https://" + toUrl(artist.getName().replaceAll("[ö]", "o")) + ".bandcamp.com/album/" + toUrl(name.replaceAll("[\\s]", "-"));
         songs.add(new Song(/*artist,*/ this, song, path, deleted));
     }
@@ -48,13 +45,14 @@ public class Album {
     }
 
     public Album(String name, Artist artist, String song){
-        this.name = name;
-        this.artist = artist;
+        id = new AlbumId();
+        id.setName(name);
+        id.setArtist(artist);
         songs.add(new Song(this, song));
     }
 
     public void merge(Album other){
-        if(!name.equalsIgnoreCase(other.getName())){
+        if(!id.getName().equalsIgnoreCase(other.getName())){
             throw new IllegalArgumentException();
         }
 
@@ -82,49 +80,24 @@ public class Album {
         song.setAlbum(this);
     }
 
-    public String getName(){
-        return name;
-    }
+    public AlbumId getId() {return id; }
+    public void setId(AlbumId id) {this.id = id;}
 
-    public Artist getArtist() {
-        return this.artist;
-    }
+    public String getName() { return this.id.getName(); }
+    public void setName(String name) { this.id.setName(name);}
 
-    public void setArtist(Artist artist) {
-        this.artist = artist;
-        //songs.forEach(x -> x.setArtist(artist));
-    }
+    public Artist getArtist() { return this.id.getArtist(); }
+    public void setArtist(Artist artist) {this.id.setArtist(artist); }
 
-    public Set<Song> getSongs() {
-        return this.songs;
-    }
+    public Set<Song> getSongs() { return this.songs; }
+    public void setSongs(Set<Song> songs) {this.songs = songs;}
 
-    public void setSongs(Set<Song> songs) {
-        this.songs = songs;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getBandcampLink() { return this.bandcampLink; }
+    public void setBandcampLink(String bandcampLink) { this.bandcampLink = bandcampLink; }
 
-    public String getBandcampLink() {
-        return this.bandcampLink;
-    }
-
-    public void setBandcampLink(String bandcampLink) {
-        this.bandcampLink = bandcampLink;
-    }
-
-    public boolean isDeleted() {
-        return this.deleted;
-    }
-
-    public boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
+    public boolean isDeleted() { return this.deleted; }
+    public boolean getDeleted() { return this.deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
     
     @Override 
     public boolean equals(Object other){
@@ -132,19 +105,12 @@ public class Album {
             return false;
         }
         Album otherAlbum = (Album) other;
-        
-        return 
-            name.equalsIgnoreCase(otherAlbum.name) &&
-            artist.equals(otherAlbum.artist);
+        return id.equals(otherAlbum.getId());
     }
 
     @Override 
     public int hashCode(){
-        return name.hashCode() * artist.hashCode();
-    }
-
-    public String toCSV() {
-        return name;
+        return id.hashCode(); 
     }
 
     public String printSongs() {
@@ -157,7 +123,7 @@ public class Album {
     public String toString() {
         return "{" +
             ", name='" + getName() + "'" +
-            ", artist='" + artist.getName() + "'" +
+            ", artist='" + getArtist().getName() + "'" +
             ", bandcampLink='" + getBandcampLink() + "'" +
             ", songs='" + getSongs() + "'" +
             ", deleted='" + isDeleted() + "'" +
