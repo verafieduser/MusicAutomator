@@ -10,8 +10,8 @@ public class App extends Application {
 
     public static final boolean DEMO = true;
 
-    public static void main(String[] args) throws Exception {
-        launch(args);
+    public static void main(String[] args) throws Exception { 
+        launch(args); 
     }
 
     @Override

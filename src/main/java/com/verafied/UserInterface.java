@@ -2,6 +2,9 @@ package com.verafied;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -78,11 +81,11 @@ public class UserInterface {
                 break;
             case 3:
                 // delete song
-                library.deleteSong(getSong(ih));
+                getSong(ih).forEach(x -> library.deleteSong(x));
                 break;
             case 4:
                 // delete album
-                library.deleteAlbum(getAlbum(ih));
+                getAlbum(ih).forEach(x-> library.deleteAlbum(x));
                 break;
             case 5:
                 // delete artist
@@ -90,15 +93,20 @@ public class UserInterface {
                 break;
             case 6:
                 // get all by artist
-                System.out.println(getArtist(ih));
+                Artist artist = getArtist(ih);
+                System.out.println(artist.getName() + "\n" + artist.printAlbums());
                 break;
             case 7:
                 // get album
-                System.out.println(getAlbum(ih));
+                Set<Album> albums = new HashSet<>();
+                getAlbum(ih).forEach(x -> albums.add(x));
+                for(Album album : albums){
+                    System.out.println(album.getName() + "\n" + album.printSongs());
+                }
                 break;
             case 8:
                 // get song
-                System.out.println(getSong(ih));
+                getSong(ih).forEach(x -> System.out.println(x));
                 break;
             case 9:
                 // change location of local music library
@@ -158,14 +166,14 @@ public class UserInterface {
         return type;
     }
 
-    private Song getSong(InputHandler ih) {
+    private List<Song> getSong(InputHandler ih) {
         Function<String, Object> p = x -> library.getSong(x);
-        return (Song) getResponse(ih, p, "Enter song name: ");
+        return (List<Song>) getResponse(ih, p, "Enter song name: ");
     }
 
-    private Album getAlbum(InputHandler ih) {
+    private List<Album> getAlbum(InputHandler ih) {
         Function<String, Object> p = x -> library.getAlbum(x);
-        return (Album) getResponse(ih, p, "Enter album name: ");
+        return (List<Album>) getResponse(ih, p, "Enter album name: ");
     }
 
     private Artist getArtist(InputHandler ih) {

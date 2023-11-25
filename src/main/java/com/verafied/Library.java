@@ -1,10 +1,17 @@
 package com.verafied;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 /**
  * Class that helps perform changes to the library
@@ -15,6 +22,7 @@ public class Library {
     private Set<Album> albums = new HashSet<>();
     private TreeMap<String, Artist> artists = new TreeMap<>();
     private String libraryDatabasePath;
+    private SessionFactory db;
     private boolean initialized = false;
 
     public Library() {
@@ -24,6 +32,28 @@ public class Library {
     public Library(String libraryDatabasePath) {
         this.libraryDatabasePath = libraryDatabasePath;
     }
+
+    public Library(SessionFactory db){
+        this.db = db;
+    }
+
+    /**
+     * 
+     * @param s a session with a transaction opened.
+     * @param artist 
+     * @param album
+     * @param song
+     */
+    public void addEntryToDatabase(Session s, Artist artist, Album album, Song song){
+        s.persist(artist);
+        s.persist(album);
+        s.persist(song);
+    }
+
+    public void addArtistToDatabase(Session s, Artist artist){
+        s.persist("ARTIST", artist);
+    }
+
 
     /**
      * Add artist to the library. If already present - merge contents of incoming
@@ -90,35 +120,37 @@ public class Library {
         return songs;
     }
 
+
     public Artist getArtist(String name){
-        return artists.get(name.toLowerCase());
+        if(!initialized){
+            initialize();
+        }
+        try (Session session = db.openSession()) {
+            return session.find(Artist.class, name);    
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public Album getAlbum(String name){
-        Set<Album> albumCandidates = new HashSet<>();
-        for(Album album : albums){
-            if(album.getName().equalsIgnoreCase(name)){
-                albumCandidates.add(album);
-            }
+    public List<Album> getAlbum(String name){
+        try (Session session = db.openSession()) {
+            Query<Album> query = session.createQuery("FROM ALBUM WHERE name = " + "\'" + name + "\'", Album.class);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        if(albumCandidates.size()>1){
-            //ask what artist made it
-        }
-    
-        return (Album) albumCandidates.toArray()[0]; //TODO: temporary solution
-    }
+    } 
 
-    public Song getSong(String name){
-        Set<Song> songCandidates = new HashSet<>();
-        for(Song song : songs){
-            if(song.getTitle().equalsIgnoreCase(name)){
-                songCandidates.add(song);
-            }
+    public List<Song> getSong(String name){
+        try (Session session = db.openSession()) {
+            Query<Song> query = session.createQuery("FROM SONG s WHERE s.title = " + "\'" + name + "\'", Song.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        if(songCandidates.size()>1){
-            //ask what album, what artist?
-        }
-        return (Song) songCandidates.toArray()[0];
     }
 
 

@@ -4,8 +4,7 @@ module com.musicautomator {
     requires java.logging;
     requires java.naming;
     requires transitive java.sql;
-    requires org.hibernate.orm.core;
-    requires mysql.connector.j;
+    requires transitive org.hibernate.orm.core;
     requires jakarta.persistence;
     opens com.verafied to org.hibernate.orm.core;
     exports com.verafied;

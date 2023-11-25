@@ -9,10 +9,11 @@ streaming services recommendation algorithms).
 ### Project Proposal:
 https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/edit?usp=sharing
 
-
+## Dependencies etc
+jdk 21
+Maven 3.8.x
 ## SITUATION
-Currently stuck between .csv, SQL and ORM solutions of database. ORM is the plan currently, so need to make that work and then remove the SQL and .csv stuff.
-GO OVER TO H2 instead of mysql!!!
+Trying to implement hibernate. Stuck with JPA annotations. Current plan is going over to EmbeddedId, i.e., create ID classes with the keys to make them a single value to refer to. The question is how to interact with this when the object is not in the DB, but rather in java in memory etc. 
 
 ## Current TODO:
 Difficulty levels 1(easy)-5(hard)

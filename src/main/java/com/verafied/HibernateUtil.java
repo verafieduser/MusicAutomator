@@ -9,6 +9,8 @@ import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
 	
+	private HibernateUtil(){}
+
 	//Property based configuration
 	private static SessionFactory sessionJavaConfigFactory;
 
@@ -40,7 +42,7 @@ public class HibernateUtil {
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
     	System.out.println("Hibernate Java Config serviceRegistry created");
     	
-    	SessionFactory sessionJavaConfigFactory = configuration.buildSessionFactory(serviceRegistry);
+    	sessionJavaConfigFactory = configuration.buildSessionFactory(serviceRegistry);
     	
         return sessionJavaConfigFactory;
     	}
@@ -51,8 +53,7 @@ public class HibernateUtil {
 	}
 	
 	public static SessionFactory getSessionJavaConfigFactory() {
-		if(sessionJavaConfigFactory == null) sessionJavaConfigFactory = buildSessionJavaConfigFactory();
-        return sessionJavaConfigFactory;
+		return sessionJavaConfigFactory == null ? buildSessionJavaConfigFactory() : sessionJavaConfigFactory;
     }
 	
 }

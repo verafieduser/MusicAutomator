@@ -3,7 +3,7 @@ package com.verafied;
 import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.*;
-@Entity 
+@Entity
 @Table(name = "ARTIST")
 public class Artist {
 
@@ -11,11 +11,15 @@ public class Artist {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy="artist")
+    @OneToMany(mappedBy="artist", cascade=CascadeType.ALL)
     private Set<Album> albums = new HashSet<>();
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
+
+    public Artist(){
+        super();
+    }
 
     public Artist(String name, String album, String song, String path, boolean deleted) {
         this.name = name;
@@ -37,6 +41,7 @@ public class Artist {
             throw new IllegalArgumentException();
         }
         for (Album otherAlbum : other.getAlbums()) {
+            otherAlbum.setArtist(this);
             if(!albums.add(otherAlbum)){ //if album was already present, merge:
                 for(Album thisAlbum : albums){
                     if(thisAlbum.equals(otherAlbum)){
@@ -62,6 +67,10 @@ public class Artist {
                 }
             }
         }
+    }
+
+    public void addAlbum(Album album){
+        albums.add(album);
     }
 
     public String getName() {
@@ -103,7 +112,7 @@ public class Artist {
         }
         Artist otherArtist = (Artist) other;
 
-        return name.equals(otherArtist.name);
+        return name.equalsIgnoreCase(otherArtist.name);
     }
 
     @Override
@@ -117,17 +126,15 @@ public class Artist {
 
     public String printAlbums() {
         StringBuilder sb = new StringBuilder();
-        albums.forEach(x -> sb.append(x + "\n\t"));
+        albums.forEach(x -> sb.append(x.getName() + "\n\t"));
         return sb.toString();
     }
-
-
 
     @Override
     public String toString() {
         return "{" +
             " name='" + getName() + "'" +
-            ", albums='" + getAlbums() + "'" +
+            ", albums='" + printAlbums() + "'" +
             ", deleted='" + isDeleted() + "'" +
             "}";
     }

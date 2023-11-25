@@ -1,5 +1,6 @@
 package com.verafied;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,24 +10,26 @@ import jakarta.persistence.*;
 @Table(name = "ALBUM")
 public class Album {
     
-    @Id 
-    @Column(name = "name")
+    @Id
+    @Column
     private String name;
 
-    @Id 
-    @ManyToOne
-    @JoinColumn(name="album_artist", referencedColumnName="name")
+    @Id
+    @ManyToOne(cascade=CascadeType.ALL)
     private Artist artist;
 
-    @Column(name = "bandcamp_link")
-    private String bandcampLink;
-
-    @OneToMany(mappedBy="album")
+    @OneToMany(mappedBy = "album_name", cascade=CascadeType.ALL)
     private Set<Song> songs = new HashSet<>();
+
+    @Column
+    private String bandcampLink;
 
     @Column(name = "deleted")
     private boolean deleted;
 
+    public Album(){
+        super();
+    }
 
     public Album(String name, Artist artist, boolean deleted){
         this.name = name;
@@ -36,8 +39,8 @@ public class Album {
     public Album(String name, Artist artist, String song, String path, boolean deleted){
         this.name = name;
         this.artist = artist;
-        bandcampLink = "https://" + toUrl(artist.getName()) + ".bandcamp.com/album/" + toUrl(name.replaceAll("[\\s]", "-"));
-        songs.add(new Song(artist, this, song, path, deleted));
+        bandcampLink = "https://" + toUrl(artist.getName().replaceAll("[ö]", "o")) + ".bandcamp.com/album/" + toUrl(name.replaceAll("[\\s]", "-"));
+        songs.add(new Song(/*artist,*/ this, song, path, deleted));
     }
 
     private String toUrl(String comp){
@@ -47,7 +50,7 @@ public class Album {
     public Album(String name, Artist artist, String song){
         this.name = name;
         this.artist = artist;
-        songs.add(new Song(artist, this, song));
+        songs.add(new Song(this, song));
     }
 
     public void merge(Album other){
@@ -62,7 +65,7 @@ public class Album {
             }
             for (Song currentSong : songs){
                 if (otherSong.equals(currentSong)){
-                    currentSong.setPath(otherSong.getPath().getAbsolutePath());
+                    currentSong.setPath(new File(otherSong.getPath()).getAbsolutePath());
                 } 
             }
         }        
@@ -70,7 +73,13 @@ public class Album {
     }
 
     public void addSong(String song){
-        songs.add(new Song(artist, this, song));
+        songs.add(new Song(this, song));
+
+    }
+
+    public void addSong(Song song){
+        this.songs.add(song);
+        song.setAlbum(this);
     }
 
     public String getName(){
@@ -83,6 +92,7 @@ public class Album {
 
     public void setArtist(Artist artist) {
         this.artist = artist;
+        //songs.forEach(x -> x.setArtist(artist));
     }
 
     public Set<Song> getSongs() {
@@ -115,8 +125,6 @@ public class Album {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
-
-
     
     @Override 
     public boolean equals(Object other){
@@ -141,22 +149,19 @@ public class Album {
 
     public String printSongs() {
         StringBuilder sb = new StringBuilder();
-        songs.forEach(x -> sb.append("\n\t\t" + x.getTitle()));
+        songs.forEach(song -> sb.append(song.getTitle()+ "\n\t\t"));
         return sb.toString();
     }
-
 
     @Override
     public String toString() {
         return "{" +
-            " name='" + getName() + "'" +
-            ", artist='" + getArtist() + "'" +
+            ", name='" + getName() + "'" +
+            ", artist='" + artist.getName() + "'" +
             ", bandcampLink='" + getBandcampLink() + "'" +
             ", songs='" + getSongs() + "'" +
             ", deleted='" + isDeleted() + "'" +
             "}";
     }
-
-
     
 }

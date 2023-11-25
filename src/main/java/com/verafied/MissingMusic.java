@@ -90,16 +90,18 @@ public class MissingMusic {
     }
 
     private boolean songsMatch(Metadata candidate, Song song) {
-        boolean result;
-        if (song.getArtist().getName().equalsIgnoreCase(candidate.getArtist()) &&
-                song.getAlbum().getName().equalsIgnoreCase(candidate.getAlbum()) &&
-                new SongTitle(song.getTitle()).equals(new SongTitle(candidate.getSongname()))) {
-            result = true;
-        } else {
-            result = false;
-        }
+        return false;
+        //TODO:FIX
+        // boolean result;
+        // if (song.getArtist().getName().equalsIgnoreCase(candidate.getArtist()) &&
+        //         song.getAlbum().getName().equalsIgnoreCase(candidate.getAlbum()) &&
+        //         new SongTitle(song.getTitle()).equals(new SongTitle(candidate.getSongname()))) {
+        //     result = true;
+        // } else {
+        //     result = false;
+        // }
 
-        return result;
+        // return result;
     }
 
     /**
@@ -145,24 +147,26 @@ public class MissingMusic {
     }
 
     private Path getAlbumPath(Song song) {
-        Path albumPath = Paths.get(localMusicLibraryPath);
-        String regex = "^[\\s.]+|[^.\\w\\s]";
-        String artist = song.getArtist().getName().replaceAll(regex, "").trim();
-        String album = song.getAlbum().getName().replaceAll(regex, "").trim();
-        if(artist.isEmpty()){
-            artist="Other";
-        } 
-        if(album.isEmpty()){
-            album="Other";
-        }
-        try {
-            albumPath = albumPath.resolve(artist);
-            albumPath = albumPath.resolve(album);
-        } catch (InvalidPathException e) {
-            e.printStackTrace();
-            System.err.println(albumPath);
-        }
-    
-        return albumPath;
+        //TODO: FIX
+        // Path albumPath = Paths.get(localMusicLibraryPath);
+        // String regex = "^[\\s.]+|[^.\\w\\s]";
+        // String artist = song.getArtist().getName().replaceAll(regex, "").trim();
+        // String album = song.getAlbum().getName().replaceAll(regex, "").trim();
+        // if(artist.isEmpty()){
+        //     artist="Other";
+        // } 
+        // if(album.isEmpty()){
+        //     album="Other";
+        // }
+        // try {
+        //     albumPath = albumPath.resolve(artist);
+        //     albumPath = albumPath.resolve(album);
+        // } catch (InvalidPathException e) {
+        //     e.printStackTrace();
+        //     System.err.println(albumPath);
+        // }
+        //
+        // return albumPath;
+        return null;
     }
 }

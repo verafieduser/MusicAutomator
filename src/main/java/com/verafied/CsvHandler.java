@@ -10,13 +10,13 @@ import java.util.List;
 /**
  * Loads a CSV of what the users music library "should" be
  */
-public class LibraryLoader {
+public class CsvHandler {
 
     private final LibrarySaver saver; 
     private String defaultPath; 
     private boolean demo;
 
-    public LibraryLoader(boolean demo) {
+    public CsvHandler(boolean demo) {
         saver = new LibrarySaver(demo);
         this.demo = demo;
         defaultPath = getCSV("db.csv");

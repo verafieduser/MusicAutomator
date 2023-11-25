@@ -1,8 +1,13 @@
 package com.verafied;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  * Collects data on what music user listens to and creates a .csv with it using
@@ -10,13 +15,15 @@ import java.util.List;
  */
 public class LibraryCollector {
 
-    private LibraryLoader loader;
+    private CsvHandler loader;
     private LibrarySaver saver;
+    private SessionFactory db;
     private boolean demo;
 
-    public LibraryCollector(LibraryLoader loader, LibrarySaver saver, boolean demo) {
+    public LibraryCollector(CsvHandler loader, LibrarySaver saver, SessionFactory db, boolean demo) {
         this.loader = loader;
         this.saver = saver;
+        this.db = db;
         this.demo = demo;
     }
 
@@ -46,10 +53,31 @@ public class LibraryCollector {
                     if (!songIsValid(artist, album, song)) {
                         continue;
                     }
-                    Artist toBeAdded = new Artist(entry.get(0), entry.get(1), entry.get(2));
-                    library.addArtist(toBeAdded);
+
+                    Artist newArtist = new Artist(artist, album, song, "", false);
+                    library.addArtist(newArtist);
+                    
                 }
-                //fillDatabase(entries);
+                Transaction t = null;
+                Collection<Artist> artists = library.getArtists().values();
+                try (Session session = db.openSession()) {
+                    t = session.beginTransaction();
+                    for(Artist artist : artists){
+                        session.persist(artist);
+                        
+                    }
+
+                    for(Song song : library.getSongs()){
+                        //session.merge(song);
+                    }
+                    t.commit();
+                } catch (Exception e) {
+                    if (t != null) {
+                        t.rollback();
+                    }
+                    e.printStackTrace();
+                }
+                
                 break;
             case LASTFM:
                 break;
@@ -60,7 +88,7 @@ public class LibraryCollector {
             default:
                 break;
         }
-        saver.writeToCSV(path, library);
+        //saver.writeToCSV(path, library);
     }
 
     private boolean songIsValid(String artist, String album, String song) {

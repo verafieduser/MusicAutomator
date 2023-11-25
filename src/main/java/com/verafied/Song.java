@@ -10,43 +10,44 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "SONG")
 public class Song {
-    @Id @GeneratedValue 
-    @Column(name = "id")
-    private String id;
+    // @Id 
+    // @Column(name = "id")
+    // private String id;
 
-    @Column(name = "title")
+    @Id 
+    @Column
     private String title;
 
-    @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name="song_album", referencedColumnName="name"),
-        @JoinColumn(name="song_artist", referencedColumnName="album_artist")
+    @Id
+    @ManyToOne(cascade=CascadeType.ALL)
+    @PrimaryKeyJoinColumns({
+        @PrimaryKeyJoinColumn(name="album_name", referencedColumnName="name"),
+        @PrimaryKeyJoinColumn(name = "album_artist", referencedColumnName ="artist")
     })
     private Album album;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(insertable=false, updatable=false)
-    private Artist artist;
+    @Column
+    private String path;
 
-    @Column(name = "PATH")
-    private File path;
-
-    @Column(name = "DELETED")
+    @Column
     private boolean deleted;
 
-    public Song(Artist artist, Album album, String title) {
-        this(artist, album, title, "", false);
+    public Song(){
+        super();
+    }
+    public Song(Album album, String title) {
+        this(album, title, "", false); 
     }
 
-    public Song(Artist artist, Album album, String title, String path, boolean deleted) {
+    public Song(Album album, String title, String path, boolean deleted) {
         if (path.isEmpty()) {
             this.path = null;
         } else {
-            this.path = new File(path);
+            this.path = path;
         }
-        this.artist = artist;
+        //this.artist = artist;
         this.album = album;
-        this.id = new SongTitle(title).getID();
+        //this.id = new SongTitle(title).getID();
         this.title = title;
         this.deleted = deleted;
     }
@@ -56,8 +57,8 @@ public class Song {
             return false;
         }
         deleted = true;
-        Files.delete(path.toPath());
-        File album = path.getParentFile();
+        Files.delete(new File(path).toPath());
+        File album = new File(path).getParentFile();
         File[] contents = album.listFiles(x -> Metadata.isSupportedSong(x.toPath()));
         if (contents.length == 0) {
             Arrays.asList(contents).forEach(x -> {
@@ -81,25 +82,25 @@ public class Song {
     private String pathGetter() {
         String pathStr = "";
         if (path != null) {
-            pathStr = path.getAbsolutePath();
+            pathStr = new File(path).getAbsolutePath();
         }
         return pathStr;
     }
 
-    public String getId(){
-        return this.id;
-    }
+    // public String getId(){
+    //     return this.id;
+    // }
 
-    public void setId(String id){
-        this.id = id;
-    }
+    // public void setId(String id){
+    //     this.id = id;
+    // }
 
     public String getTitle() {
         return this.title;
     }
 
     public void setTitle(String title) {
-        this.title = new SongTitle(title).toString();
+        this.title = title ;
     }
 
     public Album getAlbum() {
@@ -110,13 +111,13 @@ public class Song {
         this.album = album;
     }
 
-    public Artist getArtist() {
-        return this.artist;
-    }
+    // public Artist getArtist() {
+    //     return this.artist;
+    // }
 
-    public void setArtist(Artist artist) {
-        this.artist = artist;
-    }
+    // public void setArtist(Artist artist) {
+    //     this.artist = artist;
+    // }
 
     public boolean isDeleted() {
         return this.deleted;
@@ -127,17 +128,17 @@ public class Song {
     }
 
     public void setPath(String path) {
-        this.path = new File(path);
+        this.path = path;
     }
 
-    public File getPath() {
+    public String getPath() {
         return path;
     }
-
 
     public boolean getDeleted() {
         return this.deleted;
     }
+
 
     @Override
     public boolean equals(Object other) {
@@ -146,7 +147,7 @@ public class Song {
         }
         Song otherSong = (Song) other;
 
-        return id.equals(otherSong.id) &&
+        return new SongTitle(title).equals(new SongTitle(otherSong.title)) &&
                 album.equals(otherSong.album);
     }
 
@@ -155,21 +156,17 @@ public class Song {
         return title.hashCode() * album.hashCode();
     }
 
+
     @Override
     public String toString() {
         return "{" +
-                " id='" + id + "'" +
-                " title='" + getTitle() + "'" +
-                ", artist='" + artist.getName() + "'" +
-                ", album='" + album.getName() + "'" +
-                ", path='" + pathGetter() + "'" +
-                ", deleted='" + isDeleted() + "'" +
-                "}";
-    }
-
-    public String toCSV() {
-        return getArtist().toCSV() + "," + getAlbum().toCSV() +
-                "," + getTitle() + "," + pathGetter() + "," + isDeleted();
+            // " id='" + getId() + "'" +
+            ", title='" + getTitle() + "'" +
+            ", album='" + album + "'" +
+            // ", artist='" + getAlbum().getArtist().getName() + "'" +
+            ", path='" + getPath() + "'" +
+            ", deleted='" + isDeleted() + "'" +
+            "}";
     }
 
 }

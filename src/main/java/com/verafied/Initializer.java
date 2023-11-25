@@ -1,23 +1,17 @@
 package com.verafied;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.function.Predicate;
+import org.hibernate.SessionFactory;
 
-import org.hibernate.Hibernate;
-import org.hibernate.boot.registry.BootstrapServiceRegistry;
-import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.jaudiotagger.tag.datatype.BooleanString;
 
 public class Initializer {
 
-    LibraryLoader loader;
+    CsvHandler loader;
     LibrarySaver saver;
     LibraryCollector collector;
     Library library;
+    SessionFactory db;
     SettingsHandler settings;
     MissingMusic missingMusic;
 
@@ -42,23 +36,18 @@ public class Initializer {
     
         InputHandler ih = new InputHandler(demo);
         settings = new SettingsHandler();
-        ormSetUp();
         createDirectoryStructure();
-        //db = new SqlDatabaseHandler(settings);
-        loader = new LibraryLoader(demo);
+        db = ormSetUp();
+        loader = new CsvHandler(demo);
         saver = loader.getSaver();
-        collector = new LibraryCollector(loader, loader.getSaver(), demo);
-        library = openLibrary(loader);
-        
+        collector = new LibraryCollector(loader, loader.getSaver(), db, demo);
+        library = new Library(db);
+        //library = openLibrary(loader);
         missingMusic = new MissingMusic(loader.getSaver(), settings.get("local.musiclibrary.path"));
     }
 
-    private void ormSetUp(){
-        
-        // StandardServiceRegistryBuilder ssrb = new StandardServiceRegistryBuilder();
-        // BootstrapServiceRegistry bsr = new BootstrapServiceRegistryBuilder().build();
-        // StandardServiceRegistryBuilder srb = new StandardServiceRegistryBuilder(bsr);
-        HibernateUtil.getSessionJavaConfigFactory().openSession();
+    private SessionFactory ormSetUp(){
+        return HibernateUtil.getSessionJavaConfigFactory();
     }
 
     private void createDirectoryStructure() {
@@ -75,7 +64,7 @@ public class Initializer {
         }
     }
 
-    private Library openLibrary(LibraryLoader loader) {
+    private Library openLibrary(CsvHandler loader) {
         try {
             return loader.loadLibrary();
         } catch (IOException e) {
@@ -84,7 +73,7 @@ public class Initializer {
         return null;
     }
 
-    public LibraryLoader getLoader() {
+    public CsvHandler getLoader() {
         return this.loader;
     }
 
