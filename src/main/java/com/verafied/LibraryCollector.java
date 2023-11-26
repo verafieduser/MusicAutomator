@@ -73,6 +73,7 @@ public class LibraryCollector {
         }
     }
 
+    //TODO: move to library!
     private void populateDatabase(Library library) {
         Transaction t = null;
         Collection<Artist> artists = library.getArtists().values();

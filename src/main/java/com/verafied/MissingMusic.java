@@ -50,6 +50,8 @@ public class MissingMusic {
                 }
             }
         }
+        //TODO: make sure library songs get added into database? Use populate database method
+        //that is currently within LibraryCollector, and should be moved to Library first.
     }
 
     private void addSong(Library library, Metadata metadata, File artist, File album, File song) {
@@ -114,9 +116,9 @@ public class MissingMusic {
      * @throws FileNotFoundException
      */
     public void connectMissing(Library library) throws FileNotFoundException {
-        for (Song song : library.getSongs()) {
+        for (Song song : library.getSongs("WHERE s.deleted = false AND s.path IS NOT NULL")) {
             Path albumPath = getAlbumPath(song);
-            if (albumPath == null || song.isDeleted() || song.getPath() != null || !Files.exists(albumPath)) {
+            if (albumPath == null || !Files.exists(albumPath)) {
                 continue;
             }
 
@@ -135,6 +137,7 @@ public class MissingMusic {
 
                 if (songsMatch(metadata, song)) {
                     song.setPath(candidateMatch.getAbsolutePath());
+                    library.update(song);
                 }
 
             }
@@ -144,26 +147,25 @@ public class MissingMusic {
     }
 
     private Path getAlbumPath(Song song) {
-        // TODO: FIX
-        // Path albumPath = Paths.get(localMusicLibraryPath);
-        // String regex = "^[\\s.]+|[^.\\w\\s]";
-        // String artist = song.getArtist().getName().replaceAll(regex, "").trim();
-        // String album = song.getAlbum().getName().replaceAll(regex, "").trim();
-        // if(artist.isEmpty()){
-        // artist="Other";
-        // }
-        // if(album.isEmpty()){
-        // album="Other";
-        // }
-        // try {
-        // albumPath = albumPath.resolve(artist);
-        // albumPath = albumPath.resolve(album);
-        // } catch (InvalidPathException e) {
-        // e.printStackTrace();
-        // System.err.println(albumPath);
-        // }
-        //
-        // return albumPath;
+        Path albumPath = Paths.get(localMusicLibraryPath);
+        String regex = "^[\\s.]+|[^.\\w\\s]";
+        String artist = song.getAlbum().getArtist().getName().replaceAll(regex, "").trim();
+        String album = song.getAlbum().getName().replaceAll(regex, "").trim();
+        if(artist.isEmpty()){
+        artist="Other";
+        }
+        if(album.isEmpty()){
+        album="Other";
+        }
+        try {
+        albumPath = albumPath.resolve(artist);
+        albumPath = albumPath.resolve(album);
+        } catch (InvalidPathException e) {
+        e.printStackTrace();
+        System.err.println(albumPath);
+        }
+        
+        return albumPath;
         return null;
     }
 }

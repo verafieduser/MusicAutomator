@@ -69,9 +69,8 @@ public class UserInterface {
                 System.out.println("Exiting ...");
                 break;
             case 1:
-                throw new UnsupportedOperationException();
-                // missingMusic.connectMissing(library);
-                // break;
+                missingMusic.connectMissing(library);
+                break;
             case 2:
                 throw new UnsupportedOperationException();
                 // missingMusic.findLocalSongs(library);

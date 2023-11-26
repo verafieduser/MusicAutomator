@@ -116,6 +116,16 @@ public class Library {
         return songs;
     }
 
+    public List<Song> getSongs(String whereClause){
+        try (Session session = db.openSession()) {
+            Query<Song> query = session.createQuery("FROM Song s " + "JOIN FETCH s.id.album a " + whereClause, Song.class);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
 
     public List<Artist> getArtist(String name){
         if(!initialized){
