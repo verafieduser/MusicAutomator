@@ -25,10 +25,6 @@ public class Library {
     private SessionFactory db;
     private boolean initialized = false;
 
-    public Library() {
-        libraryDatabasePath = "Library\\db.csv";
-    }
-
     public Library(String libraryDatabasePath) {
         this.libraryDatabasePath = libraryDatabasePath;
     }
@@ -121,16 +117,21 @@ public class Library {
     }
 
 
-    public Artist getArtist(String name){
+    public List<Artist> getArtist(String name){
         if(!initialized){
             initialize();
         }
         try (Session session = db.openSession()) {
             Query<Artist> query = session.createQuery("FROM Artist a JOIN FETCH a.albums as JOIN FETCH a.albums.songs s WHERE a.name = " + "\'" + name + "\'", Artist.class); 
-            return query.list().get(0);
+            List<Artist> result = query.list();
+            if(result.isEmpty()){
+                return List.of();
+            } else {
+                return result;
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return List.of();
         }
     }
 
@@ -140,17 +141,17 @@ public class Library {
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return List.of();
         }
     } 
 
     public List<Song> getSong(String name){
         try (Session session = db.openSession()) {
             Query<Song> query = session.createQuery("FROM Song s " + "JOIN FETCH s.id.album a" + " WHERE s.id.title = " + "\'" + name + "\'" , Song.class);
-            return query.getResultList();
+            return query.list();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return List.of();
         }
     }
 

@@ -12,12 +12,10 @@ import java.util.List;
  */
 public class CsvHandler {
 
-    private final LibrarySaver saver; 
     private String defaultPath; 
     private boolean demo;
 
     public CsvHandler(boolean demo) {
-        saver = new LibrarySaver(demo);
         this.demo = demo;
         defaultPath = getCSV("db.csv");
     }
@@ -55,40 +53,5 @@ public class CsvHandler {
      */
     public List<List<String>> openCSV() throws IOException {
         return openCSV(defaultPath);
-    }
-
-    /**
-     * Loads a .csv of a previously stored library, and creates a Library containing all the data
-     * @return A library containing all the data that was contained in the .csv
-     * @throws IOException if reading the .csv fails
-     */
-    public Library loadLibrary() throws IOException{
-        return loadLibrary(defaultPath);
-    }
-
-    /**
-     * Loads a .csv of a previously stored library, and creates a Library containing all the data
-     * @param path relative to the application folder in the user folder.
-     * @return A library containing all the data that was contained in the .csv
-     * @throws IOException if reading the .csv fails
-     */
-    public Library loadLibrary(String path) throws IOException{
-        List<List<String>> entries = openCSV(path);
-        Library library = new Library();
-        for (List<String> entry : entries){
-
-            Artist artist = new Artist(entry.get(0), 
-                entry.get(1),
-                entry.get(2), 
-                entry.get(3),
-                Boolean.valueOf(entry.get(4))); // name, albums
-            library.addArtist(artist);
-        }
-        library.initialize(); //not necessary but makes burden of computation more predictable?
-        return library;
-    }
-
-    public LibrarySaver getSaver(){
-        return saver;
     }
 }

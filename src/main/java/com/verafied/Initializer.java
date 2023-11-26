@@ -7,11 +7,9 @@ import org.hibernate.SessionFactory;
 
 public class Initializer {
 
-    CsvHandler loader;
-    LibrarySaver saver;
     LibraryCollector collector;
     Library library;
-    SessionFactory db;
+    SessionFactory database;
     SettingsHandler settings;
     MissingMusic missingMusic;
 
@@ -37,13 +35,9 @@ public class Initializer {
         InputHandler ih = new InputHandler(demo);
         settings = new SettingsHandler();
         createDirectoryStructure();
-        db = ormSetUp();
-        loader = new CsvHandler(demo);
-        saver = loader.getSaver();
-        collector = new LibraryCollector(loader, loader.getSaver(), db, demo);
-        library = new Library(db);
-        //library = openLibrary(loader);
-        missingMusic = new MissingMusic(loader.getSaver(), settings.get("local.musiclibrary.path"));
+        database = ormSetUp();
+        collector = new LibraryCollector(new CsvHandler(demo), database, demo);
+        missingMusic = new MissingMusic(settings.get("local.musiclibrary.path"));
     }
 
     private SessionFactory ormSetUp(){
@@ -64,36 +58,11 @@ public class Initializer {
         }
     }
 
-    private Library openLibrary(CsvHandler loader) {
-        try {
-            return loader.loadLibrary();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    public LibraryCollector getCollector() { return this.collector; }
 
-    public CsvHandler getLoader() {
-        return this.loader;
-    }
+    public MissingMusic getMissingMusic(){ return this.missingMusic; }
 
-    public LibraryCollector getCollector() {
-        return this.collector;
-    }
+    public SettingsHandler getSettings(){ return this.settings; }
 
-    public Library getLibrary() {
-        return this.library;
-    }
-
-    public MissingMusic getMissingMusic(){
-        return this.missingMusic;
-    }
-
-    public SettingsHandler getSettings(){
-        return this.settings;
-    }
-
-    public LibrarySaver getSaver(){
-        return this.saver;
-    }
+    public SessionFactory getDatabase(){ return this.database; }
 }

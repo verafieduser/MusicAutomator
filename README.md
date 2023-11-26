@@ -13,9 +13,7 @@ https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/
 jdk 21
 Maven 3.8.x
 ## SITUATION
-Trying to implement hibernate. Stuck with JPA annotations. Current plan is going over to EmbeddedId, i.e., create ID classes with the keys to make them a single value to refer to. The question is how to interact with this when the object is not in the DB, but rather in java in memory etc. 
-
-Implement REST for interacting with the database!
+Implement REST for interacting with the database. Refactor to make everything so far work with hibernate instead of assuming that everything is in-memory. 
 
 ## Current TODO:
 Difficulty levels 1(easy)-5(hard)
@@ -29,20 +27,8 @@ Difficulty levels 1(easy)-5(hard)
         - Current solution: Compare lowercase titles without any symbols that arent alphanumerical.
             
         - Issues with this solution: Differences with (.feat), (for x), (by x) are still understood as different.
-                
-    - 2.1.2. SQLite through JBDC through ORM?  
-    - https://docs.jboss.org/hibernate/stable/orm/userguide/html_single/Hibernate_User_Guide.html
-            
-        - 2.4.2.1. Improve schema - ID based on songtitle (cleaned version)
-            
-        - 2.4.2.2. Should everything be loaded into java or should things be collected as it goes? 
-            - Write a note on my thinking on this and the different factors that went into it.
-            - Import what is needed at the time. GUI might start with a view of all artists, doesnt mean it is necessary to have Everything from the database loaded. Caching might help out too.
-            
-        - 2.4.2.3. How to ensure forgiving equals in SQL? Removes a lot of benefit of the system?
-                
-            -  Suggested way to solve this: For a new song, get all songs from the same album from database, and compare with those
-                before adding? Requires asking a query every time you need to insert something! Inefficient...
+
+    2.2. Make sure this works with db solution!
 
 3. Make sure library can be updated instead of just imported (1) 
     
@@ -57,9 +43,9 @@ Difficulty levels 1(easy)-5(hard)
     
     4.2. get a list of what has been deleted, and functionality to restore deleted based on that.
 
-5. Bandcamp connectivity (2) 
+~~5. Bandcamp connectivity (2) 
     Note: this could be easy, as bandcamp links are usually:
-        "[bandname].bandcamp.com/album/[albumname with "-" as replacement for space and dots. rest is removed?]"
+        "[bandname].bandcamp.com/album/[albumname with "-" as replacement for space and dots. rest is removed?]"~~
 6. Solve downloading (5)
     
     6.1. API for soulseek

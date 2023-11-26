@@ -16,13 +16,11 @@ import org.hibernate.Transaction;
 public class LibraryCollector {
 
     private CsvHandler loader;
-    private LibrarySaver saver;
     private SessionFactory db;
     private boolean demo;
 
-    public LibraryCollector(CsvHandler loader, LibrarySaver saver, SessionFactory db, boolean demo) {
+    public LibraryCollector(CsvHandler loader, SessionFactory db, boolean demo) {
         this.loader = loader;
-        this.saver = saver;
         this.db = db;
         this.demo = demo;
     }
@@ -43,37 +41,10 @@ public class LibraryCollector {
         String unprocessedPath = path + "Unprocessed\\" + name;
         List<List<String>> entries = loader.openCSV(unprocessedPath);
 
-        Library library = new Library(); // switch determines how it is written
+        Library library = new Library(db); // switch determines how it is written
         switch (source) {
             case BENBEN: // Artist, album, song, date (ONLY ONE ARTIST PER ALBUM)
-                for (List<String> entry : entries) {
-                    String artist = entry.get(0);
-                    String album = entry.get(1);
-                    String song = entry.get(2);
-                    if (!songIsValid(artist, album, song)) {
-                        continue;
-                    }
-
-                    Artist newArtist = new Artist(artist, album, song, "", false);
-                    library.addArtist(newArtist);
-                    
-                }
-                Transaction t = null;
-                Collection<Artist> artists = library.getArtists().values();
-                try (Session session = db.openSession()) {
-                    t = session.beginTransaction();
-                    for(Artist artist : artists){
-                        session.persist(artist);   
-                    }
-
-                    t.commit();
-                } catch (Exception e) {
-                    if (t != null) {
-                        t.rollback();
-                    }
-                    e.printStackTrace();
-                }
-                
+                benbenCollection(library, entries);
                 break;
             case LASTFM:
                 break;
@@ -84,7 +55,40 @@ public class LibraryCollector {
             default:
                 break;
         }
-        //saver.writeToCSV(path, library);
+        populateDatabase(library);
+    }
+
+    private void benbenCollection(Library library, List<List<String>> entries) {
+        for (List<String> entry : entries) {
+            String artist = entry.get(0);
+            String album = entry.get(1);
+            String song = entry.get(2);
+            if (!songIsValid(artist, album, song)) {
+                continue;
+            }
+
+            Artist newArtist = new Artist(artist, album, song, "", false);
+            library.addArtist(newArtist);
+
+        }
+    }
+
+    private void populateDatabase(Library library) {
+        Transaction t = null;
+        Collection<Artist> artists = library.getArtists().values();
+        try (Session session = db.openSession()) {
+            t = session.beginTransaction();
+            for (Artist artist : artists) {
+                session.merge(artist);
+            }
+
+            t.commit();
+        } catch (Exception e) {
+            if (t != null) {
+                t.rollback();
+            }
+            e.printStackTrace();
+        }
     }
 
     private boolean songIsValid(String artist, String album, String song) {

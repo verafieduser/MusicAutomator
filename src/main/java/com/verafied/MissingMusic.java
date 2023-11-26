@@ -3,7 +3,6 @@ package com.verafied;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -16,10 +15,8 @@ import java.util.Set;
  */
 public class MissingMusic {
     private String localMusicLibraryPath;
-    private LibrarySaver saver;
 
-    public MissingMusic(LibrarySaver saver, String localMusicLibraryPath) {
-        this.saver = saver;
+    public MissingMusic(String localMusicLibraryPath) {
         this.localMusicLibraryPath = localMusicLibraryPath;
     }
 
@@ -91,14 +88,15 @@ public class MissingMusic {
 
     private boolean songsMatch(Metadata candidate, Song song) {
         return false;
-        //TODO:FIX
+        // TODO:FIX
         // boolean result;
         // if (song.getArtist().getName().equalsIgnoreCase(candidate.getArtist()) &&
-        //         song.getAlbum().getName().equalsIgnoreCase(candidate.getAlbum()) &&
-        //         new SongTitle(song.getTitle()).equals(new SongTitle(candidate.getSongname()))) {
-        //     result = true;
+        // song.getAlbum().getName().equalsIgnoreCase(candidate.getAlbum()) &&
+        // new SongTitle(song.getTitle()).equals(new
+        // SongTitle(candidate.getSongname()))) {
+        // result = true;
         // } else {
-        //     result = false;
+        // result = false;
         // }
 
         // return result;
@@ -122,20 +120,19 @@ public class MissingMusic {
                 continue;
             }
 
-            
             for (File candidateMatch : albumPath.toFile().listFiles()) {
-                if(!Metadata.isSupportedSong(candidateMatch.toPath())){
+                if (!Metadata.isSupportedSong(candidateMatch.toPath())) {
                     continue;
                 }
                 Metadata metadata;
                 try {
-                    
+
                     metadata = getMetadata(candidateMatch.toPath());
                 } catch (Exception e) {
                     e.printStackTrace();
                     continue;
                 }
-                
+
                 if (songsMatch(metadata, song)) {
                     song.setPath(candidateMatch.getAbsolutePath());
                 }
@@ -143,27 +140,27 @@ public class MissingMusic {
             }
 
         }
-        saver.writeToCSV(library);
+        // saver.writeToCSV(library);
     }
 
     private Path getAlbumPath(Song song) {
-        //TODO: FIX
+        // TODO: FIX
         // Path albumPath = Paths.get(localMusicLibraryPath);
         // String regex = "^[\\s.]+|[^.\\w\\s]";
         // String artist = song.getArtist().getName().replaceAll(regex, "").trim();
         // String album = song.getAlbum().getName().replaceAll(regex, "").trim();
         // if(artist.isEmpty()){
-        //     artist="Other";
-        // } 
+        // artist="Other";
+        // }
         // if(album.isEmpty()){
-        //     album="Other";
+        // album="Other";
         // }
         // try {
-        //     albumPath = albumPath.resolve(artist);
-        //     albumPath = albumPath.resolve(album);
+        // albumPath = albumPath.resolve(artist);
+        // albumPath = albumPath.resolve(album);
         // } catch (InvalidPathException e) {
-        //     e.printStackTrace();
-        //     System.err.println(albumPath);
+        // e.printStackTrace();
+        // System.err.println(albumPath);
         // }
         //
         // return albumPath;

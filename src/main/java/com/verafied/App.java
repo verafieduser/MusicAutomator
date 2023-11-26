@@ -16,9 +16,14 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Initializer init = new Initializer(DEMO);
-        UserInterface ui = new UserInterface(init);
-        ui.inputLoop(new InputHandler(DEMO));
+        try {
+            Initializer init = new Initializer(DEMO);
+            UserInterface ui = new UserInterface(init);
+            ui.inputLoop(new InputHandler(DEMO));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         //StackPane root = new StackPane();
         //primaryStage.setTitle("Hello World");
         //primaryStage.setScene(new Scene(root, 800, 600));

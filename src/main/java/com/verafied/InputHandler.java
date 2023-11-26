@@ -55,9 +55,7 @@ public class InputHandler {
         Object result = f.apply(input);
         while(result==null){
             if(demo){
-                System.out.println(input);
-                System.out.println(input + "\nFunction resulted in null: ");
-                System.out.print(result==null+"\n");
+                System.out.println("\nFunction resulted in null, enter 0 to exit");
             }
             input = promptUserInput(reader, rePrompt);
             if(input.equalsIgnoreCase("0")){
