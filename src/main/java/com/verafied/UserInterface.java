@@ -101,7 +101,7 @@ public class UserInterface {
                 Set<Album> albums = new HashSet<>();
                 getAlbum(ih).forEach(x -> albums.add(x));
                 for(Album album : albums){
-                    System.out.println(album.getName() + "\n" + album.printSongs());
+                    System.out.println(album.toString());
                 }
                 break;
             case 8:

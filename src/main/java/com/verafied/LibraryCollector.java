@@ -63,13 +63,9 @@ public class LibraryCollector {
                 try (Session session = db.openSession()) {
                     t = session.beginTransaction();
                     for(Artist artist : artists){
-                        session.persist(artist);
-                        
+                        session.persist(artist);   
                     }
 
-                    for(Song song : library.getSongs()){
-                        //session.merge(song);
-                    }
                     t.commit();
                 } catch (Exception e) {
                     if (t != null) {

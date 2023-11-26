@@ -126,7 +126,8 @@ public class Library {
             initialize();
         }
         try (Session session = db.openSession()) {
-            return session.find(Artist.class, name);    
+            Query<Artist> query = session.createQuery("FROM Artist a JOIN FETCH a.albums as JOIN FETCH a.albums.songs s WHERE a.name = " + "\'" + name + "\'", Artist.class); 
+            return query.list().get(0);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -135,7 +136,7 @@ public class Library {
 
     public List<Album> getAlbum(String name){
         try (Session session = db.openSession()) {
-            Query<Album> query = session.createQuery("FROM ALBUM WHERE name = " + "\'" + name + "\'", Album.class);
+            Query<Album> query = session.createQuery("FROM Album a JOIN FETCH a.id.artist ar JOIN FETCH a.songs s " +  "WHERE a.id.name = " + "\'" + name + "\'", Album.class);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,7 +146,7 @@ public class Library {
 
     public List<Song> getSong(String name){
         try (Session session = db.openSession()) {
-            Query<Song> query = session.createQuery("FROM SONG s WHERE s.title = " + "\'" + name + "\'", Song.class);
+            Query<Song> query = session.createQuery("FROM Song s " + "JOIN FETCH s.id.album a" + " WHERE s.id.title = " + "\'" + name + "\'" , Song.class);
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

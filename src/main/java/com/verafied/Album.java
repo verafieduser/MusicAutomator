@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -114,18 +116,20 @@ public class Album {
     }
 
     public String printSongs() {
-        StringBuilder sb = new StringBuilder();
-        songs.forEach(song -> sb.append(song.getTitle()+ "\n\t\t"));
+        StringBuilder sb = new StringBuilder("\n");
+        for(Song song : getSongs()){
+            sb.append("\t\t" + song.getTitle() + "\n");
+        }
         return sb.toString();
     }
 
     @Override
     public String toString() {
         return "{" +
-            ", name='" + getName() + "'" +
+            " name='" + getName() + "'" +
             ", artist='" + getArtist().getName() + "'" +
             ", bandcampLink='" + getBandcampLink() + "'" +
-            ", songs='" + getSongs() + "'" +
+            ", songs='" + printSongs() + "'" +
             ", deleted='" + isDeleted() + "'" +
             "}";
     }

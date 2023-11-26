@@ -12,7 +12,7 @@ public class Artist {
     private String name;
 
     @OneToMany(mappedBy="id.artist", cascade=CascadeType.ALL)
-    private Set<Album> albums = new HashSet<>();
+    private Set<Album> albums;
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
@@ -23,11 +23,13 @@ public class Artist {
 
     public Artist(String name, String album, String song, String path, boolean deleted) {
         this.name = name;
+        albums = new HashSet<>();
         albums.add(new Album(album, this, song, path, deleted));
     }
 
     public Artist(String name, String album, String song) {
         this.name = name;
+        albums = new HashSet<>();
         albums.add(new Album(album, this, song));
     }
 
@@ -125,8 +127,8 @@ public class Artist {
     }
 
     public String printAlbums() {
-        StringBuilder sb = new StringBuilder();
-        albums.forEach(x -> sb.append(x.getName() + "\n\t"));
+        StringBuilder sb = new StringBuilder("\n");
+        albums.forEach(x -> sb.append("\t" + x.toString() + "\n"));
         return sb.toString();
     }
 
