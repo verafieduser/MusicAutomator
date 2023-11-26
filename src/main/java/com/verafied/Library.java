@@ -147,15 +147,13 @@ public class Library {
 
     public List<Song> getSong(String name){
         try (Session session = db.openSession()) {
-            Query<Song> query = session.createQuery("FROM Song s " + "JOIN FETCH s.id.album a" + " WHERE s.id.title = " + "\'" + name + "\'" , Song.class);
+            Query<Song> query = session.createQuery("FROM Song s " + "JOIN FETCH s.id.album a " + "WHERE s.id.title = " + "\'" + name + "\'" , Song.class);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
             return List.of();
         }
     }
-
-
 
 
     /**
@@ -165,16 +163,23 @@ public class Library {
      * @return
      * @throws IOException
      */
-    public boolean deleteDeleted() throws IOException {
+    public void deleteDeleted() throws IOException {
         if (!initialized) {
             initialize();
         }
-        for (Song song : songs) {
+        List<Song> result;
+        try (Session session = db.openSession()) {
+            Query<Song> query = session.createQuery("FROM Song s WHERE s.deleted = " + "\'" + "true" + "\'" , Song.class);
+            result = query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = List.of();
+        }
+        for (Song song : result) {
             if (song.isDeleted()) {
                 song.delete();
             }
         }
-        return false;
     }
 
     /**
@@ -193,6 +198,8 @@ public class Library {
         for (Album album : artist.getAlbums()) {
             deleteAlbum(album);
         }
+        artist.setDeleted(true);
+        update(artist);
     }
 
     /**
@@ -211,6 +218,8 @@ public class Library {
         for (Song song : album.getSongs()) {
             deleteSong(song);
         }
+        album.setDeleted(true);
+        update(album);
     }
 
     /**
@@ -226,6 +235,17 @@ public class Library {
             return;
         }
         song.setDeleted(true);
+        update(song);
+    }
+
+    public void update(Object obj){
+        try (Session session = db.openSession()) {
+            Transaction t = session.beginTransaction();
+            session.merge(obj);
+            t.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

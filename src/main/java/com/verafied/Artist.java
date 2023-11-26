@@ -102,6 +102,7 @@ public class Artist {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+        this.albums.forEach(x -> x.setDeleted(true));
     }
 
     
@@ -136,8 +137,8 @@ public class Artist {
     public String toString() {
         return "{" +
             " name='" + getName() + "'" +
-            ", albums='" + printAlbums() + "'" +
             ", deleted='" + isDeleted() + "'" +
+            ", albums='" + printAlbums() + "'" +
             "}";
     }
 

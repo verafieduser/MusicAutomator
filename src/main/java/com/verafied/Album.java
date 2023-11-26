@@ -99,7 +99,10 @@ public class Album {
 
     public boolean isDeleted() { return this.deleted; }
     public boolean getDeleted() { return this.deleted; }
-    public void setDeleted(boolean deleted) { this.deleted = deleted; }
+    public void setDeleted(boolean deleted) { 
+        this.deleted = deleted; 
+        this.songs.forEach(x -> x.setDeleted(true));
+    }
     
     @Override 
     public boolean equals(Object other){
@@ -129,8 +132,8 @@ public class Album {
             " name='" + getName() + "'" +
             ", artist='" + getArtist().getName() + "'" +
             ", bandcampLink='" + getBandcampLink() + "'" +
-            ", songs='" + printSongs() + "'" +
             ", deleted='" + isDeleted() + "'" +
+            ", songs='" + printSongs() + "'" +
             "}";
     }
     

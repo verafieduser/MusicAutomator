@@ -69,14 +69,6 @@ public class Song {
         return true;
     }
 
-    private String pathGetter() {
-        String pathStr = "";
-        if (path != null) {
-            pathStr = new File(path).getAbsolutePath();
-        }
-        return pathStr;
-    }
-
     public SongId getId() { return id; } 
     public void setId( SongId id ) { this.id = id; }
 

@@ -78,19 +78,16 @@ public class UserInterface {
                 // break;
             case 3:
                 // delete song
-                throw new UnsupportedOperationException();
-                // getSong(ih).forEach(x -> library.deleteSong(x));
-                // break;
+                getSong(ih).forEach(x -> library.deleteSong(x));
+                break;
             case 4:
                 // delete album
-                throw new UnsupportedOperationException();
-                // getAlbum(ih).forEach(x-> library.deleteAlbum(x));
-                // break;
+                getAlbum(ih).forEach(x -> library.deleteAlbum(x));
+                break;
             case 5:
                 // delete artist
-                throw new UnsupportedOperationException();
-                // library.deleteArtist(getArtist(ih));
-                // break;
+                getArtist(ih).forEach(x -> library.deleteArtist(x));
+                break;
             case 6:
                 // get all by artist
                 Set<Artist> artists = new HashSet<>();
