@@ -9,7 +9,7 @@ public class AlbumId {
     private String name;
     
     @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "album")
+    @JoinColumn(name = "artist", referencedColumnName = "name")
     private Artist artist;
 
     public String getName() {return name;}

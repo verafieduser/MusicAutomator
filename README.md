@@ -15,6 +15,8 @@ Maven 3.8.x
 ## SITUATION
 Trying to implement hibernate. Stuck with JPA annotations. Current plan is going over to EmbeddedId, i.e., create ID classes with the keys to make them a single value to refer to. The question is how to interact with this when the object is not in the DB, but rather in java in memory etc. 
 
+Implement REST for interacting with the database!
+
 ## Current TODO:
 Difficulty levels 1(easy)-5(hard)
 1. ~~Convert project into Maven project to be able to handle dependencies better.~~

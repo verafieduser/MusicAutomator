@@ -10,10 +10,10 @@ import jakarta.persistence.*;
 @Table(name = "ALBUM")
 public class Album {
     
-    @Id 
+    @EmbeddedId 
     private AlbumId id; 
 
-    @OneToMany(mappedBy = "album_name", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "id.album", cascade=CascadeType.ALL)
     private Set<Song> songs = new HashSet<>();
 
     @Column

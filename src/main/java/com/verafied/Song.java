@@ -14,17 +14,8 @@ public class Song {
     // @Column(name = "id")
     // private String id;
 
-    @Id 
-    @Column
-    private String title;
-
-    @Id
-    @ManyToOne(cascade=CascadeType.ALL)
-    @PrimaryKeyJoinColumns({
-        @PrimaryKeyJoinColumn(name="album_name", referencedColumnName="name"),
-        @PrimaryKeyJoinColumn(name = "album_artist", referencedColumnName ="artist")
-    })
-    private Album album;
+    @EmbeddedId 
+    private SongId id;
 
     @Column
     private String path;
@@ -45,10 +36,9 @@ public class Song {
         } else {
             this.path = path;
         }
-        //this.artist = artist;
-        this.album = album;
-        //this.id = new SongTitle(title).getID();
-        this.title = title;
+        id = new SongId(); 
+        id.setTitle(title);
+        id.setAlbum(album);
         this.deleted = deleted;
     }
 
@@ -87,58 +77,21 @@ public class Song {
         return pathStr;
     }
 
-    // public String getId(){
-    //     return this.id;
-    // }
+    public SongId getId() { return id; } 
+    public void setId( SongId id ) { this.id = id; }
 
-    // public void setId(String id){
-    //     this.id = id;
-    // }
+    public String getTitle() { return this.id.getTitle(); }
+    public void setTitle(String title) { this.id.setTitle(title); }
 
-    public String getTitle() {
-        return this.title;
-    }
+    public Album getAlbum() { return this.id.getAlbum(); }
+    public void setAlbum(Album album) { this.id.setAlbum(album); }
 
-    public void setTitle(String title) {
-        this.title = title ;
-    }
+    public boolean getDeleted() { return this.deleted; }
+    public boolean isDeleted() { return this.deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 
-    public Album getAlbum() {
-        return this.album;
-    }
-
-    public void setAlbum(Album album) {
-        this.album = album;
-    }
-
-    // public Artist getArtist() {
-    //     return this.artist;
-    // }
-
-    // public void setArtist(Artist artist) {
-    //     this.artist = artist;
-    // }
-
-    public boolean isDeleted() {
-        return this.deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public boolean getDeleted() {
-        return this.deleted;
-    }
-
+    public void setPath(String path) { this.path = path; }
+    public String getPath() { return path; }
 
     @Override
     public boolean equals(Object other) {
@@ -146,14 +99,12 @@ public class Song {
             return false;
         }
         Song otherSong = (Song) other;
-
-        return new SongTitle(title).equals(new SongTitle(otherSong.title)) &&
-                album.equals(otherSong.album);
+        return id.equals(otherSong.getId());
     }
 
     @Override
     public int hashCode() {
-        return title.hashCode() * album.hashCode();
+        return id.hashCode();
     }
 
 
@@ -162,7 +113,7 @@ public class Song {
         return "{" +
             // " id='" + getId() + "'" +
             ", title='" + getTitle() + "'" +
-            ", album='" + album + "'" +
+            ", album='" + getAlbum() + "'" +
             // ", artist='" + getAlbum().getArtist().getName() + "'" +
             ", path='" + getPath() + "'" +
             ", deleted='" + isDeleted() + "'" +

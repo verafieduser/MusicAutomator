@@ -11,7 +11,7 @@ public class Artist {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy="artist", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="id.artist", cascade=CascadeType.ALL)
     private Set<Album> albums = new HashSet<>();
 
     @Column(name = "deleted", nullable = false)
