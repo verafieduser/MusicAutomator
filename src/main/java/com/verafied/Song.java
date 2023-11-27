@@ -80,7 +80,12 @@ public class Song {
 
     public boolean getDeleted() { return this.deleted; }
     public boolean isDeleted() { return this.deleted; }
-    public void setDeleted(boolean deleted) { this.deleted = deleted; }
+    public void setDeleted(boolean deleted) { 
+        this.deleted = deleted; 
+        if(this.deleted != getAlbum().isDeleted()){ 
+            getAlbum().setDeleted(this.isDeleted());
+        }
+    }
 
     public void setPath(String path) { this.path = path; }
     public String getPath() { return path; }

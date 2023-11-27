@@ -26,24 +26,27 @@ public class UserInterface {
         Predicate<String> p = x -> (x.matches("\\d+") && Integer.valueOf(x) >= 0
                 && Integer.valueOf(x) <= 19);
         int result = 0;
-        String prompt = "0: Exit\n1: Connect database entries with local songs (UNIMPLEMENTED)\n";
-        prompt += "2: Import local songs into database (UNIMPLEMENTED)\n";
-        prompt += "3. Delete song (UNIMPLEMENTED)\n";
-        prompt += "4. Delete album (UNIMPLEMENTED)\n";
-        prompt += "5. Delete artist (UNIMPLEMENTED)\n";
+        String prompt = "0: Exit\n1: Connect database entries with local songs\n";
+        prompt += "2: Import local songs into database\n";
+        prompt += "3. Delete song\n";
+        prompt += "4. Delete album\n";
+        prompt += "5. Delete artist\n";
         prompt += "6. Get all by artist\n";
         prompt += "7. Get all by album\n";
         prompt += "8. Get song\n";
         prompt += "9. Change location of local music library\n";
         prompt += "10. Import database from file\n";
         prompt += "11. Import database from API (UNIMPLEMENTED)\n";
-        prompt += "12. Update library from file (UNIMPLEMENTED\n";
-        prompt += "13. Update library from API (UNIMPLEMENTED)\n";
-        prompt += "14. Empty song garbage bin (UNIMPLEMENTED)\n";
-        prompt += "15. Get bandcamp link of album (UNIMPLEMENTED)\n";
-        prompt += "16. Download album (UNIMPLEMENTED)\n";
-        prompt += "17. Remove local files that were removed in library (UNIMPLEMENTED)\n";
-        prompt += "18. Reset/Empty database (UNIMPLEMENTED)\n";
+        prompt += "12. (UNIMPLEMENTED)\n";
+        prompt += "13. Restore all deleted by song\n";
+        prompt += "14. Restore all deleted by album\n";
+        prompt += "15. Restore all deleted by artist\n"; 
+        prompt += "16. Restore all deleted songs, albums and artists\n";
+        prompt += "17. Download song (UNIMPLEMENTED)\n";
+        prompt += "18. Download album (UNIMPLEMENTED)\n";
+        prompt += "19. Download artist (UNIMPLEMENTED)\n";
+        prompt += "20. Remove local files that were removed in library\n";
+        prompt += "21. Reset/Empty database\n";
         prompt += "Enter option: ";
 
         try {
@@ -72,9 +75,8 @@ public class UserInterface {
                 missingMusic.connectMissing(library);
                 break;
             case 2:
-                throw new UnsupportedOperationException();
-                // missingMusic.findLocalSongs(library);
-                // break;
+                missingMusic.findLocalSongs(library);
+                break;
             case 3:
                 // delete song
                 getSong(ih).forEach(x -> library.deleteSong(x));
@@ -123,11 +125,39 @@ public class UserInterface {
                 // import database from file
                 collector.processCSV("verafiedmusic.csv", DataSource.BENBEN);
                 break;
-            case 17:
+            case 11: 
+                break; 
+            case 13:
+                // restore deleted objects by song
+                getSong(ih).forEach(x -> library.restoreSong(x));
+                break;
+            case 14: 
+                // restore deleted objects by album
+                getAlbum(ih).forEach(x -> library.restoreAlbum(x));
+                break;
+            case 15:
+                // restore deleted objects by artist
+                getArtist(ih).forEach(x -> library.restoreArtist(x));
+                break;
+            case 16:
+                // restore deleted objects in database
+                library.restoreDeletedAll();
+                break;
+            case 17: 
+                //download song
+                break;
+            case 18:
+                // download album
+                break;
+            case 19: 
+                // download artist
+                break;
+            case 20:
                 library.deleteDeleted();
                 break;
-            case 18: 
-                throw new UnsupportedOperationException();
+            case 21: 
+                library.clearDatabase();
+                break;
             default:
                 throw new UnsupportedOperationException("\noption\n");
         }

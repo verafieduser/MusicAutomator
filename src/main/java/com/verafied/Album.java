@@ -101,7 +101,10 @@ public class Album {
     public boolean getDeleted() { return this.deleted; }
     public void setDeleted(boolean deleted) { 
         this.deleted = deleted; 
-        this.songs.forEach(x -> x.setDeleted(true));
+        this.songs.forEach(x -> x.setDeleted(deleted));
+        if(this.deleted != id.getArtist().isDeleted()){
+            getArtist().setDeleted(this.isDeleted());
+        }
     }
     
     @Override 

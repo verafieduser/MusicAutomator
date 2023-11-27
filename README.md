@@ -10,10 +10,16 @@ streaming services recommendation algorithms).
 https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/edit?usp=sharing
 
 ## Dependencies etc
-jdk 21
-Maven 3.8.x
+- jdk 21
+- Maven 3.8.x
 ## SITUATION
-Implement REST for interacting with the database. Refactor to make everything so far work with hibernate instead of assuming that everything is in-memory. 
+Refactor database into its own package / folder. Put song(+id+songtitle)/album(+id)/artist in their own folder. 
+
+https://github.com/jpdillingham/Soulseek.NET for downloading. 
+
+Download soulseek.net, create a wrapper for it for login, and downloads/uploads.  
+Use https://github.com/dotnet/samples/tree/main/core/nativeaot/NativeLibrary for tagging what should be exported etc.
+Use https://github.com/openjdk/panama-foreign/blob/foreign-jextract/doc/panama_jextract.md to exporting specifically to java. 
 
 ## Current TODO:
 Difficulty levels 1(easy)-5(hard)
@@ -21,14 +27,6 @@ Difficulty levels 1(easy)-5(hard)
 2. Compare library to local music library to connect them and find missing songs to add
     
     2.1. HALF SOLVED ISSUE: Library mismatch with local due to data mismatch. How to make more forgiving?
-        
-    - 2.1.1. Songs like Tambourine -N- Thyme / Tambourine - N - Thyme / Tambourine-n-Thyme / Tambourine - N: Thyme (3)
-    
-        - Current solution: Compare lowercase titles without any symbols that arent alphanumerical.
-            
-        - Issues with this solution: Differences with (.feat), (for x), (by x) are still understood as different.
-
-    2.2. Make sure this works with db solution!
 
 3. Make sure library can be updated instead of just imported (1) 
     
@@ -38,12 +36,8 @@ Difficulty levels 1(easy)-5(hard)
      structure for you. Will require good metadata structure! (3-4)
 
 4. ~~Deletions that last (2)~~
-    
-    4.1. Make sure deletions and getting from library works better (guaranteed result, ask for specifications if wrong?)
-    
-    4.2. get a list of what has been deleted, and functionality to restore deleted based on that.
 
-~~5. Bandcamp connectivity (2) 
+5. ~~Bandcamp connectivity (2) 
     Note: this could be easy, as bandcamp links are usually:
         "[bandname].bandcamp.com/album/[albumname with "-" as replacement for space and dots. rest is removed?]"~~
 6. Solve downloading (5)
@@ -91,7 +85,6 @@ Difficulty levels 1(easy)-5(hard)
     - Tidal .csv?
 - Manual Library additions (artist, album?)
 
-- Internal database is currently a .csv with Artist,Album,Songtitle,FilePath,Deleted=true/false
 - TODO: CONVERT to: https://protobuf.dev/ !!
 
 ## Conceptual problems: 
@@ -99,7 +92,7 @@ Difficulty levels 1(easy)-5(hard)
 - Two versions of the same album (remastered version normal. Extended versions, and so on)
 - Several versions of the same song (on different albums, as a single vs on album)
 - Local library imported into database library not having accurate data 
-- Data from last.fm or similar not being accurate
+- Data imported not being accurate
 
 ## Development plan for usage:
 

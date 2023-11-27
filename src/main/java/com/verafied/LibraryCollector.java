@@ -55,7 +55,7 @@ public class LibraryCollector {
             default:
                 break;
         }
-        populateDatabase(library);
+        library.populateDatabase();
     }
 
     private void benbenCollection(Library library, List<List<String>> entries) {
@@ -68,27 +68,8 @@ public class LibraryCollector {
             }
 
             Artist newArtist = new Artist(artist, album, song, "", false);
-            library.addArtist(newArtist);
+            library.addArtistToBeAdded(newArtist);
 
-        }
-    }
-
-    //TODO: move to library!
-    private void populateDatabase(Library library) {
-        Transaction t = null;
-        Collection<Artist> artists = library.getArtists().values();
-        try (Session session = db.openSession()) {
-            t = session.beginTransaction();
-            for (Artist artist : artists) {
-                session.merge(artist);
-            }
-
-            t.commit();
-        } catch (Exception e) {
-            if (t != null) {
-                t.rollback();
-            }
-            e.printStackTrace();
         }
     }
 
