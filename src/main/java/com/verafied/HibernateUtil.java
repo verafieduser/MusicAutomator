@@ -26,7 +26,8 @@ public class HibernateUtil {
 		props.put("hibernate.connection.username", "verafied");
 		props.put("hibernate.connection.password", "1234");
 		props.put("hibernate.show_sql", true);
-		props.put("hibernate.hbm2ddl.auto", "create-only");
+		props.put("hibernate.hbm2ddl.auto", "create-drop");
+		//props.put("hibernate.event.merge.entity_copy_observer", "allow");
         props.put("hibernate.connection.pool_size", 1);
         props.put("show_sql", true);
 		props.put("hibernate.current_session_context_class", "thread");

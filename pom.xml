@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <artifactId>h2</artifactId> 
             <version>2.2.224</version>
         </dependency>
         <dependency>
@@ -55,6 +55,11 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>21</release>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                        <arg>--add-modules</arg>
+                        <arg>jdk.incubator.vector</arg>
+                    </compilerArgs>
                     <buildArgs>
                         <buildArg>-Dorg.sqlite.lib.exportPath=${project.build.directory}</buildArg>
                     </buildArgs>

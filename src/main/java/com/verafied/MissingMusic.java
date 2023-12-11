@@ -3,6 +3,7 @@ package com.verafied;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -58,7 +59,7 @@ public class MissingMusic {
         String songName = metadata.getSongname();
         if (songName != null && metadata.getArtist().equalsIgnoreCase(artist.getName())
                 && metadata.getAlbum().equalsIgnoreCase(album.getName())) {
-            library.addArtist(
+            library.addArtistToBeAdded(
                     new Artist(artist.getName(),
                             album.getName(),
                             songName,
@@ -77,16 +78,16 @@ public class MissingMusic {
      * 
      * @param entries
      */
-    public Set<Song> findMissing(Library library) {
-        Set<Song> missingSongs = new HashSet<>();
-        for (Song song : library.getSongs()) {
-            if (song.isDeleted() || song.getPath() != null) {
-                continue;
-            }
-            missingSongs.add(song);
-        }
-        return missingSongs;
-    }
+    // public Set<Song> findMissing(Library library) {
+    //     Set<Song> missingSongs = new HashSet<>();
+    //     for (Song song : library.getSongs()) {
+    //         if (song.isDeleted() || song.getPath() != null) {
+    //             continue;
+    //         }
+    //         missingSongs.add(song);
+    //     }
+    //     return missingSongs;
+    // }
 
     private boolean songsMatch(Metadata candidate, Song song) {
         return false;
@@ -166,6 +167,5 @@ public class MissingMusic {
         }
         
         return albumPath;
-        return null;
     }
 }

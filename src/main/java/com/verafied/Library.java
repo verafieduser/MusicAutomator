@@ -20,8 +20,6 @@ import org.hibernate.query.Query;
  */
 public class Library {
 
-    private Set<Song> songs = new HashSet<>();
-    private Set<Album> albums = new HashSet<>();
     private TreeMap<String, Artist> artists = new TreeMap<>();
     /**
      * Artists containing albums containing songs to be added to the database.
@@ -71,9 +69,6 @@ public class Library {
         if (oldArtist != null) { // If artist is already present, add new instance albums to old instance
             oldArtist.merge(artist);
         }
-        Set<Album> newArtistAlbums = toBeAdded.get(artist.getName().toLowerCase()).getAlbums();
-        albums.addAll(newArtistAlbums);
-        newArtistAlbums.forEach(x -> songs.addAll(x.getSongs()));
         toBePopulated = true;
     }
 
@@ -88,9 +83,11 @@ public class Library {
     public void populateDatabase() {
         Transaction t = null;
         Collection<Artist> artists = getToBeAdded().values(); 
-        try (Session session = db.openSession()) {
+        try  {
+            Session session = db.openSession();
             t = session.beginTransaction();
             for (Artist artist : artists) {
+                System.out.println(artist);
                 session.merge(artist);
             }
 
@@ -105,27 +102,6 @@ public class Library {
         toBePopulated=false;
     }
 
-    /**
-     * Adds all albums and songs of all artists IN MEMORY into the library.
-     * is done automatically each time you access the library.
-     * However, the data you access gets out of date as soon as
-     * you add new information into the library, and will need
-     * to be re-accessed to ensure it is up-to-date.
-     */
-    public void initialize() {
-        if (initialized) {
-            return;
-        }
-        for (Map.Entry<String, Artist> artist : artists.entrySet()) {
-            for (Album album : artist.getValue().getAlbums()) {
-                albums.add(album);
-                for (Song song : album.getSongs()) {
-                    songs.add(song);
-                }
-            }
-        }
-        initialized = true;
-    }
 
     public List<Song> getSong(String name){
         if (toBePopulated){
@@ -138,21 +114,6 @@ public class Library {
             e.printStackTrace();
             return List.of();
         }
-    }
-
-    /**
-     * Returns all songs in the IN MEMORY library. Data returned is out of date as soon as new
-     * information is added into the library. Can be made up-to-date by re-accessing
-     * it
-     * through this method again.
-     * 
-     * @return a set of all songs in the library
-     */
-    public Set<Song> getSongs() {
-        if (!initialized) {
-            initialize();
-        }
-        return songs;
     }
 
     /**
@@ -202,9 +163,6 @@ public class Library {
      * @return a set of all toBeAdded in the library
      */
     public Map<String, Artist> getArtists() {
-        if (!initialized) {
-            initialize();
-        }
         return this.artists;
     }
 
@@ -240,22 +198,6 @@ public class Library {
     } 
 
     /**
-     * Returns all albums in the library. Data returned is out of date as soon as
-     * new
-     * information is added into the library. Can be made up-to-date by re-accessing
-     * it
-     * through this method again.
-     * 
-     * @return a set of all albums in the library
-     */
-    public Set<Album> getAlbums() {
-        if (!initialized) {
-            initialize();
-        }
-        return this.albums;
-    }
-
-    /**
      * Returns all album in the IN DATABASE library.
      * @param whereClause
      * @return
@@ -287,9 +229,6 @@ public class Library {
         if (toBePopulated){
             populateDatabase();
         }
-        if (!initialized) {
-            initialize();
-        }
         List<Song> result;
         try (Session session = db.openSession()) {
             Query<Song> query = session.createQuery("FROM Song s WHERE s.deleted = " + "\'" + "true" + "\'" , Song.class);
@@ -315,9 +254,6 @@ public class Library {
         if (toBePopulated){
             populateDatabase();
         }
-        if (!initialized) {
-            initialize();
-        }
         if(artist==null){
             return;
         }
@@ -338,9 +274,6 @@ public class Library {
         if (toBePopulated){
             populateDatabase();
         }
-        if (!initialized) {
-            initialize();
-        }
         if(album==null){
             return;
         }
@@ -359,9 +292,6 @@ public class Library {
     public void deleteSong(Song song) {
         if (toBePopulated){
             populateDatabase();
-        }
-        if (!initialized) {
-            initialize();
         }
         if(song==null){
             return;

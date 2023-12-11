@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hibernate.Hibernate;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -15,7 +13,7 @@ public class Album {
     @EmbeddedId 
     private AlbumId id; 
 
-    @OneToMany(mappedBy = "id.album", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "id.album", cascade=CascadeType.ALL, orphanRemoval = true)
     private Set<Song> songs = new HashSet<>();
 
     @Column
@@ -58,6 +56,7 @@ public class Album {
             throw new IllegalArgumentException();
         }
 
+        other.setName(id.getName());
         //Ensuring that path is transferred over if other has a path
         for(Song otherSong : other.getSongs()){
             if(otherSong.getPath()==null){

@@ -1,4 +1,7 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+﻿using System.Security;
+using System.Runtime.CompilerServices;
+using System.ComponentModel;
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
@@ -6,13 +9,23 @@ using System.Runtime.InteropServices;
 
 namespace NativeLibrary
 {
+    using Soulseek;
     public class Program
     {
-        [UnmanagedCallersOnly(EntryPoint = "add")]
-        public static int Add(int a, int b)
-        {
-            return a + b;
+        private static SoulseekClient client;
+        
+        [UnmanagedCallersOnly(EntryPoint = "connect")]
+        public static async void Connect(IntPtr userNamePtr, IntPtr passWordPtr){
+            string userName = Marshal.PtrToStringAnsi(userNamePtr) ?? "username";
+            string passWord = Marshal.PtrToStringAnsi(passWordPtr) ?? "password";
+            await client.ConnectAsync(userName, passWord);
         }
+
+        [UnmanagedCallersOnly(EntryPoint = "start_up")]
+        public static void StartUp(){
+            client = new SoulseekClient();
+        }
+
 
         [UnmanagedCallersOnly(EntryPoint = "write_line")]
         public static int WriteLine(IntPtr pString)
@@ -36,7 +49,7 @@ namespace NativeLibrary
         }
 
         [UnmanagedCallersOnly(EntryPoint = "sumstring")]
-        public static IntPtr sumstring(IntPtr first, IntPtr second)
+        public static IntPtr Sumstring(IntPtr first, IntPtr second)
         {
             // Parse strings from the passed pointers 
             string my1String = Marshal.PtrToStringAnsi(first);

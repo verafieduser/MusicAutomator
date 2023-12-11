@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 @Embeddable
 public class AlbumId {
     
-    @Column
+    @Column(name = "name")
     private String name;
     
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "artist", referencedColumnName = "name")
+    @ManyToOne
+    @JoinColumn(name = "artist", referencedColumnName = "artist_name")
     private Artist artist;
 
     public String getName() {return name;}
@@ -23,15 +23,18 @@ public class AlbumId {
         if(other == null || this.getClass() != other.getClass()){
             return false;
         }
-        AlbumId otherAlbum = (AlbumId) other;
+        AlbumId otherAlbumId = (AlbumId) other;
         
         return 
-            getName().equalsIgnoreCase(otherAlbum.getName()) &&
-            getArtist().equals(otherAlbum.getArtist());
+            getName().equalsIgnoreCase(otherAlbumId.getName()) && 
+            getArtist().equals(otherAlbumId.getArtist());
     }
 
     @Override 
     public int hashCode(){
-        return getName().hashCode() * getArtist().hashCode(); 
+        int hash = 7;
+        hash *= 29 * getName().toLowerCase().hashCode();
+        hash *= 31 * getArtist().hashCode();
+        return hash;
     }
 }

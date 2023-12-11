@@ -10,7 +10,7 @@ streaming services recommendation algorithms).
 https://docs.google.com/document/d/1vPJnStwDyO0_BepGv6_ZgO-fzX0Kz9-4FuImK4FWxbE/edit?usp=sharing
 
 ## Dependencies etc
-- jdk 21
+- jdk 21 EA with jextract https://jdk.java.net/jextract/ 
 - Maven 3.8.x
 ## SITUATION
 Refactor database into its own package / folder. Put song(+id+songtitle)/album(+id)/artist in their own folder. 
@@ -18,8 +18,11 @@ Refactor database into its own package / folder. Put song(+id+songtitle)/album(+
 https://github.com/jpdillingham/Soulseek.NET for downloading. 
 
 Download soulseek.net, create a wrapper for it for login, and downloads/uploads.  
-Use https://github.com/dotnet/samples/tree/main/core/nativeaot/NativeLibrary for tagging what should be exported etc.
+Use https://github.com/dotnet/samples/tree/main/core/nativeaot/NativeLibrary for tagging what should be exported etc. https://ericsink.com/native_aot/mul_cs.html also. 
+and also https://medium.com/@sixpeteunder/how-to-build-a-shared-library-in-c-sharp-and-call-it-from-java-code-6931260d01e5 
 Use https://github.com/openjdk/panama-foreign/blob/foreign-jextract/doc/panama_jextract.md to exporting specifically to java. 
+
+Merging songs are cascading so that albums are merged too, and artists too! Merges shouldnt be cascaded "up", only down!
 
 ## Current TODO:
 Difficulty levels 1(easy)-5(hard)

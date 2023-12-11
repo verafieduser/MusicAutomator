@@ -3,15 +3,16 @@ package com.verafied;
 import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.*;
+//import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "ARTIST")
 public class Artist {
 
     @Id 
-    @Column(name = "name", nullable = false)
+    @Column(name = "artist_name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy="id.artist", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="id.artist", cascade = CascadeType.ALL, orphanRemoval =true)
     private Set<Album> albums;
 
     @Column(name = "deleted", nullable = false)
@@ -53,7 +54,6 @@ public class Artist {
                 }
             }
         }
-
     }
 
     public void addAlbums(Set<Album> albums) {
@@ -120,7 +120,7 @@ public class Artist {
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return name.toLowerCase().hashCode();
     }
 
     public String toCSV() {

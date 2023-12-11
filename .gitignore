@@ -77,17 +77,17 @@ Thumbs.db
 
 # Build results #
 #################
-.NET/MusicAutomator/[Dd]ebug/
-.NET/MusicAutomator/[Dd]ebugPublic/
-.NET/MusicAutomator/[Rr]elease/
-.NET/MusicAutomator/[Rr]eleases/
-.NET/MusicAutomator/x64/
-.NET/MusicAutomator/x86/
-.NET/MusicAutomator/[Ww][Ii][Nn]32/
-.NET/MusicAutomator/[Aa][Rr][Mm]/
-.NET/MusicAutomator/[Aa][Rr][Mm]64/
-.NET/MusicAutomator/bld/
-.NET/MusicAutomator/[Bb]in/
-.NET/MusicAutomator/[Oo]bj/
-.NET/MusicAutomator/[Ll]og/
-.NET/MusicAutomator/[Ll]ogs/
+NativeLibrary/[Dd]ebug/
+NativeLibrary/[Dd]ebugPublic/
+NativeLibrary/[Rr]elease/
+NativeLibrary/[Rr]eleases/
+NativeLibrary/x64/
+NativeLibrary/x86/
+NativeLibrary/[Ww][Ii][Nn]32/
+NativeLibrary/[Aa][Rr][Mm]/
+NativeLibrary/[Aa][Rr][Mm]64/
+NativeLibrary/bld/
+NativeLibrary/[Bb]in/
+NativeLibrary/[Oo]bj/
+NativeLibrary/[Ll]og/
+NativeLibrary/[Ll]ogs/

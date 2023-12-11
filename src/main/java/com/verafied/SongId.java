@@ -1,5 +1,7 @@
 package com.verafied;
 
+import java.util.Objects;
+
 import jakarta.persistence.*;
 
 @Embeddable
@@ -8,7 +10,7 @@ public class SongId {
     @Column
     private String title;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumns({
         @JoinColumn(name = "album_name",referencedColumnName = "name"),
         @JoinColumn(name = "album_artist", referencedColumnName = "artist")
@@ -34,7 +36,10 @@ public class SongId {
 
     @Override
     public int hashCode() {
-        return getTitle().hashCode() * getAlbum().hashCode(); 
+        int hash = 7;
+        hash *= 29 * new SongTitle(getTitle()).hashCode();
+        hash *= 31 * getAlbum().hashCode();
+        return hash;
     }
 
     
