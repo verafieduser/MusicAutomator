@@ -24,6 +24,11 @@ Use https://github.com/openjdk/panama-foreign/blob/foreign-jextract/doc/panama_j
 
 Merging songs are cascading so that albums are merged too, and artists too! Merges shouldnt be cascaded "up", only down!
 
+## How to update c# code:
+1. Update NativeLibrary.h header according to changes in c#
+2. dotnet publish /p:NativeLibrary=Shared --runtime win-x64 --configuration release
+3. jextract --source --output src/main/java --target-package com.verafied.library --header-class-name NativeLibrary --library "C:\Users\Vera Nygren\OneDrive\Code\Personal\MusicAutomator\musicautomator\NativeLibrary\bin\Release\net8.0\win-x64\publish\NativeLibrary.dll" src/main/java/com/verafied/NativeLibrary.h
+
 ## Current TODO:
 Difficulty levels 1(easy)-5(hard)
 1. ~~Convert project into Maven project to be able to handle dependencies better.~~

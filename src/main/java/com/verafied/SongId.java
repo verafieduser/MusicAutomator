@@ -10,7 +10,7 @@ public class SongId {
     @Column
     private String title;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumns({
         @JoinColumn(name = "album_name",referencedColumnName = "name"),
         @JoinColumn(name = "album_artist", referencedColumnName = "artist")

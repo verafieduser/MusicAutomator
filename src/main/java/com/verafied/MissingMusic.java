@@ -51,6 +51,7 @@ public class MissingMusic {
                 }
             }
         }
+        library.populateDatabase();
         //TODO: make sure library songs get added into database? Use populate database method
         //that is currently within LibraryCollector, and should be moved to Library first.
     }
@@ -90,19 +91,17 @@ public class MissingMusic {
     // }
 
     private boolean songsMatch(Metadata candidate, Song song) {
-        return false;
-        // TODO:FIX
-        // boolean result;
-        // if (song.getArtist().getName().equalsIgnoreCase(candidate.getArtist()) &&
-        // song.getAlbum().getName().equalsIgnoreCase(candidate.getAlbum()) &&
-        // new SongTitle(song.getTitle()).equals(new
-        // SongTitle(candidate.getSongname()))) {
-        // result = true;
-        // } else {
-        // result = false;
-        // }
+        boolean result;
+        if (song.getAlbum().getArtist().getName().equalsIgnoreCase(candidate.getArtist()) &&
+        song.getAlbum().getName().equalsIgnoreCase(candidate.getAlbum()) &&
+        new SongTitle(song.getTitle()).equals(new
+        SongTitle(candidate.getSongname()))) {
+        result = true;
+        } else {
+        result = false;
+        }
 
-        // return result;
+        return result;
     }
 
     /**
@@ -117,7 +116,7 @@ public class MissingMusic {
      * @throws FileNotFoundException
      */
     public void connectMissing(Library library) throws FileNotFoundException {
-        for (Song song : library.getSongs("WHERE s.deleted = false AND s.path IS NOT NULL")) {
+        for (Song song : library.getSongs("WHERE s.deleted = false AND s.path IS NULL")) {
             Path albumPath = getAlbumPath(song);
             if (albumPath == null || !Files.exists(albumPath)) {
                 continue;
@@ -144,7 +143,6 @@ public class MissingMusic {
             }
 
         }
-        // saver.writeToCSV(library);
     }
 
     private Path getAlbumPath(Song song) {

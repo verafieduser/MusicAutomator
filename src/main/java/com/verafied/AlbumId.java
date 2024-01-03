@@ -8,7 +8,7 @@ public class AlbumId {
     @Column(name = "name")
     private String name;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "artist", referencedColumnName = "artist_name")
     private Artist artist;
 

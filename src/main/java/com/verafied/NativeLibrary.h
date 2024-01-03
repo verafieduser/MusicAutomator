@@ -1,4 +1,4 @@
-void connect(char *userName, char *passWord);
-void start_up();
+char *start_up(char *userName, char *passWord);
 int write_line(char *string);
 char *sumstring(char *string);
+void close();

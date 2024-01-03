@@ -87,7 +87,6 @@ public class Library {
             Session session = db.openSession();
             t = session.beginTransaction();
             for (Artist artist : artists) {
-                System.out.println(artist);
                 session.merge(artist);
             }
 
@@ -296,7 +295,11 @@ public class Library {
         if(song==null){
             return;
         }
-        song.setDeleted(true);
+        try {
+            song.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         update(song);
     }
 
@@ -342,6 +345,7 @@ public class Library {
         if (toBePopulated){
             populateDatabase();
         }
+        System.out.println("hello");
         try (Session session = db.openSession()) {
             Transaction t = session.beginTransaction();
             session.merge(obj);

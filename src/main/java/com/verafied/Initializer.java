@@ -12,6 +12,7 @@ public class Initializer {
     SessionFactory database;
     SettingsHandler settings;
     MissingMusic missingMusic;
+    SoulseekConnector ssc;
 
     /**
      * Initializes the program and links instances together.
@@ -38,6 +39,12 @@ public class Initializer {
         database = ormSetUp();
         collector = new LibraryCollector(new CsvHandler(demo), database, demo);
         missingMusic = new MissingMusic(settings.get("local.musiclibrary.path"));
+        ssc = new SoulseekConnector(settings.get("soulseek.init"));
+
+    }
+
+    public void close(){
+        ssc.close();
     }
 
     private SessionFactory ormSetUp(){

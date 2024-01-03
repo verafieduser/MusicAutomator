@@ -9,21 +9,49 @@ using System.Runtime.InteropServices;
 
 namespace NativeLibrary
 {
+using System.Net.Http;
+    using System.Threading;
     using Soulseek;
-    public class Program
+    public static class Program
     {
         private static SoulseekClient client;
-        
-        [UnmanagedCallersOnly(EntryPoint = "connect")]
-        public static async void Connect(IntPtr userNamePtr, IntPtr passWordPtr){
-            string userName = Marshal.PtrToStringAnsi(userNamePtr) ?? "username";
-            string passWord = Marshal.PtrToStringAnsi(passWordPtr) ?? "password";
-            await client.ConnectAsync(userName, passWord);
-        }
 
         [UnmanagedCallersOnly(EntryPoint = "start_up")]
-        public static void StartUp(){
+        public static IntPtr StartUp(IntPtr userNamePtr, IntPtr passWordPtr){
             client = new SoulseekClient();
+            
+            string userName = Marshal.PtrToStringAnsi(userNamePtr) ?? "username";
+            string passWord = Marshal.PtrToStringAnsi(passWordPtr) ?? "password";
+            try
+            {
+                Connect(userName, passWord);
+            }
+            catch (System.Exception)
+            {
+                Console.Write("Exception was caught");
+                
+            }
+            Thread.Sleep(10000);  
+            return Marshal.StringToHGlobalAnsi("Connecting to Soulseek");
+        }
+
+        private static void Connect(string userName, string passWord) {
+            try
+            {
+                client.ConnectAsync(userName, passWord).RunSynchronously(); 
+                
+            }
+            catch (System.AggregateException)
+            {
+                Console.WriteLine("System Aggregate Exception");                
+            }   
+            
+        }
+
+        [UnmanagedCallersOnly(EntryPoint = "close")]
+        public static void Close(){
+            client.Disconnect();
+            client.Dispose();
         }
 
 
